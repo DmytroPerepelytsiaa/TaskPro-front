@@ -44,7 +44,26 @@ module.exports = tseslint.config(
         },
       ],
       "import/no-deprecated": "warn",
-      "import/order": "error",
+      "import/order": [
+        "error",
+        {
+          groups: [
+            "builtin",
+            "external",
+            "internal",
+            ["parent", "sibling", "index"],
+          ],
+          pathGroups: [
+            {
+              pattern: "@environments/**",
+              group: "external",
+              position: "after",
+            },
+          ],
+          pathGroupsExcludedImportTypes: ["builtin"],
+          "newlines-between": "always",
+        },
+      ],
       "import/no-unused-modules": "error",
       "import/newline-after-import": ["error", { count: 1 }],
       "import/no-duplicates": "error",

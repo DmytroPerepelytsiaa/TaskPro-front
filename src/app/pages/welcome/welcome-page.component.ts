@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { UiModule } from '@shared/ui/ui.module';
 
 @Component({
