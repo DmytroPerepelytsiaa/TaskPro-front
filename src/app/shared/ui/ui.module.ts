@@ -1,11 +1,17 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
-import { IconComponent } from './components';
+import { ButtonComponent, IconComponent } from './components';
 
 @NgModule({
-  declarations: [IconComponent],
+  declarations: [
+    IconComponent,
+    ButtonComponent,
+  ],
   imports: [MatIconModule],
-  exports: [IconComponent],
+  exports: [
+    IconComponent,
+    ButtonComponent,
+  ],
 })
 export class UiModule {}

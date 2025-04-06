@@ -1,0 +1,33 @@
+@use 'custom';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// TODO: add theming (maybe need to remove to separate file)
+:root {
+  --black-1: #C4C4C400;
+  --black-2: #161616;
+  --black-3: #303030;
+  --transparent-black: rgba(146, 164, 126, 0.5);
+  --white-1: #FFFFFF;
+  --green-1: #BEDBB0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 42px;
+  letter-spacing: -0.04em;
+}
+
+p {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.02em;
+}
