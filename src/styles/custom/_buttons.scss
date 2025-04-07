@@ -1,0 +1,29 @@
+.btn {
+  width: 100%;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+  height: 48px;
+  border-radius: 8px;
+  margin: 0 auto;
+  display: block;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-primary {
+  background-color: var(--black-2);
+  color: var(--white-1);
+
+  &:hover {
+    background-color: var(--black-3);
+  }
+}
+
+.btn-transparent {
+  background-color: transparent;
+  color: var(--black-2);
+
+  &:hover {
+    background-color: var(--transparent-black);
+  }
+}

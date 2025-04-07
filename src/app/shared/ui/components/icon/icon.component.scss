@@ -1,0 +1,12 @@
+:host {
+  display: inline-flex;
+
+  .mat-icon {
+    height: auto;
+    display: inline-flex;
+  }
+}
+
+.invert-color {
+  filter: invert(100%);
+}
