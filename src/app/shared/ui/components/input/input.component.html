@@ -1,0 +1,28 @@
+<!-- TODO: remove error jumping -->
+<div class="relative">
+  <input
+    class="w-full rounded-lg border border-solid bg-black-4 px-[18px] py-[14px] text-sm text-white opacity-40 outline-green-1 focus:opacity-100"
+    [type]="type === InputType.Password ? (hidePassword ? type : InputType.Text) : type"
+    [placeholder]="placeholder"
+    [formControl]="control"
+    [class.pr-12]="type === InputType.Password"
+    [class.border-red-1]="control.errors && control.dirty"
+    [class.border-green-1]="!control.errors || !control.dirty"
+  />
+  @if (type === InputType.Password) {
+    <!-- TODO: remove important rule -->
+    <button
+      type="button"
+      class="transition-opacity duration-300 absolute right-4 top-1/2 -translate-y-1/2 opacity-40 hover:opacity-70"
+      [class.!opacity-100]="!hidePassword"
+      (click)="hidePassword = !hidePassword"
+    >
+      <tp-icon svgIcon="eye" size="18"></tp-icon>
+    </button>
+  }
+</div>
+@if (control.dirty) {
+  @for (error of control.errors | keyvalue; track error.key) {
+    <span class="text-xs text-red-1">{{ error.value }}</span>
+  }
+}
