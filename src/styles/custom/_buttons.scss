@@ -19,6 +19,15 @@
   }
 }
 
+.btn-secondary {
+  background-color: var(--green-1);
+  color: var(--black-2);
+
+  &:hover {
+    background-color: var(--green-2);
+  }
+}
+
 .btn-transparent {
   background-color: transparent;
   color: var(--black-2);

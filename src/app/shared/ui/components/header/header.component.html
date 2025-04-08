@@ -1,0 +1,12 @@
+<header class="bg-black-2 h-[60px] flex items-center justify-between px-5">
+  <button>
+    <tp-icon svgIcon="burger" size="24"></tp-icon>
+  </button>
+
+  <div class="flex items-center gap-2">
+    @if (username) {
+      <p class="text-white font-medium">{{ username }}</p>
+      <img src="avatar.jpg" alt="Avatar image" class="w-8 h-8 rounded-lg object-cover">
+    }
+  </div>
+</header>

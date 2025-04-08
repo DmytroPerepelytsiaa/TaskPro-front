@@ -9,9 +9,16 @@
   --black-1: #C4C4C400;
   --black-2: #161616;
   --black-3: #303030;
+  --black-4: #1F1F1F;
   --transparent-black: rgba(146, 164, 126, 0.5);
   --white-1: #FFFFFF;
   --green-1: #BEDBB0;
+  --green-2: #9DC888;
+  --red-1: #FF8769;
+}
+
+*:focus-visible {
+  outline: none;
 }
 
 body {
@@ -30,4 +37,9 @@ p {
   font-size: 14px;
   line-height: 18px;
   letter-spacing: -0.02em;
+}
+
+// TODO: think of maybe remove to shared styles?
+.layout {
+  background: linear-gradient(180deg, var(--black-1) 25%, var(--green-1) 92.19%);
 }

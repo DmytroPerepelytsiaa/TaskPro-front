@@ -1,3 +1,4 @@
+<!-- TODO: improve UX with 'enter' listeners -->
 <main class="layout h-screen relative">
   <section class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-5 w-full">
     <div class="mb-6">
@@ -7,8 +8,8 @@
         src="welcome-page/welcome.png" 
         alt="Welcome Page" 
       />
-      <h1 class="text-center">
-        <tp-icon aria-hidden="false" aria-label="Example home icon" svgIcon="logo"></tp-icon>
+      <h1 class="flex gap-3 justify-center">
+        <tp-icon svgIcon="logo" size="40"></tp-icon>
         Task Pro
       </h1>
     </div>
@@ -18,10 +19,10 @@
       Don't wait, start achieving your goals now!
     </p>
 
-    <button tp-button class="max-w-[335px] mb-2">
+    <button tp-button class="max-w-[335px] mb-2" [routerLink]="'/auth/registration'">
       Regestration
     </button>
-    <button tp-button class="max-w-[335px]" appearance="transparent">
+    <button tp-button class="max-w-[335px]" appearance="transparent" [routerLink]="'/auth/login'">
       Log In
     </button>
   </section>

@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
 })
 export class ButtonComponent {
   // TODO: add enum for button types
-  @Input() appearance: 'primary' | 'transparent' = 'primary';
+  @Input() appearance: 'primary' | 'secondary' | 'transparent' = 'primary';
 
   @HostBinding('class') private get baseClassNames() {
     return `btn btn-${this.appearance}`;
