@@ -16,8 +16,6 @@ export class AppComponent implements OnInit {
   private usersService = inject(UsersService);
   private router = inject(Router);
   
-  currentUser = this.usersService.user$;
-
   ngOnInit(): void {
     const token = localStorage.getItem('token');
 
