@@ -55,6 +55,7 @@ export class AuthPageComponent implements OnInit {
       .subscribe();
   }
 
+  // TODO: add error handling
   onSubmit(): void {
     const payload = this.authForm.getRawValue();
     const authObservable$ = this.isRegistrationPage ? this.usersService.register$(payload) : this.usersService.login$(payload);
