@@ -3,10 +3,40 @@
     <tp-icon svgIcon="burger" size="24"></tp-icon>
   </button>
 
-  <div class="flex items-center gap-2">
-    @if (username) {
-      <p class="text-white font-medium">{{ username }}</p>
-      <img src="avatar.jpg" alt="Avatar image" class="w-8 h-8 rounded-lg object-cover">
-    }
+  <div class="flex items-center gap-4">
+    <button 
+      class="flex gap-1 h-5 w-[68px] opacity-80 text-white text-sm font-medium hover:opacity-100 transition-opacity duration-300"
+      cdkOverlayOrigin 
+      #trigger="cdkOverlayOrigin"
+      (click)="isThemesOpen = !isThemesOpen"
+    >
+      Theme
+      <tp-icon svgIcon="chevron-down" size="16"></tp-icon>
+    </button>
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOrigin]="trigger"
+      [cdkConnectedOverlayOpen]="isThemesOpen"
+      [cdkConnectedOverlayOffsetX]="-20"
+      (detach)="isThemesOpen = false"
+    >
+      <ul class="bg-black-5 border border-green-1 p-5 rounded-lg text-white pr-10">
+        @for (theme of themeColors; track $index) {
+          <li>
+            <button 
+              class="hover:text-green-1 transition-colors duration-300" 
+              [class.text-green-1]="theme === (currentTheme$ | async)"
+              (click)="setTheme(theme)"
+            >{{ theme }}</button>
+          </li>
+        }
+      </ul>
+    </ng-template>
+    <div class="flex items-center gap-2">
+      @if (username) {
+        <p class="text-white font-medium">{{ username }}</p>
+        <img src="avatar.jpg" alt="Avatar image" class="w-8 h-8 rounded-lg object-cover">
+      }
+    </div>
   </div>
 </header>

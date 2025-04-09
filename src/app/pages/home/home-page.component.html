@@ -1,5 +1,14 @@
 <tp-header [username]="(user$ | async)?.name ?? ''"></tp-header>
 
-<main class="bg-black-4 h-screen">
-
+<!-- TODO: add hover and create dashboard logic -->
+<main class="bg-black-4 h-screen flex items-center justify-center px-5">
+  <p class="text-white text-opacity-50 text-center text-xs max-w-[335px]">
+    Before starting your project, it is essential 
+    <span class="text-green-1">
+      to create a board to visualize
+    </span>
+    and track all the necessary tasks and milestones. This board serves as a
+    powerful tool to organize the workflow and ensure effective collaboration
+    among team members.
+  </p>
 </main>
