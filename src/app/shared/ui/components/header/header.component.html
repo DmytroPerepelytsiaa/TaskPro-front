@@ -1,6 +1,6 @@
-<header class="bg-header-background h-[60px] flex items-center justify-between px-5">
-  <button>
-    <tp-icon class="text-text-primary-color" svgIcon="burger" size="24"></tp-icon>
+<header class="fixed top-0 bg-header-background h-[60px] w-full flex items-center justify-between px-5">
+  <button (click)="openSidebar.emit()">
+    <tp-icon class="text-text-primary-color hover:text-text-primary-hover-color" svgIcon="burger" size="24"></tp-icon>
   </button>
 
   <div class="flex items-center gap-4">

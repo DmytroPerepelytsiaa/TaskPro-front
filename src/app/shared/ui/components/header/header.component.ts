@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 
 import { ThemeColors } from '@shared/themes/models';
 import { ThemeService } from '@shared/themes/services';
@@ -11,6 +11,7 @@ import { ThemeService } from '@shared/themes/services';
 })
 export class HeaderComponent {
   @Input() username = '';
+  @Output() openSidebar = new EventEmitter<void>();
 
   private themeService = inject(ThemeService);
 

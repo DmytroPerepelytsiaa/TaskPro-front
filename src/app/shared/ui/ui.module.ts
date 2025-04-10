@@ -4,7 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
 
-import { ButtonComponent, HeaderComponent, IconComponent, InputComponent } from './components';
+import { 
+  ButtonComponent, 
+  HeaderComponent, 
+  IconComponent, 
+  InputComponent, 
+  SidebarComponent 
+} from './components';
 
 @NgModule({
   declarations: [
@@ -12,6 +18,7 @@ import { ButtonComponent, HeaderComponent, IconComponent, InputComponent } from 
     ButtonComponent,
     InputComponent,
     HeaderComponent,
+    SidebarComponent,
   ],
   imports: [
     CommonModule,
@@ -24,6 +31,7 @@ import { ButtonComponent, HeaderComponent, IconComponent, InputComponent } from 
     ButtonComponent,
     InputComponent,
     HeaderComponent,
+    SidebarComponent,
   ],
 })
 export class UiModule {}
