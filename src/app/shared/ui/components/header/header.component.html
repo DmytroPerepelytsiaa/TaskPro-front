@@ -1,12 +1,45 @@
-<header class="bg-black-2 h-[60px] flex items-center justify-between px-5">
+<header class="bg-header-background h-[60px] flex items-center justify-between px-5">
   <button>
-    <tp-icon svgIcon="burger" size="24"></tp-icon>
+    <tp-icon class="text-text-primary-color" svgIcon="burger" size="24"></tp-icon>
   </button>
 
-  <div class="flex items-center gap-2">
-    @if (username) {
-      <p class="text-white font-medium">{{ username }}</p>
-      <img src="avatar.jpg" alt="Avatar image" class="w-8 h-8 rounded-lg object-cover">
-    }
+  <div class="flex items-center gap-4">
+    <button 
+      class="flex gap-1 h-5 w-[68px] opacity-80 text-text-primary-color text-sm font-medium hover:opacity-100 transition-opacity duration-300"
+      cdkOverlayOrigin 
+      #trigger="cdkOverlayOrigin"
+      (click)="isThemesOpen = !isThemesOpen"
+    >
+      Theme
+      <tp-icon class="text-text-primary-color" svgIcon="chevron-down" size="16"></tp-icon>
+    </button>
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOrigin]="trigger"
+      [cdkConnectedOverlayOpen]="isThemesOpen"
+      [cdkConnectedOverlayOffsetX]="-20"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      (detach)="isThemesOpen = false"
+      (backdropClick)="isThemesOpen = false"
+    >
+      <ul class="bg-primary-color border border-accent-color p-5 rounded-lg text-text-primary-color pr-10">
+        @for (theme of themeColors; track $index) {
+          <li>
+            <button 
+              class="hover:text-text-primary-hover-color transition-colors duration-300 capitalize" 
+              [class.text-text-primary-hover-color]="theme === (currentTheme$ | async)"
+              [disabled]="theme === (currentTheme$ | async)"
+              (click)="setTheme(theme)"
+            >{{ theme }}</button>
+          </li>
+        }
+      </ul>
+    </ng-template>
+    <div class="flex items-center gap-2">
+      @if (username) {
+        <p class="text-text-primary-color font-medium">{{ username }}</p>
+        <img src="avatar.jpg" alt="Avatar image" class="w-8 h-8 rounded-lg object-cover">
+      }
+    </div>
   </div>
 </header>

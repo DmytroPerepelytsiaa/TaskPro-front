@@ -1,21 +1,9 @@
 @use 'custom';
+@use 'themes';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-// TODO: add theming (maybe need to remove to separate file)
-:root {
-  --black-1: #C4C4C400;
-  --black-2: #161616;
-  --black-3: #303030;
-  --black-4: #1F1F1F;
-  --transparent-black: rgba(146, 164, 126, 0.5);
-  --white-1: #FFFFFF;
-  --green-1: #BEDBB0;
-  --green-2: #9DC888;
-  --red-1: #FF8769;
-}
 
 *:focus-visible {
   outline: none;

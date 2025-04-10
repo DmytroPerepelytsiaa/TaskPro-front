@@ -1,0 +1,15 @@
+// TODO: move all colors to variables
+.dark-theme {
+  --primary-color: var(--black-4);
+  --secondary-color: #121212;
+  --accent-color: var(--green-1);
+
+  --header-background: var(--black-2);
+
+  --text-primary-color: var(--white-1);
+  --text-primary-hover-color: var(--green-1);
+
+  --home-page-label-primary-text-color: #FFFFFF80;
+  --home-page-label-secondary-text-color: var(--green-1);
+  --home-page-label-secondary-text-hover-color: var(--green-2);
+}
