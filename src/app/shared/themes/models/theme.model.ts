@@ -1,5 +1,5 @@
 export enum ThemeColors {
-  Light = 'Light',
-  Dark = 'Dark',
-  Violet = 'Violet',
+  Light = 'light',
+  Dark = 'dark',
+  Violet = 'violet',
 }

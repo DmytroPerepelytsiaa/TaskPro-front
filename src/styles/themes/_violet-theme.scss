@@ -1,0 +1,15 @@
+// TODO: move all colors to variables
+.violet-theme {
+  --primary-color: #ECEDFD;
+  --secondary-color: var(--white-1);
+  --accent-color: #5255BC;
+  
+  --header-background: #FCFCFC;
+
+  --text-primary-color: var(--black-2);
+  --text-primary-hover-color: #5255BC;
+
+  --home-page-label-primary-text-color: #161616B2;
+  --home-page-label-secondary-text-color: #5255BC;
+  --home-page-label-secondary-text-hover-color: #424597;
+}

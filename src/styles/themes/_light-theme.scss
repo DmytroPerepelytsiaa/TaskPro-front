@@ -1,0 +1,15 @@
+// TODO: move all colors to variables
+.light-theme {
+  --primary-color: #F6F6F7;
+  --secondary-color: var(--white-1);
+  --accent-color: var(--green-1);
+
+  --header-background: #FCFCFC;
+
+  --text-primary-color: #161616;
+  --text-primary-hover-color: var(--green-1);
+
+  --home-page-label-primary-text-color: #161616B2;
+  --home-page-label-secondary-text-color: #BEDBB0;
+  --home-page-label-secondary-text-hover-color: var(--green-2);
+}
