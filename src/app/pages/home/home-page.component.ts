@@ -17,4 +17,9 @@ export class HomePageComponent {
   private usersService = inject(UsersService);
 
   user$ = this.usersService.user$;
+  isSidebarOpen = false;
+
+  logOut(): void {
+    this.usersService.logOut();
+  }
 }

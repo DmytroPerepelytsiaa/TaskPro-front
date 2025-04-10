@@ -1,4 +1,5 @@
-<tp-header [username]="(user$ | async)?.name ?? ''"></tp-header>
+<!-- TODO: try to handle it better -->
+<tp-header [username]="(user$ | async)?.name ?? ''" (openSidebar)="isSidebarOpen = true"></tp-header>
 
 <!-- TODO: add hover and create dashboard logic -->
 <main class="bg-primary-color h-screen flex items-center justify-center px-5">
@@ -12,3 +13,10 @@
     among team members.
   </p>
 </main>
+
+@if (isSidebarOpen) {
+  <tp-sidebar 
+    (closeSidebar)="isSidebarOpen = false" 
+    (logOut)="logOut()"
+  ></tp-sidebar>
+}
