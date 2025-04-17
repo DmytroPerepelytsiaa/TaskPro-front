@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '@environments/environment';
 
-import { Dashboard, DashboardColumn, DashboardColumnCard } from '../models';
+import { Dashboard, DashboardColumn, DashboardColumnCard } from '../../models';
 
 @Injectable({
   providedIn: 'root',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, pairwise, tap } from 'rxjs';
 
-import { ThemeColors } from '../models';
+import { ThemeColors } from '../../models';
 
 @Injectable({
   providedIn: 'root',

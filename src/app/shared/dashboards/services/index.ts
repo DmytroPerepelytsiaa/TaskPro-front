@@ -1,1 +1,1 @@
-export * from './dashboards.service';
+export * from './dashboards/dashboards.service';
