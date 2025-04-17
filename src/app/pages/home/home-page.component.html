@@ -4,8 +4,13 @@
 <!-- TODO: add hover and create dashboard logic -->
 <main class="bg-primary-color h-screen flex items-center justify-center px-5">
   <p class="text-home-page-label-primary-text-color text-center text-xs max-w-[335px]">
-    Before starting your project, it is essential 
-    <span class="cursor-pointer transition-colors duration-300 text-home-page-label-secondary-text-color hover:text-home-page-label-secondary-text-hover-color">
+    Before starting your project, it is essential
+    <!-- TODO: fix eslint error -->
+    <span
+      role="button"
+      class="cursor-pointer transition-colors duration-300 text-home-page-label-secondary-text-color hover:text-home-page-label-secondary-text-hover-color"
+      (click)="openDashboardCreation()"
+    >
       to create a board to visualize
     </span>
     and track all the necessary tasks and milestones. This board serves as a

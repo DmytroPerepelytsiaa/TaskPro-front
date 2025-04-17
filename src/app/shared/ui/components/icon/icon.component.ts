@@ -29,7 +29,7 @@ export class IconComponent implements OnChanges {
   private sanitizer = inject(DomSanitizer);
 
   ngOnChanges(changes: SimpleChanges) {
-    const isSvgIconInRegistry = this.iconRegistry['_svgIconConfigs'].has(":" + this.svgIcon);
+    const isSvgIconInRegistry = this.iconRegistry['_svgIconConfigs'].has(':' + this.svgIcon);
 
     if (changes['svgIcon'] && !isSvgIconInRegistry) {
       this.iconRegistry.addSvgIcon(

@@ -67,6 +67,6 @@ export class AuthPageComponent implements OnInit {
         tap(() => this.router.navigate(['/dashboard'])),
         untilDestroyed(this),
       )
-      .subscribe()
+      .subscribe();
   }
 }

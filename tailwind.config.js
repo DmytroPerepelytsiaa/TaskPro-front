@@ -12,6 +12,7 @@ module.exports = {
         'header-background': 'var(--header-background)',
         'sidebar-background': 'var(--sidebar-background)',
         'sidebar-info-background': 'var(--sidebar-info-background)',
+        'modal-background': 'var(--modal-background)',
         'logo-color': 'var(--logo-color)',
         'text-primary-color': 'var(--text-primary-color)',
         'text-primary-hover-color': 'var(--text-primary-hover-color)',
@@ -33,6 +34,9 @@ module.exports = {
         'white-1': 'var(--white-1)',
         'green-1': 'var(--green-1)',
         'red-1': 'var(--red-1)',
+      },
+      screens: {
+        'xs': '375px',
       }
     },
   },

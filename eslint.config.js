@@ -67,6 +67,9 @@ module.exports = tseslint.config(
       "import/no-unused-modules": "error",
       "import/newline-after-import": ["error", { count: 1 }],
       "import/no-duplicates": "error",
+      "semi": ["error", "always"],
+      "eol-last": ["error", "always"],
+      "quotes": ["error", "single", { "avoidEscape": true }],
     },
   },
   {
