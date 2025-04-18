@@ -56,6 +56,7 @@ export default tseslint.config(
           style: 'kebab-case',
         },
       ],
+      '@typescript-eslint/explicit-function-return-type': ['error'],
       'import/no-deprecated': 'warn',
       'import/order': [
         'error',

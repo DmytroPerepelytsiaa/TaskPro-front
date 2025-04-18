@@ -45,6 +45,9 @@ export class AuthPageComponent implements OnInit {
   InputType = InputType;
 
   ngOnInit(): void {
+    document.body.className = '';
+    document.body.classList.add('dark-theme');
+    
     this.activatedRoute.url
       .pipe(
         tap((params) => {

@@ -12,7 +12,7 @@ export class ButtonComponent {
   // TODO: add enum for button types
   @Input() appearance: 'primary' | 'secondary' | 'transparent' = 'primary';
 
-  @HostBinding('class') private get baseClassNames() {
+  @HostBinding('class') private get baseClassNames(): string {
     return `btn btn-${this.appearance}`;
   }
 }

@@ -29,8 +29,13 @@ export class ThemeService {
     }
   }
 
-  setTheme(theme: ThemeColors) {
+  setTheme(theme: ThemeColors): void {
     this.currentTheme$.next(theme);
     localStorage.setItem('theme', theme);
+  }
+
+  resetTheme(): void {
+    document.body.className = '';
+    document.body.classList.add(this.currentTheme$.value + '-theme');
   }
 }

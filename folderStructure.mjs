@@ -42,7 +42,7 @@ export const folderStructureConfig = createFolderStructure({
     page_module_folder: {
       name: '*',
       children: [
-        { name: '{folderName}-page.component.(ts|html|scss)' },
+        { name: '{folder-name}-page.component.(ts|html|scss)' },
         { ruleId: 'components_folder' },
         { ruleId: 'directives_folder' },
         { ruleId: 'pipes_folder' },
@@ -57,7 +57,7 @@ export const folderStructureConfig = createFolderStructure({
     shared_module_folder: {
       name: '*',
       children: [
-        { name: '{folderName}.module.ts' },
+        { name: '{folder-name}.module.ts' },
         { name: 'index.ts' },
         { ruleId: 'components_folder' },
         { ruleId: 'directives_folder' },
@@ -98,7 +98,7 @@ export const folderStructureConfig = createFolderStructure({
     directive_folder: {
       name: '*',
       children: [
-        { name: '{folderName}.directive.ts' },
+        { name: '{folder-name}.directive.ts' },
       ]
     },
 
@@ -113,7 +113,7 @@ export const folderStructureConfig = createFolderStructure({
     pipe_folder: {
       name: '*',
       children: [
-        { name: '{folderName}.pipe.ts' },
+        { name: '{folder-name}.pipe.ts' },
       ]
     },
 
@@ -128,7 +128,7 @@ export const folderStructureConfig = createFolderStructure({
     service_folder: {
       name: '*',
       children: [
-        { name: '{folderName}.service.ts' },
+        { name: '{folder-name}.service.ts' },
       ]
     },
 
@@ -143,7 +143,7 @@ export const folderStructureConfig = createFolderStructure({
     util_folder: {
       name: '*',
       children: [
-        { name: '{folderName}.util.ts' },
+        { name: '{folder-name}.util.ts' },
       ]
     },
 
@@ -158,7 +158,7 @@ export const folderStructureConfig = createFolderStructure({
     validator_folder: {
       name: '*',
       children: [
-        { name: '{folderName}.validator.ts' },
+        { name: '{folder-name}.validator.ts' },
       ]
     },
 

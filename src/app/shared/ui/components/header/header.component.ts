@@ -19,7 +19,7 @@ export class HeaderComponent {
   isThemesOpen = false;
   themeColors = Object.values(ThemeColors);
 
-  setTheme(theme: ThemeColors) {
+  setTheme(theme: ThemeColors): void {
     this.themeService.setTheme(theme);
   }
 }

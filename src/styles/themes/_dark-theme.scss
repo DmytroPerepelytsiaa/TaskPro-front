@@ -2,12 +2,14 @@
 .dark-theme {
   --primary-color: var(--black-4);
   --secondary-color: #121212;
+  --tertiary-color: var(--black-4);
   --accent-color: var(--green-1);
+  --danger-color: var(--red-1);
 
   --header-background: var(--black-2);
   --sidebar-background: #121212;
   --sidebar-info-background: var(--black-4);
-  --modal-background: #060606;
+  --modal-background: #262626;
 
   --text-primary-color: var(--white-1);
   --text-primary-hover-color: var(--green-1);

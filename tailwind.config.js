@@ -8,7 +8,9 @@ module.exports = {
       colors: {
         'primary-color': 'var(--primary-color)',
         'secondary-color': 'var(--secondary-color)',
+        'tertiary-color': 'var(--tertiary-color)',
         'accent-color': 'var(--accent-color)',
+        'danger-color': 'var(--danger-color)',
         'header-background': 'var(--header-background)',
         'sidebar-background': 'var(--sidebar-background)',
         'sidebar-info-background': 'var(--sidebar-info-background)',
@@ -33,7 +35,6 @@ module.exports = {
         'transparent-black': 'var(--transparent-black)',
         'white-1': 'var(--white-1)',
         'green-1': 'var(--green-1)',
-        'red-1': 'var(--red-1)',
       },
       screens: {
         'xs': '375px',
