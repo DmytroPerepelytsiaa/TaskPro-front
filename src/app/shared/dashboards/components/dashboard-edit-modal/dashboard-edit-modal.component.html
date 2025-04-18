@@ -1,33 +1,33 @@
 <div class="w-[280px] xs:w-[335px] h-[440px] p-6 bg-modal-background rounded-lg">
-  <h3 class="text-text-primary-color mb-6">New Board</h3>
+  <h3 class="text-font-primary-color mb-6">New Board</h3>
 
   <!-- TODO: implement dashboard creation -->
   <div class="mb-6">
     <tp-input [control]="dashboardForm.controls.name" placeholder="Title"></tp-input>
   </div>
 
-  <p class="text-text-primary-color mb-4 font-medium">Icons</p>
+  <p class="text-font-primary-color mb-4 font-medium">Icons</p>
   <ul class="flex gap-2 mb-6">
     @for (icon of dashboardIcons; track $index) {
       <li>
         <button (click)="setIcon(icon)">
-          <tp-icon class="text-text-primary-color transition-opacity duration-300" [class.opacity-50]="dashboardForm.controls.icon.value !== icon" [svgIcon]="icon" size="18"></tp-icon>
+          <tp-icon class="text-font-primary-color transition-opacity duration-300" [class.opacity-50]="dashboardForm.controls.icon.value !== icon" [svgIcon]="icon" size="18"></tp-icon>
         </button>
       </li>
     }
   </ul>
 
-  <p class="text-text-primary-color mb-4 font-medium">Background</p>
+  <p class="text-font-primary-color mb-4 font-medium">Background</p>
   <ul class="flex gap-1 flex-wrap w-64 mb-10">
     @for (background of dashboardBackgrounds; track $index) {
       <li>
         <button 
-          class="transition-shadow duration-300 shadow-text-primary-color rounded-md overflow-hidden"
+          class="transition-shadow duration-300 shadow-font-primary-color rounded-md overflow-hidden"
           [class.shadow-md]="dashboardForm.controls.background.value === background"
           (click)="setBackground(background)"
         >
           @if (background === DashboardBackgrounds.NoBg) {
-            <tp-icon class="text-text-primary-color [&_.bg]:fill-primary-color" svgIcon="no-bg" size="28"></tp-icon>
+            <tp-icon class="text-font-primary-color [&_.bg]:fill-primary-color" svgIcon="no-bg" size="28"></tp-icon>
           } @else {
             <img 
               class="w-7 h-7 object-cover"
@@ -45,7 +45,7 @@
     class="flex gap-2 justify-center items-center text-font-tertiary-color" 
   >
     <span class="bg-icon-secondary-color w-7 h-7 rounded-md flex items-center justify-center">
-      <tp-icon class="text-text-accent-color" svgIcon="plus" size="14"></tp-icon>
+      <tp-icon class="text-font-accent-color" svgIcon="plus" size="14"></tp-icon>
     </span>
     Edit
   </button>

@@ -5,16 +5,11 @@
   --accent-color: var(--green-1);
   --danger-color: var(--red-1);
 
-  --header-background: var(--black-2);
-  --sidebar-background: var(--black-6);
-  --sidebar-info-background: var(--black-4);
-  --modal-background: var(--black-7);
-
-  --text-primary-color: var(--white-1);
-  --text-primary-hover-color: var(--green-1);
-  --text-secondary-color: var(--white-1);
-  --text-secondary-hover-color: var(--green-1);
-  --text-accent-color: var(--white-1);
+  --font-primary-color: var(--white-1);
+  --font-primary-hover-color: var(--green-1);
+  --font-secondary-color: var(--white-1);
+  --font-secondary-hover-color: var(--green-1);
+  --font-accent-color: var(--white-1);
   --font-tertiary-color: var(--black-2);
 
   --button-primary-color: var(--green-1);
@@ -32,4 +27,8 @@
   --home-page-label-primary-text-color: var(--transparent-2);
   --home-page-label-secondary-text-color: var(--green-1);
   --home-page-label-secondary-text-hover-color: var(--green-2);
+  --header-background: var(--black-2);
+  --sidebar-background: var(--black-6);
+  --sidebar-info-background: var(--black-4);
+  --modal-background: var(--black-7);
 }

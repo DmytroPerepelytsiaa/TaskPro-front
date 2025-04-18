@@ -7,21 +7,21 @@
 <aside class="absolute top-0 left-0 w-[225px] bg-sidebar-background h-full p-4 flex flex-col overflow-auto">
   <div class="flex gap-2 items-center">
     <tp-icon [svgIcon]="(currentTheme$ | async) === ThemeColors.Violet ? 'logo-light' : 'logo'" size="32"></tp-icon>
-    <h1 class="text-text-secondary-color text-base">Task Pro</h1>
+    <h1 class="text-font-secondary-color text-base">Task Pro</h1>
   </div>
 
   <div class="mt-16 mb-20">
-    <p class="text-text-secondary-color opacity-50 text-xs mb-2">My boards</p>
+    <p class="text-font-secondary-color opacity-50 text-xs mb-2">My boards</p>
 
     <!-- TODO: fix opacity on light theme -->
-    <hr class="opacity-10 bg-text-secondary-color">
+    <hr class="opacity-10 bg-font-text-font-secondary-color">
     <div class="py-4 flex items-center justify-between">
-      <p class="text-text-secondary-color w-20 font-medium">Create a new board</p>
+      <p class="text-font-secondary-color w-20 font-medium">Create a new board</p>
       <button class="w-10 h-9 bg-button-accent-color hover:bg-button-accent-hover-color rounded-md transition-colors duration-300">
         <tp-icon class="text-icon-secondary-color" svgIcon="plus" size="20"></tp-icon>
       </button>
     </div>
-    <hr class="opacity-10 bg-text-secondary-color">
+    <hr class="opacity-10 bg-font-text-font-secondary-color">
   </div>
 
   <!-- TODO: implement dashboards in the next branch -->
@@ -33,20 +33,20 @@
     <!-- TODO: add 2x for image -->
     <img class="mb-4" alt="Flower image" src="sidebar/flower.png">
 
-    <p class="mb-4 text-text-secondary-color text-xs">
+    <p class="mb-4 text-font-secondary-color text-xs">
       If you need help with 
       <span>TaskPro</span>
       , check out our support resources or reach out to our customer support team.
     </p>
 
-    <p class="flex gap-2 items-center text-text-secondary-color text-xs">
+    <p class="flex gap-2 items-center text-font-secondary-color text-xs">
       <tp-icon svgIcon="help-circle" size="20"></tp-icon>
       Need help?
     </p>
   </div>
 
   <button 
-    class="flex gap-3 items-center text-text-secondary-color hover:text-text-secondary-hover-color transition-colors duration-300"
+    class="flex gap-3 items-center text-font-secondary-color hover:text-font-secondary-hover-color transition-colors duration-300"
     (click)="logOut.emit()"
   >
     <tp-icon class="text-icon-primary-color" svgIcon="logout" size="32"></tp-icon>
