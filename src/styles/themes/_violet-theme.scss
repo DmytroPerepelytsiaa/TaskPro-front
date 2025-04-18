@@ -1,30 +1,32 @@
-// TODO: move all colors to variables
 .violet-theme {
-  --primary-color: #ECEDFD;
+  --primary-color: var(--violet-1);
   --secondary-color: var(--white-1);
-  --tertiary-color: #FCFCFC;
-  --accent-color: #5255BC;
+  --tertiary-color: var(--white-3);
+  --accent-color: var(--violet-2);
   --danger-color: var(--red-1);
   
-  --header-background: #FCFCFC;
-  --sidebar-background: #5255BC;
-  --sidebar-info-background: #ECEDFD66;
-  --modal-background: #FCFCFC;
+  --header-background: var(--white-3);
+  --sidebar-background: var(--violet-2);
+  --sidebar-info-background: var(--black-9);
+  --modal-background: var(--white-3);
 
   --text-primary-color: var(--black-2);
-  --text-primary-hover-color: #5255BC;
+  --text-primary-hover-color: var(--violet-2);
   --text-secondary-color: var(--white-1);
-  --text-secondary-hover-color: #B8BCFD;
+  --text-secondary-hover-color: var(--violet-3);
   --text-accent-color: var(--black-2);
   --font-tertiary-color: var(--white-1);
   
-  --button-accent-color: #B8BCFD;
-  --button-accent-hover-color: #cccffa;
+  --button-primary-color: var(--violet-2);
+  --button-primary-hover-color: var(--violet-6);
+  --button-primary-text-color: var(--white-1);
+  --button-accent-color: var(--violet-3);
+  --button-accent-hover-color: var(--violet-4);
 
   --icon-primary-color: var(--white-1);
   --icon-secondary-color: var(--white-1);
 
-  --home-page-label-primary-text-color: #161616B2;
-  --home-page-label-secondary-text-color: #5255BC;
-  --home-page-label-secondary-text-hover-color: #424597;
+  --home-page-label-primary-text-color: var(--black-8);
+  --home-page-label-secondary-text-color: var(--violet-2);
+  --home-page-label-secondary-text-hover-color: var(--violet-5);
 }

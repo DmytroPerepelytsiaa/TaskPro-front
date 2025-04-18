@@ -13,7 +13,7 @@ import { AuthResponse } from '@shared/auth/models';
 import { UsersService } from '@shared/auth/services';
 import { trimValidator } from '@shared/validators';
 import { UiModule } from '@shared/ui/ui.module';
-import { InputType } from '@shared/ui/models';
+import { ButtonAppearance, InputType } from '@shared/ui/models';
 
 import { emailValidator, passwordValidator } from './validators';
 import { AuthForm } from './models';
@@ -43,6 +43,7 @@ export class AuthPageComponent implements OnInit {
   });
   isRegistrationPage = false;
   InputType = InputType;
+  ButtonAppearance = ButtonAppearance;
 
   ngOnInit(): void {
     document.body.className = '';

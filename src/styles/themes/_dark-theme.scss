@@ -1,15 +1,14 @@
-// TODO: move all colors to variables
 .dark-theme {
   --primary-color: var(--black-4);
-  --secondary-color: #121212;
+  --secondary-color: var(--black-6);
   --tertiary-color: var(--black-4);
   --accent-color: var(--green-1);
   --danger-color: var(--red-1);
 
   --header-background: var(--black-2);
-  --sidebar-background: #121212;
+  --sidebar-background: var(--black-6);
   --sidebar-info-background: var(--black-4);
-  --modal-background: #262626;
+  --modal-background: var(--black-7);
 
   --text-primary-color: var(--white-1);
   --text-primary-hover-color: var(--green-1);
@@ -18,13 +17,19 @@
   --text-accent-color: var(--white-1);
   --font-tertiary-color: var(--black-2);
 
+  --button-primary-color: var(--green-1);
+  --button-primary-hover-color: var(--green-2);
+  --button-primary-text-color: var(--black-2);
+  --button-secondary-color: var(--black-2);
+  --button-secondary-hover-color: var(--black-3);
+  --button-secondary-text-color: var(--white-1);
   --button-accent-color: var(--green-1);
   --button-accent-hover-color: var(--green-2);
 
   --icon-primary-color: var(--green-1);
-  --icon-secondary-color: #121212; 
+  --icon-secondary-color: var(--black-6); 
 
-  --home-page-label-primary-text-color: #FFFFFF80;
+  --home-page-label-primary-text-color: var(--transparent-2);
   --home-page-label-secondary-text-color: var(--green-1);
   --home-page-label-secondary-text-hover-color: var(--green-2);
 }

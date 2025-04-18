@@ -34,7 +34,6 @@ module.exports = {
         'black-3': 'var(--black-3)',
         'black-4': 'var(--black-4)',
         'black-5': 'var(--black-5)',
-        'transparent-black': 'var(--transparent-black)',
         'white-1': 'var(--white-1)',
         'green-1': 'var(--green-1)',
       },

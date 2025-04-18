@@ -19,10 +19,10 @@
       Don't wait, start achieving your goals now!
     </p>
 
-    <button tp-button class="max-w-[335px] mb-2" [routerLink]="'/auth/registration'">
+    <button tp-button class="max-w-[335px] mb-2" [appearance]="ButtonAppearance.Secondary" [routerLink]="'/auth/registration'">
       Regestration
     </button>
-    <button tp-button class="max-w-[335px]" appearance="transparent" [routerLink]="'/auth/login'">
+    <button tp-button class="max-w-[335px]" [appearance]="ButtonAppearance.Transparent" [routerLink]="'/auth/login'">
       Log In
     </button>
   </section>
