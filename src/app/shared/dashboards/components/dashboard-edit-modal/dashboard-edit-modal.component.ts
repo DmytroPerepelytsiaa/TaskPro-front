@@ -12,9 +12,21 @@ import { DashboardBackgrounds, DashboardForm, DashboardIcons } from '@shared/das
 export class DashboardEditModalComponent {
   private formBuilder = inject(FormBuilder);
 
+  dashboardIcons = Object.values(DashboardIcons);
+  dashboardBackgrounds = Object.values(DashboardBackgrounds);
+  DashboardBackgrounds = DashboardBackgrounds;
+
   dashboardForm: FormGroup<DashboardForm> = this.formBuilder.group<DashboardForm>({
     name: this.formBuilder.nonNullable.control(''),
     icon: this.formBuilder.nonNullable.control(DashboardIcons.Project),
     background: this.formBuilder.nonNullable.control(DashboardBackgrounds.NoBg), 
   });
+
+  setIcon(icon: DashboardIcons): void {
+    this.dashboardForm.controls.icon.setValue(icon);
+  }
+
+  setBackground(background: DashboardBackgrounds): void {
+    this.dashboardForm.controls.background.setValue(background);
+  }
 }

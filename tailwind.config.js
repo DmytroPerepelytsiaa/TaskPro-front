@@ -20,6 +20,8 @@ module.exports = {
         'text-primary-hover-color': 'var(--text-primary-hover-color)',
         'text-secondary-color': 'var(--text-secondary-color)',
         'text-secondary-hover-color': 'var(--text-secondary-hover-color)',
+        'text-accent-color': 'var(--text-accent-color)',
+        'font-tertiary-color': 'var(--font-tertiary-color)',
         'button-accent-color': 'var(--button-accent-color)',
         'button-accent-hover-color': 'var(--button-accent-hover-color)',
         'icon-primary-color': 'var(--icon-primary-color)',

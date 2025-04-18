@@ -27,6 +27,14 @@
     background-color: var(--green-2);
   }
 }
+// TODO: maybe need to make it secondary color
+.btn-accent {
+  background-color: var(--accent-color);
+
+  &:hover {
+    background-color: var(--button-accent-hover-color);
+  }
+}
 
 .btn-transparent {
   background-color: transparent;
