@@ -20,7 +20,8 @@
 </main>
 
 @if (isSidebarOpen) {
-  <tp-sidebar 
+  <tp-sidebar
+    [dashboards]="(dashboards$ | async) ?? []"
     (closeSidebar)="isSidebarOpen = false" 
     (logOut)="logOut()"
   ></tp-sidebar>

@@ -9,7 +9,7 @@ import { Dashboard, DashboardColumn, DashboardColumnCard } from '../../models';
 @Injectable({
   providedIn: 'root',
 })
-export class DashboardsService {
+export class DashboardsApiService {
   constructor(
     private http: HttpClient,
   ) {}

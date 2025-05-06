@@ -11,7 +11,13 @@
     @for (icon of dashboardIcons; track $index) {
       <li>
         <button (click)="setIcon(icon)">
-          <tp-icon class="text-font-primary-color transition-opacity duration-300" [class.opacity-50]="dashboardForm.controls.icon.value !== icon" [svgIcon]="icon" size="18"></tp-icon>
+          <!-- TODO: remove !important rule -->
+          <tp-icon 
+            size="18"
+            class="text-font-primary-color transition-opacity duration-300 opacity-50" 
+            [class.!opacity-20]="dashboardForm.controls.icon.value !== icon" 
+            [svgIcon]="icon" 
+          ></tp-icon>
         </button>
       </li>
     }
@@ -47,6 +53,6 @@
     <span class="bg-icon-secondary-color w-7 h-7 rounded-md flex items-center justify-center">
       <tp-icon class="text-font-accent-color" svgIcon="plus" size="14"></tp-icon>
     </span>
-    Edit
+    Create
   </button>
 </div>

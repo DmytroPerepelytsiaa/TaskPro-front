@@ -10,7 +10,7 @@
     <h1 class="text-font-secondary-color text-base">Task Pro</h1>
   </div>
 
-  <div class="mt-16 mb-20">
+  <div class="mt-16 mb-10">
     <p class="text-font-secondary-color opacity-50 text-xs mb-2">My boards</p>
 
     <!-- TODO: fix opacity on light theme -->
@@ -24,9 +24,23 @@
     <hr class="opacity-10 bg-font-text-font-secondary-color">
   </div>
 
-  <!-- TODO: implement dashboards in the next branch -->
-  <ul class="max-h-[180px]">
-
+  <ul class="max-h-[180px] w-[225px] overflow-auto relative -left-4">
+    @for (dashboard of dashboards; track $index) {
+      <li class="text-font-secondary-color">
+        <button 
+          class="h-[60px] flex items-center cursor-pointer w-full hover:bg-sidebar-dashboard-hover-background transition-colors duration-300 px-4 justify-between"
+        >
+          <div class="flex items-center gap-1 text-font-secondary-color">
+            <tp-icon size="18" [svgIcon]="dashboard.icon"></tp-icon>
+              {{ dashboard.name }}
+          </div>
+          <div class="flex items-center gap-2">
+            <tp-icon class="text-font-secondary-color opacity-50 hover:opacity-100 transition-opacity duration-300" size="16" svgIcon="pencil"></tp-icon>
+            <tp-icon class="text-font-secondary-color opacity-50 hover:opacity-100 transition-opacity duration-300" size="16" svgIcon="trash"></tp-icon>
+          </div>
+        </button>
+      </li>
+    }
   </ul>
 
   <div class="p-4 mb-6 bg-sidebar-info-background rounded-lg mt-auto">

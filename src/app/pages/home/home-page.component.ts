@@ -7,6 +7,7 @@ import { UiModule } from '@shared/ui/ui.module';
 import { DashboardEditModalComponent } from '@shared/dashboards/components';
 import { DashboardsModule } from '@shared/dashboards/dashboards.module';
 import { ThemeService } from '@shared/themes/services';
+import { DashboardsStoreService } from '@shared/dashboards/services';
 
 @Component({
   selector: 'tp-home-page',
@@ -22,12 +23,16 @@ export class HomePageComponent implements OnInit {
   private dialogService = inject(Dialog);
   private usersService = inject(UsersService);
   private themeService = inject(ThemeService);
+  private dashboardsStore = inject(DashboardsStoreService);
 
   user$ = this.usersService.user$;
+  dashboards$ = this.dashboardsStore.dashboards$;
   isSidebarOpen = false;
 
   ngOnInit(): void {
     this.themeService.resetTheme();
+
+    this.dashboardsStore.getDashboards();
   }
 
   logOut(): void {

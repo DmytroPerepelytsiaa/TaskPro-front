@@ -28,6 +28,7 @@ module.exports = {
         'header-background': 'var(--header-background)',
         'sidebar-background': 'var(--sidebar-background)',
         'sidebar-info-background': 'var(--sidebar-info-background)',
+        'sidebar-dashboard-hover-background': 'var(--sidebar-dashboard-hover-background)',
         'modal-background': 'var(--modal-background)',
         'logo-color': 'var(--logo-color)',
         'home-page-label-primary-text-color': 'var(--home-page-label-primary-text-color)',

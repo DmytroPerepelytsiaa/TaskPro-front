@@ -1,1 +1,2 @@
-export * from './dashboards/dashboards.service';
+export * from './dashboards-api/dashboards-api.service';
+export * from './dashboards-store/dashboards-store.service';

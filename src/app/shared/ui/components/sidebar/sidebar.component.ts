@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output } from '@angular/core';
 
+import { Dashboard } from '@shared/dashboards/models';
 import { ThemeColors } from '@shared/themes/models';
 import { ThemeService } from '@shared/themes/services';
 
@@ -10,6 +11,7 @@ import { ThemeService } from '@shared/themes/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
+  @Input() dashboards: Dashboard[] = [];
   @Output() closeSidebar = new EventEmitter<void>();
   @Output() logOut = new EventEmitter<void>();
 
