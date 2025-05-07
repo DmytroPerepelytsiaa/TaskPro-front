@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from '@environments/environment';
 
-import { Dashboard, DashboardColumn, DashboardColumnCard } from '../../models';
+import { Dashboard, DashboardColumn, DashboardColumnCard, DashboardFormState } from '../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,8 @@ export class DashboardsApiService {
     return this.http.get<Dashboard[]>(environment.baseURL + '/dashboards');
   }
 
-  addDashboard$(dashboard: Dashboard): Observable<Dashboard> {
+  // TODO: change type from state to DashboardPayload
+  addDashboard$(dashboard: DashboardFormState): Observable<Dashboard> {
     return this.http.post<Dashboard>(environment.baseURL + '/dashboards', dashboard);
   }
 

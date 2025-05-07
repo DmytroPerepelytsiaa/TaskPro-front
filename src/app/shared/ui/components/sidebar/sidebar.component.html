@@ -4,7 +4,7 @@
 >
 </button>
 
-<aside class="absolute top-0 left-0 w-[225px] bg-sidebar-background h-full p-4 flex flex-col overflow-auto">
+<aside class="absolute top-0 left-0 w-[225px] bg-sidebar-background h-full p-4 flex flex-col overflow-auto overflow-x-hidden">
   <div class="flex gap-2 items-center">
     <tp-icon [svgIcon]="(currentTheme$ | async) === ThemeColors.Violet ? 'logo-light' : 'logo'" size="32"></tp-icon>
     <h1 class="text-font-secondary-color text-base">Task Pro</h1>
@@ -24,9 +24,9 @@
     <hr class="opacity-10 bg-font-text-font-secondary-color">
   </div>
 
-  <ul class="max-h-[180px] w-[225px] overflow-auto relative -left-4">
+  <ul class="max-h-[180px] min-h-[120px] w-[225px] overflow-auto relative -left-4">
     @for (dashboard of dashboards; track $index) {
-      <li class="text-font-secondary-color">
+      <li class="text-font-secondary-color before:bg-icon-primary-color before:contents-[''] before:absolute before:right-0 before:w-[4px] before:h-[60px] before:rounded-l-[4px]">
         <button 
           class="h-[60px] flex items-center cursor-pointer w-full hover:bg-sidebar-dashboard-hover-background transition-colors duration-300 px-4 justify-between"
         >

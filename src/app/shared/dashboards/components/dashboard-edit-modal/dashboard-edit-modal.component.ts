@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { DIALOG_DATA } from '@angular/cdk/dialog';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { DashboardBackgrounds, DashboardForm, DashboardIcons } from '@shared/dashboards/models';
+import { DashboardBackgrounds, DashboardForm, DashboardFormState, DashboardIcons } from '@shared/dashboards/models';
 
 @Component({
   standalone: false,
@@ -10,6 +11,11 @@ import { DashboardBackgrounds, DashboardForm, DashboardIcons } from '@shared/das
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardEditModalComponent {
+  constructor(@Inject(DIALOG_DATA) public data: { isEditMode: boolean }) {}
+
+  @Output() editDashboard = new EventEmitter<DashboardFormState>();
+  @Output() createDashboard = new EventEmitter<DashboardFormState>();
+
   private formBuilder = inject(FormBuilder);
 
   dashboardIcons = Object.values(DashboardIcons);
@@ -28,5 +34,11 @@ export class DashboardEditModalComponent {
 
   setBackground(background: DashboardBackgrounds): void {
     this.dashboardForm.controls.background.setValue(background);
+  }
+
+  onSubmit(): void {
+    const value = this.dashboardForm.getRawValue();
+    
+    this.data.isEditMode ? this.editDashboard.emit(value) : this.createDashboard.emit(value);
   }
 }

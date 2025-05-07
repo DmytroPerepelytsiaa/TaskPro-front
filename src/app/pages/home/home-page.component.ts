@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { Dialog } from '@angular/cdk/dialog';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { tap } from 'rxjs';
 
 import { UsersService } from '@shared/auth/services';
 import { UiModule } from '@shared/ui/ui.module';
@@ -9,6 +11,7 @@ import { DashboardsModule } from '@shared/dashboards/dashboards.module';
 import { ThemeService } from '@shared/themes/services';
 import { DashboardsStoreService } from '@shared/dashboards/services';
 
+@UntilDestroy()
 @Component({
   selector: 'tp-home-page',
   templateUrl: './home-page.component.html',
@@ -32,7 +35,7 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this.themeService.resetTheme();
 
-    this.dashboardsStore.getDashboards();
+    this.dashboardsStore.getDashboards$();
   }
 
   logOut(): void {
@@ -40,6 +43,13 @@ export class HomePageComponent implements OnInit {
   }
 
   openDashboardCreation(): void {
-    this.dialogService.open(DashboardEditModalComponent);
+    const modalRef = this.dialogService.open(DashboardEditModalComponent, { data: { isEditMode: false } });
+
+    modalRef.componentInstance?.createDashboard
+      .pipe(
+        tap((dashboard) => this.dashboardsStore.createDashboard$(dashboard)),
+        untilDestroyed(this),
+      )  
+      .subscribe();
   }
 }
