@@ -28,7 +28,7 @@ export class HomePageComponent {
     modalRef.componentInstance?.createDashboard
       .pipe(
         tap((dashboard) => {
-          this.dashboardsStore.createDashboard$(dashboard);
+          this.dashboardsStore.createDashboard(dashboard);
           modalRef.close();
         }),
         untilDestroyed(this),

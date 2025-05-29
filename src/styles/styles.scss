@@ -34,6 +34,10 @@ p {
   letter-spacing: -0.02em;
 }
 
+::-webkit-scrollbar {
+  width: 0px;
+}
+
 // TODO: think of maybe remove to shared styles?
 .layout {
   background: linear-gradient(180deg, var(--black-1) 25%, var(--green-1) 92.19%);

@@ -11,9 +11,11 @@ import { ThemeService } from '@shared/themes/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
+  @Input() currentDashboard: Dashboard | null = null;
   @Input() dashboards: Dashboard[] = [];
   @Output() closeSidebar = new EventEmitter<void>();
   @Output() logOut = new EventEmitter<void>();
+  @Output() changeDashboard = new EventEmitter<Dashboard>();
 
   private themeService = inject(ThemeService);
 

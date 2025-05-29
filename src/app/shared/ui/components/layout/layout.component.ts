@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { UsersService } from '@shared/auth/services';
+import { Dashboard } from '@shared/dashboards/models';
 import { DashboardsStoreService } from '@shared/dashboards/services';
 import { ThemeService } from '@shared/themes/services';
 
@@ -19,15 +20,20 @@ export class LayoutComponent implements OnInit {
 
   user$ = this.usersService.user$;
   dashboards$ = this.dashboardsStore.dashboards$;
+  currentDashboard$ = this.dashboardsStore.currentDashboard$;
   isSidebarOpen = false;
 
   ngOnInit(): void {
     this.themeService.resetTheme();
 
-    this.dashboardsStore.getDashboards$();
+    this.dashboardsStore.getDashboards();
   }
 
   logOut(): void {
     this.usersService.logOut();
+  }
+
+  changeDashboard(dashboard: Dashboard): void {
+    this.dashboardsStore.setCurrentDashboard(dashboard);
   }
 }
