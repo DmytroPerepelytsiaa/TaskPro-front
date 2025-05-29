@@ -8,7 +8,9 @@
 
 @if (isSidebarOpen) {
   <tp-sidebar
+    [currentDashboard]="(currentDashboard$ | async) ?? null"
     [dashboards]="(dashboards$ | async) ?? []"
+    (changeDashboard)="changeDashboard($event)"
     (closeSidebar)="isSidebarOpen = false" 
     (logOut)="logOut()"
   ></tp-sidebar>
