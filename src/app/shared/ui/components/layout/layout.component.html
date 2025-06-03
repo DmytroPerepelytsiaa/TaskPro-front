@@ -11,6 +11,7 @@
     [currentDashboard]="(currentDashboard$ | async) ?? null"
     [dashboards]="(dashboards$ | async) ?? []"
     (changeDashboard)="changeDashboard($event)"
+    (createDashboard)="openDashboardCreation()"
     (closeSidebar)="isSidebarOpen = false" 
     (logOut)="logOut()"
   ></tp-sidebar>

@@ -17,7 +17,10 @@
     <hr class="opacity-10 bg-font-text-font-secondary-color">
     <div class="py-4 flex items-center justify-between">
       <p class="text-font-secondary-color w-20 font-medium">Create a new board</p>
-      <button class="w-10 h-9 bg-button-accent-color hover:bg-button-accent-hover-color rounded-md transition-colors duration-300">
+      <button 
+        class="w-10 h-9 bg-button-accent-color hover:bg-button-accent-hover-color rounded-md transition-colors duration-300"
+        (click)="createDashboard.emit()"
+      >
         <tp-icon class="text-icon-secondary-color" svgIcon="plus" size="20"></tp-icon>
       </button>
     </div>
