@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { UsersService } from '@shared/auth/services';
+import { DashboardsPageDirective } from '@shared/dashboards/directives';
 import { Dashboard } from '@shared/dashboards/models';
 import { DashboardsStoreService } from '@shared/dashboards/services';
 import { ThemeService } from '@shared/themes/services';
@@ -13,10 +14,9 @@ import { ThemeService } from '@shared/themes/services';
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutComponent implements OnInit {
+export class LayoutComponent extends DashboardsPageDirective implements OnInit {
   private usersService = inject(UsersService);
   private themeService = inject(ThemeService);
-  private dashboardsStore = inject(DashboardsStoreService);
 
   user$ = this.usersService.user$;
   dashboards$ = this.dashboardsStore.dashboards$;

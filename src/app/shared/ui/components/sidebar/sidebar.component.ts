@@ -16,6 +16,7 @@ export class SidebarComponent {
   @Output() closeSidebar = new EventEmitter<void>();
   @Output() logOut = new EventEmitter<void>();
   @Output() changeDashboard = new EventEmitter<Dashboard>();
+  @Output() createDashboard = new EventEmitter<void>();
 
   private themeService = inject(ThemeService);
 
