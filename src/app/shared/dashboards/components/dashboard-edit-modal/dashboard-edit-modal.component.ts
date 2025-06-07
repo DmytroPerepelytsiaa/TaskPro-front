@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Inject, inject, Outpu
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { DashboardBackgrounds, DashboardForm, DashboardFormState, DashboardIcons } from '@shared/dashboards/models';
+import { trimValidator } from '@shared/validators';
 
 @Component({
   standalone: false,
@@ -23,7 +24,7 @@ export class DashboardEditModalComponent {
   DashboardBackgrounds = DashboardBackgrounds;
 
   dashboardForm: FormGroup<DashboardForm> = this.formBuilder.group<DashboardForm>({
-    name: this.formBuilder.nonNullable.control(''),
+    name: this.formBuilder.nonNullable.control('', [trimValidator(6, 64)]),
     icon: this.formBuilder.nonNullable.control(DashboardIcons.Project),
     background: this.formBuilder.nonNullable.control(DashboardBackgrounds.NoBg), 
   });

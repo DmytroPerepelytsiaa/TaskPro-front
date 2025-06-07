@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { UsersService } from '@shared/auth/services';
 import { DashboardsPageDirective } from '@shared/dashboards/directives';
 import { Dashboard } from '@shared/dashboards/models';
-import { DashboardsStoreService } from '@shared/dashboards/services';
 import { ThemeService } from '@shared/themes/services';
 
 @UntilDestroy()
@@ -17,6 +17,7 @@ import { ThemeService } from '@shared/themes/services';
 export class LayoutComponent extends DashboardsPageDirective implements OnInit {
   private usersService = inject(UsersService);
   private themeService = inject(ThemeService);
+  private router = inject(Router);
 
   user$ = this.usersService.user$;
   dashboards$ = this.dashboardsStore.dashboards$;
@@ -35,5 +36,6 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
 
   changeDashboard(dashboard: Dashboard): void {
     this.dashboardsStore.setCurrentDashboard(dashboard);
+    this.router.navigate(['/dashboard', dashboard.id]);
   }
 }

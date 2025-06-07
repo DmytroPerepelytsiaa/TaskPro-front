@@ -49,6 +49,7 @@
   <button 
     tp-button 
     class="flex gap-2 justify-center items-center text-font-tertiary-color"
+    [disabled]="dashboardForm.invalid"
     (click)="onSubmit()"
   >
     <span class="bg-icon-secondary-color w-7 h-7 rounded-md flex items-center justify-center">
