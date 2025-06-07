@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { UsersService } from '@shared/auth/services';
@@ -18,6 +18,7 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
   private usersService = inject(UsersService);
   private themeService = inject(ThemeService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
   user$ = this.usersService.user$;
   dashboards$ = this.dashboardsStore.dashboards$;
@@ -27,7 +28,8 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
   ngOnInit(): void {
     this.themeService.resetTheme();
 
-    this.dashboardsStore.getDashboards();
+    const id = this.route.snapshot.paramMap.get('id');
+    this.dashboardsStore.getDashboards(Number(id));
   }
 
   logOut(): void {

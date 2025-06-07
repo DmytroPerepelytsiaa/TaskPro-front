@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
-import { filter, Observable, switchMap, tap, withLatestFrom } from 'rxjs';
+import { combineLatest, filter, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { Dashboard, DashboardFormState } from '@shared/dashboards/models';
 
@@ -20,6 +21,7 @@ const initialState: DashboardsStoreState = {
 export class DashboardsStoreService extends ComponentStore<DashboardsStoreState> {
   constructor(
     private dashboardsApiService: DashboardsApiService,
+    private router: Router,
   ) {
     super(initialState);
   }
@@ -37,15 +39,19 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
     currentDashboard,
   }));
 
-  readonly getDashboards = this.effect((trigger$) => 
-    trigger$
+  readonly getDashboards = this.effect((id$: Observable<number>) => 
+    id$
       .pipe(
         withLatestFrom(this.dashboards$),
         filter(([_, dashboards]) => !dashboards.length),
-        switchMap(() => this.dashboardsApiService.getDashboards$()),
-        tap((dashboards) => {
+        switchMap(([id]) => combineLatest([of(id), this.dashboardsApiService.getDashboards$()])),
+        tap(([id, dashboards]) => {
           this.setDashboards(dashboards);
-          this.setCurrentDashboard(dashboards[0]);
+
+          const currentDashboard = dashboards.find((dashboard) => dashboard.id === id);
+
+          this.setCurrentDashboard(currentDashboard ?? dashboards[0]);
+          this.router.navigate(['/dashboard', currentDashboard?.id || dashboards[0].id]);
         }),
       )
   );
