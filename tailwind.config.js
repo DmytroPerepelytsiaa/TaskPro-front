@@ -39,6 +39,9 @@ module.exports = {
       },
       screens: {
         'xs': '375px',
+      },
+      spacing: {
+        'header-height': 'var(--header-height)',
       }
     },
   },

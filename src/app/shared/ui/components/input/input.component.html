@@ -20,9 +20,9 @@
       <tp-icon svgIcon="eye" size="18"></tp-icon>
     </button>
   }
-</div>
-@if (control.dirty) {
-  @for (error of control.errors | keyvalue; track error.key) {
-    <span class="text-xs text-danger-color">{{ error.value }}</span>
+  @if (control.dirty) {
+    @for (error of control.errors | keyvalue; track error.key) {
+      <span class="text-xs text-danger-color absolute left-0 -bottom-5">{{ error.value }}</span>
+    }
   }
-}
+</div>

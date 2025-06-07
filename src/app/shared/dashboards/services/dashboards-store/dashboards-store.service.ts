@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
-import { filter, Observable, switchMap, tap, withLatestFrom } from 'rxjs';
+import { combineLatest, filter, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { Dashboard, DashboardFormState } from '@shared/dashboards/models';
 
@@ -20,8 +21,15 @@ const initialState: DashboardsStoreState = {
 export class DashboardsStoreService extends ComponentStore<DashboardsStoreState> {
   constructor(
     private dashboardsApiService: DashboardsApiService,
+    private router: Router,
   ) {
     super(initialState);
+
+    this.currentDashboard$
+      .pipe(
+        tap((dashboard) => this.router.navigate([dashboard ? '/dashboard' : '/home', dashboard?.id ?? ''])),
+      )
+      .subscribe();
   }
 
   readonly dashboards$ = this.select((state) => state.dashboards);
@@ -32,20 +40,27 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
     dashboards,
   }));
 
-  readonly setCurrentDashboard = this.updater((state, currentDashboard: Dashboard) => ({
+  readonly setCurrentDashboard = this.updater((state, currentDashboard: Dashboard | null) => ({
     ...state,
     currentDashboard,
   }));
 
-  readonly getDashboards = this.effect((trigger$) => 
-    trigger$
+  readonly getDashboards = this.effect((id$: Observable<number>) => 
+    id$
       .pipe(
         withLatestFrom(this.dashboards$),
         filter(([_, dashboards]) => !dashboards.length),
-        switchMap(() => this.dashboardsApiService.getDashboards$()),
-        tap((dashboards) => {
+        switchMap(([id]) => combineLatest([of(id), this.dashboardsApiService.getDashboards$()])),
+        tap(([id, dashboards]) => {
           this.setDashboards(dashboards);
-          this.setCurrentDashboard(dashboards[0]);
+
+          const currentDashboard = dashboards.find((dashboard) => dashboard.id === id);
+
+          if (dashboards.length) {
+            this.setCurrentDashboard(currentDashboard ?? dashboards[0]);
+          } else {
+            this.router.navigate(['/']);
+          }
         }),
       )
   );
@@ -55,7 +70,30 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
       .pipe(
         switchMap((dashboard) => this.dashboardsApiService.addDashboard$(dashboard)),
         withLatestFrom(this.dashboards$),
-        tap(([newDashboard, dashboards]) => this.setDashboards([...dashboards, newDashboard])),
+        tap(([newDashboard, dashboards]) => {
+          this.setDashboards([...dashboards, newDashboard]);
+          this.setCurrentDashboard(newDashboard);
+        }),
+      )
+  );
+
+  readonly deleteDashboard = this.effect((dashboard$: Observable<Dashboard>) =>
+    dashboard$
+      .pipe(
+        withLatestFrom(this.dashboards$),
+        switchMap(([dashboard, dashboards]) => {
+          const updatedDashboards = dashboards.filter((d) => d.id !== dashboard.id);
+          this.setDashboards(updatedDashboards);
+
+          if (updatedDashboards.length) {
+            this.setCurrentDashboard(updatedDashboards[0]);
+          } else {
+            this.setCurrentDashboard(null);
+          }
+
+          // TODO: handle error
+          return this.dashboardsApiService.deleteDashboard$(dashboard);
+        }),
       )
   );
 }
