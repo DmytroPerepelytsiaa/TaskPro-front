@@ -24,6 +24,12 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
     private router: Router,
   ) {
     super(initialState);
+
+    this.currentDashboard$
+      .pipe(
+        tap((dashboard) => this.router.navigate([dashboard ? '/dashboard' : '/home', dashboard?.id ?? ''])),
+      )
+      .subscribe();
   }
 
   readonly dashboards$ = this.select((state) => state.dashboards);
@@ -34,7 +40,7 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
     dashboards,
   }));
 
-  readonly setCurrentDashboard = this.updater((state, currentDashboard: Dashboard) => ({
+  readonly setCurrentDashboard = this.updater((state, currentDashboard: Dashboard | null) => ({
     ...state,
     currentDashboard,
   }));
@@ -50,8 +56,11 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
 
           const currentDashboard = dashboards.find((dashboard) => dashboard.id === id);
 
-          this.setCurrentDashboard(currentDashboard ?? dashboards[0]);
-          this.router.navigate(['/dashboard', currentDashboard?.id || dashboards[0].id]);
+          if (dashboards.length) {
+            this.setCurrentDashboard(currentDashboard ?? dashboards[0]);
+          } else {
+            this.router.navigate(['/']);
+          }
         }),
       )
   );
@@ -61,7 +70,30 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
       .pipe(
         switchMap((dashboard) => this.dashboardsApiService.addDashboard$(dashboard)),
         withLatestFrom(this.dashboards$),
-        tap(([newDashboard, dashboards]) => this.setDashboards([...dashboards, newDashboard])),
+        tap(([newDashboard, dashboards]) => {
+          this.setDashboards([...dashboards, newDashboard]);
+          this.setCurrentDashboard(newDashboard);
+        }),
+      )
+  );
+
+  readonly deleteDashboard = this.effect((dashboard$: Observable<Dashboard>) =>
+    dashboard$
+      .pipe(
+        withLatestFrom(this.dashboards$),
+        switchMap(([dashboard, dashboards]) => {
+          const updatedDashboards = dashboards.filter((d) => d.id !== dashboard.id);
+          this.setDashboards(updatedDashboards);
+
+          if (updatedDashboards.length) {
+            this.setCurrentDashboard(updatedDashboards[0]);
+          } else {
+            this.setCurrentDashboard(null);
+          }
+
+          // TODO: handle error
+          return this.dashboardsApiService.deleteDashboard$(dashboard);
+        }),
       )
   );
 }

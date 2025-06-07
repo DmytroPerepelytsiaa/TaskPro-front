@@ -3,15 +3,18 @@
 
 <!-- TODO: add hover and create dashboard logic -->
 <main class="bg-primary-color h-screen">
-  <ng-content></ng-content>
+  <router-outlet></router-outlet>
 </main>
 
 @if (isSidebarOpen) {
+  <!-- TODO: implement dashboard edit and delete -->
   <tp-sidebar
     [currentDashboard]="(currentDashboard$ | async) ?? null"
     [dashboards]="(dashboards$ | async) ?? []"
     (changeDashboard)="changeDashboard($event)"
     (createDashboard)="openDashboardCreation()"
+    (editDashboard)="openDashboardCreation()"
+    (deleteDashboard)="deleteDashboard($event)"
     (closeSidebar)="isSidebarOpen = false" 
     (logOut)="logOut()"
   ></tp-sidebar>

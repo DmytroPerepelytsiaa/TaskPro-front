@@ -9,7 +9,6 @@ import {
   HeaderComponent, 
   IconComponent, 
   InputComponent, 
-  LayoutComponent, 
   SidebarComponent 
 } from './components';
 
@@ -20,7 +19,6 @@ import {
     InputComponent,
     HeaderComponent,
     SidebarComponent,
-    LayoutComponent,
   ],
   imports: [
     CommonModule,
@@ -34,7 +32,6 @@ import {
     InputComponent,
     HeaderComponent,
     SidebarComponent,
-    LayoutComponent,
   ],
 })
 export class UiModule {}
