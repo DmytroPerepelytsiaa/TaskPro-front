@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Inject, OnInit, Outpu
 import { FormControl } from '@angular/forms';
 
 import { DashboardColumn } from '@shared/dashboards/models';
+import { trimValidator } from '@shared/validators';
 
 @Component({
   selector: 'tp-dashboard-column-edit-modal',
@@ -16,7 +17,7 @@ export class DashboardColumnEditModalComponent implements OnInit {
   @Output() createColumn = new EventEmitter<string>();
   @Output() editColumn = new EventEmitter<DashboardColumn>();
 
-  columnName = new FormControl('', { nonNullable: true });
+  columnName = new FormControl('', { nonNullable: true, validators: [trimValidator(2, 64)] },);
 
   ngOnInit(): void {
     if (this.data.column) {

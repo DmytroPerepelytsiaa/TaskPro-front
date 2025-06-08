@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
 import { combineLatest, filter, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 
-import { Dashboard, DashboardFormState } from '@shared/dashboards/models';
+import { Dashboard, DashboardColumn, DashboardFormState } from '@shared/dashboards/models';
 
 import { DashboardsApiService } from '../dashboards-api/dashboards-api.service';
 
@@ -114,4 +114,24 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
         }),
       )
   );
+
+  readonly updateDashboardColumns = this.effect((payload$: Observable<{ column: DashboardColumn, isDeleted: boolean }>) =>
+    payload$
+      .pipe(
+        withLatestFrom(this.currentDashboard$),
+        tap(([payload, currentDashboard]) => {
+          if (!currentDashboard) {
+            return;
+          }
+
+          const updatedColumn = currentDashboard.columns.find((c) => c.id === payload.column.id);
+          const updatedDashboard = {
+            ...currentDashboard,
+            columns: updatedColumn ? currentDashboard.columns.map((c) => (c.id === payload.column.id ? payload.column : c)).filter(c => !(c.id === payload.column.id && payload.isDeleted)) : [...currentDashboard.columns, payload.column],
+          };
+
+          this.setCurrentDashboard(updatedDashboard);
+        }),
+      ),
+    );
 }

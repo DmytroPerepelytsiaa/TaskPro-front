@@ -1,14 +1,14 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { switchMap, withLatestFrom } from 'rxjs';
+import { switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { DashboardColumnEditModalComponent } from '@shared/dashboards/components';
 import { DashboardsModule } from '@shared/dashboards/dashboards.module';
 import { DashboardsApiService, DashboardsStoreService } from '@shared/dashboards/services';
 import { ButtonAppearance } from '@shared/ui/models';
 import { UiModule } from '@shared/ui/ui.module';
-import { Dashboard } from '@shared/dashboards/models';
+import { Dashboard, DashboardColumn } from '@shared/dashboards/models';
 
 @Component({
   standalone: true,
@@ -29,8 +29,8 @@ export class DashboardPageComponent {
   ButtonAppearance = ButtonAppearance;
   currentDashboard$ = this.dashboardsStoreService.currentDashboard$;
 
-  openColumnCreation(): void {
-    const modalRef = this.dialogService.open(DashboardColumnEditModalComponent, { data: { isEditMode: false } });
+  openColumnModal(column?: DashboardColumn): void {
+    const modalRef = this.dialogService.open(DashboardColumnEditModalComponent, { data: { column } });
 
     modalRef.componentInstance?.createColumn
       .pipe(
@@ -40,9 +40,29 @@ export class DashboardPageComponent {
 
           return this.dashboardsApiService.createColumn$(dashboard as Dashboard, name);
         }),
+        tap((column) => this.dashboardsStoreService.updateDashboardColumns({ column, isDeleted: false })),
       )
       .subscribe();
 
+      modalRef.componentInstance?.editColumn
+        .pipe(
+          switchMap((newColumn) => {
+            modalRef.close();
+
+            return this.dashboardsApiService.editColumn$(newColumn.id, newColumn.name);
+          }),
+          tap((column) => this.dashboardsStoreService.updateDashboardColumns({ column, isDeleted: false })),
+        )
+        .subscribe();
+
     // TODO: implement edit logic
+  }
+
+  deleteColumn(column: DashboardColumn): void {
+    this.dashboardsApiService.deleteColumn$(column.id)
+      .pipe(
+        tap(() => this.dashboardsStoreService.updateDashboardColumns({ column, isDeleted: true })),
+      )
+      .subscribe();
   }
 }
