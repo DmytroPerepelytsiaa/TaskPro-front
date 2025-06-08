@@ -1,10 +1,37 @@
-<!-- TODO: implement dashboard page -->
-<div class="pt-header-height px-5">
+<!-- TODO: remove old *ngIf -->
+<div *ngIf="currentDashboard$ | async as dashboard" class="max-w-[375px] pt-header-height px-5 mx-auto">
   <div class="flex justify-between items-center mt-4">
-    <p class="text-font-primary-color">Project office</p>
+    <p class="text-font-primary-color font-medium">Project office</p>
     <div class="flex gap-2 items-center text-font-primary-color">
       <tp-icon size="16" svgIcon="filter"></tp-icon>
       Filters
     </div>
   </div>
+
+  <!-- TODO: set right height -->
+  <ul class="mt-10 flex flex-row gap-3 overflow-auto min-h-64">
+    @for (column of dashboard.columns; track $index) {
+      <li class="min-w-[280px] xs:min-w-[335px] max-w-[335px]">
+        <div class="bg-button-secondary-color h-12 rounded-lg py-3 px-5 flex items-center justify-between">
+          <!-- TODO: add tooltip -->
+          <span class="font-medium text-font-primary-color truncate max-w-[240px]">
+            {{ column.name }}
+          </span>
+          <!-- TODO: implement column edit/delete -->
+          <div class="items-center flex gap-2">
+            <tp-icon class="cursor-pointer text-font-primary-color opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="pencil" size="16" (click)="openColumnModal(column)"></tp-icon>
+            <tp-icon class="cursor-pointer text-font-primary-color opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="trash" size="16" (click)="deleteColumn(column)"></tp-icon>
+          </div>
+        </div>
+      </li>
+    }
+    <li class="min-w-[280px] xs:min-w-[335px] max-w-[335px]">
+      <button tp-button class="flex gap-2 items-center justify-center" [appearance]="ButtonAppearance.Secondary" (click)="openColumnModal()">
+        <span class="flex items-center justify-center w-7 h-7 bg-icon-bg-primary-color rounded-md">
+          <tp-icon svgIcon="plus" size="16" class="text-icon-accent-color"></tp-icon>
+        </span>
+        Add another column
+      </button>
+    </li>
+  </ul>
 </div>

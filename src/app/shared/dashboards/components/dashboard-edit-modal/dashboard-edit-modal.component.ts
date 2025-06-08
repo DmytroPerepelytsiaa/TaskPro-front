@@ -1,8 +1,8 @@
 import { DIALOG_DATA } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, inject, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { DashboardBackgrounds, DashboardForm, DashboardFormState, DashboardIcons } from '@shared/dashboards/models';
+import { Dashboard, DashboardBackgrounds, DashboardForm, DashboardFormState, DashboardIcons } from '@shared/dashboards/models';
 import { trimValidator } from '@shared/validators';
 
 @Component({
@@ -11,10 +11,10 @@ import { trimValidator } from '@shared/validators';
   templateUrl: './dashboard-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardEditModalComponent {
-  constructor(@Inject(DIALOG_DATA) public data: { isEditMode: boolean }) {}
+export class DashboardEditModalComponent implements OnInit {
+  constructor(@Inject(DIALOG_DATA) public data: { dashboard: Dashboard }) {}
 
-  @Output() editDashboard = new EventEmitter<DashboardFormState>();
+  @Output() editDashboard = new EventEmitter<Dashboard>();
   @Output() createDashboard = new EventEmitter<DashboardFormState>();
 
   private formBuilder = inject(FormBuilder);
@@ -29,6 +29,16 @@ export class DashboardEditModalComponent {
     background: this.formBuilder.nonNullable.control(DashboardBackgrounds.NoBg), 
   });
 
+  ngOnInit(): void {
+    if (this.data.dashboard) {
+      this.dashboardForm.patchValue({
+        name: this.data.dashboard.name,
+        icon: this.data.dashboard.icon,
+        background: this.data.dashboard.background,
+      });
+    }
+  }
+
   setIcon(icon: DashboardIcons): void {
     this.dashboardForm.controls.icon.setValue(icon);
   }
@@ -40,6 +50,6 @@ export class DashboardEditModalComponent {
   onSubmit(): void {
     const value = this.dashboardForm.getRawValue();
     
-    this.data.isEditMode ? this.editDashboard.emit(value) : this.createDashboard.emit(value);
+    this.data.dashboard ? this.editDashboard.emit({ ...this.data.dashboard, ...value }) : this.createDashboard.emit(value);
   }
 }

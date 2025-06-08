@@ -1,0 +1,18 @@
+<div class="w-[280px] xs:w-[335px] p-6 bg-modal-background rounded-lg">
+  <h3 class="text-font-primary-color mb-6">{{ data.column ? 'Edit Column' : 'Add Column' }}</h3>
+
+  <div class="mb-6">
+    <tp-input [control]="columnName" placeholder="Title"></tp-input>
+  </div>
+
+  <button 
+    tp-button
+    class="flex gap-2 justify-center items-center text-font-tertiary-color"
+    (click)="handleSubmit()"
+  >
+    <span class="bg-icon-secondary-color w-7 h-7 rounded-md flex items-center justify-center">
+      <tp-icon class="text-font-accent-color" svgIcon="plus" size="14"></tp-icon>
+    </span>
+    {{ data.column ? 'Save' : 'Create' }}
+  </button>
+</div>

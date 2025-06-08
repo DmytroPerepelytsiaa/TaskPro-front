@@ -13,6 +13,21 @@
   --header-height: 60px;
 }
 
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary-color);
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  border-radius: 100px;
+}
+
 body {
   font-family: "Poppins", sans-serif;
 }
@@ -36,10 +51,6 @@ p {
   font-size: 14px;
   line-height: 18px;
   letter-spacing: -0.02em;
-}
-
-::-webkit-scrollbar {
-  width: 0px;
 }
 
 // TODO: think of maybe remove to shared styles?

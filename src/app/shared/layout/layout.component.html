@@ -1,19 +1,18 @@
 <!-- TODO: try to handle it better -->
 <tp-header [username]="(user$ | async)?.name ?? ''" (openSidebar)="isSidebarOpen = true"></tp-header>
 
-<!-- TODO: add hover and create dashboard logic -->
 <main class="bg-primary-color h-screen">
   <router-outlet></router-outlet>
 </main>
 
 @if (isSidebarOpen) {
-  <!-- TODO: implement dashboard edit and delete -->
+  <!-- TODO: implement dashboard edit -->
   <tp-sidebar
     [currentDashboard]="(currentDashboard$ | async) ?? null"
     [dashboards]="(dashboards$ | async) ?? []"
     (changeDashboard)="changeDashboard($event)"
-    (createDashboard)="openDashboardCreation()"
-    (editDashboard)="openDashboardCreation()"
+    (createDashboard)="openDashboardModal()"
+    (editDashboard)="openDashboardModal($event)"
     (deleteDashboard)="deleteDashboard($event)"
     (closeSidebar)="isSidebarOpen = false" 
     (logOut)="logOut()"
