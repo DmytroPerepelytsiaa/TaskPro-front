@@ -1,10 +1,17 @@
 <!-- TODO: implement dashboard page -->
-<div class="pt-header-height px-5">
+<div class="max-w-[335px] pt-header-height px-5 mx-auto">
   <div class="flex justify-between items-center mt-4">
-    <p class="text-font-primary-color">Project office</p>
+    <p class="text-font-primary-color font-medium">Project office</p>
     <div class="flex gap-2 items-center text-font-primary-color">
       <tp-icon size="16" svgIcon="filter"></tp-icon>
       Filters
     </div>
   </div>
+
+  <button tp-button class="mt-10 flex gap-2 items-center justify-center" [appearance]="ButtonAppearance.Secondary" (click)="openColumnCreation()">
+    <span class="flex items-center justify-center w-7 h-7 bg-icon-bg-primary-color rounded-md">
+      <tp-icon svgIcon="plus" size="16" class="text-icon-accent-color"></tp-icon>
+    </span>
+    Add another column
+  </button>
 </div>
