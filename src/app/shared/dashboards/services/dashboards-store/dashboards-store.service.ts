@@ -48,6 +48,7 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
   readonly getDashboards = this.effect((id$: Observable<number>) => 
     id$
       .pipe(
+        // TODO: handle error
         withLatestFrom(this.dashboards$),
         filter(([_, dashboards]) => !dashboards.length),
         switchMap(([id]) => combineLatest([of(id), this.dashboardsApiService.getDashboards$()])),
@@ -68,6 +69,7 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
   readonly createDashboard = this.effect((dashboard$: Observable<DashboardFormState>) => 
     dashboard$
       .pipe(
+        // TODO: handle error
         switchMap((dashboard) => this.dashboardsApiService.addDashboard$(dashboard)),
         withLatestFrom(this.dashboards$),
         tap(([newDashboard, dashboards]) => {
@@ -76,6 +78,22 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
         }),
       )
   );
+
+  readonly editDashboard = this.effect((dashboard$: Observable<Dashboard>) => 
+    dashboard$
+      .pipe(
+        // TODO: handle error
+        withLatestFrom(this.dashboards$),
+        switchMap(([dashboard, dashboards]) => {
+          const updatedDashboardIndex = dashboards.findIndex((d) => d.id === dashboard.id);
+          dashboards[updatedDashboardIndex] = dashboard;
+          this.setDashboards(dashboards);
+          this.setCurrentDashboard(dashboard);
+
+          return this.dashboardsApiService.updateDashboard$(dashboard);
+        }),
+      )
+    );
 
   readonly deleteDashboard = this.effect((dashboard$: Observable<Dashboard>) =>
     dashboard$
