@@ -19,6 +19,10 @@ module.exports = {
         'font-accent-color': 'var(--font-accent-color)',
         'font-tertiary-color': 'var(--font-tertiary-color)',
 
+        'button-primary-color': 'var(--button-primary-color)',
+        'button-primary-hover-color': 'var(--button-primary-hover-color)',
+        'button-secondary-color': 'var(--button-secondary-color)',
+        'button-secondary-hover-color': 'var(--button-secondary-hover-color)',
         'button-accent-color': 'var(--button-accent-color)',
         'button-accent-hover-color': 'var(--button-accent-hover-color)',
 

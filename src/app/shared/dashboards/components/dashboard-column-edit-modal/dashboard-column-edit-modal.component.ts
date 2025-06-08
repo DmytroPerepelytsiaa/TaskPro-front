@@ -1,6 +1,8 @@
 import { DIALOG_DATA } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+
+import { DashboardColumn } from '@shared/dashboards/models';
 
 @Component({
   selector: 'tp-dashboard-column-edit-modal',
@@ -8,8 +10,21 @@ import { FormControl } from '@angular/forms';
   templateUrl: './dashboard-column-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardColumnEditModalComponent {
-  constructor(@Inject(DIALOG_DATA) public data: { isEditMode: boolean }) {}
+export class DashboardColumnEditModalComponent implements OnInit {
+  constructor(@Inject(DIALOG_DATA) public data: { column: DashboardColumn }) {}
 
-  columnTitle = new FormControl('');
+  @Output() createColumn = new EventEmitter<string>();
+  @Output() editColumn = new EventEmitter<DashboardColumn>();
+
+  columnName = new FormControl('', { nonNullable: true });
+
+  ngOnInit(): void {
+    if (this.data.column) {
+      this.columnName.patchValue(this.data.column.name);
+    }
+  }
+
+  handleSubmit(): void {
+    this.data.column ? this.editColumn.emit({ ...this.data.column, name: this.columnName.value }) : this.createColumn.emit(this.columnName.value);
+  }
 }
