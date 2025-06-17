@@ -10,7 +10,7 @@ import { AuthResponse, LoginPayload, RegisterPayload, User } from '../../models'
 @Injectable({
   providedIn: 'root',
 })
-export class UsersService {
+export class UserService {
   user$ = new BehaviorSubject<User | null>(null);
 
   private http = inject(HttpClient);

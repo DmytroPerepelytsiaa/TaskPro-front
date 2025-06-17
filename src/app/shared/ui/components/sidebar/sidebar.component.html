@@ -29,6 +29,7 @@
 
   <ul class="min-h-[180px] w-[225px] mb-5 overflow-auto relative -left-4">
     @for (dashboard of dashboards; track $index) {
+      <!-- TODO: make before z-index higher than scroll -->
       <li 
         class="text-font-secondary-color before:absolute before:right-0 before:w-[4px] before:h-[60px] before:rounded-l-[4px]"
         [class.before:bg-icon-primary-color]="currentDashboard?.id === dashboard.id"

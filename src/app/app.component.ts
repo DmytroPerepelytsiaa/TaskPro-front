@@ -3,7 +3,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { catchError, EMPTY } from 'rxjs';
 
-import { UsersService } from '@shared/auth/services';
+import { UserService } from '@shared/auth/services';
 
 @UntilDestroy()
 @Component({
@@ -13,14 +13,14 @@ import { UsersService } from '@shared/auth/services';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  private usersService = inject(UsersService);
+  private userService = inject(UserService);
   private router = inject(Router);
   
   ngOnInit(): void {
     const token = localStorage.getItem('token');
 
     if (token) {
-      this.usersService.getCurrentUser$()
+      this.userService.getCurrentUser$()
         .pipe(
           catchError(() => {
             localStorage.removeItem('token');

@@ -5,7 +5,7 @@ import { switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { DashboardColumnEditModalComponent } from '@shared/dashboards/components';
 import { DashboardsModule } from '@shared/dashboards/dashboards.module';
-import { DashboardsApiService, DashboardsStoreService } from '@shared/dashboards/services';
+import { DashboardApiService, DashboardStoreService } from '@shared/dashboards/services';
 import { ButtonAppearance } from '@shared/ui/models';
 import { UiModule } from '@shared/ui/ui.module';
 import { Dashboard, DashboardColumn } from '@shared/dashboards/models';
@@ -23,11 +23,11 @@ import { Dashboard, DashboardColumn } from '@shared/dashboards/models';
 })
 export class DashboardPageComponent {
   private dialogService = inject(Dialog);
-  private dashboardsApiService = inject(DashboardsApiService);
-  private dashboardsStoreService = inject(DashboardsStoreService);
+  private dashboardApiService = inject(DashboardApiService);
+  private dashboardStoreService = inject(DashboardStoreService);
 
   ButtonAppearance = ButtonAppearance;
-  currentDashboard$ = this.dashboardsStoreService.currentDashboard$;
+  currentDashboard$ = this.dashboardStoreService.currentDashboard$;
 
   openColumnModal(column?: DashboardColumn): void {
     const modalRef = this.dialogService.open(DashboardColumnEditModalComponent, { data: { column } });
@@ -38,9 +38,9 @@ export class DashboardPageComponent {
         switchMap(([name, dashboard]) => {
           modalRef.close();
 
-          return this.dashboardsApiService.createColumn$(dashboard as Dashboard, name);
+          return this.dashboardApiService.createColumn$(dashboard as Dashboard, name);
         }),
-        tap((column) => this.dashboardsStoreService.updateDashboardColumns({ column, isDeleted: false })),
+        tap((column) => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false })),
       )
       .subscribe();
 
@@ -49,9 +49,9 @@ export class DashboardPageComponent {
           switchMap((newColumn) => {
             modalRef.close();
 
-            return this.dashboardsApiService.editColumn$(newColumn.id, newColumn.name);
+            return this.dashboardApiService.editColumn$(newColumn.id, newColumn.name);
           }),
-          tap((column) => this.dashboardsStoreService.updateDashboardColumns({ column, isDeleted: false })),
+          tap((column) => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false })),
         )
         .subscribe();
 
@@ -59,9 +59,9 @@ export class DashboardPageComponent {
   }
 
   deleteColumn(column: DashboardColumn): void {
-    this.dashboardsApiService.deleteColumn$(column.id)
+    this.dashboardApiService.deleteColumn$(column.id)
       .pipe(
-        tap(() => this.dashboardsStoreService.updateDashboardColumns({ column, isDeleted: true })),
+        tap(() => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: true })),
       )
       .subscribe();
   }
