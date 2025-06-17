@@ -10,7 +10,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { switchMap, tap } from 'rxjs';
 
 import { AuthResponse } from '@shared/auth/models';
-import { UsersService } from '@shared/auth/services';
+import { UserService } from '@shared/auth/services';
 import { trimValidator } from '@shared/validators';
 import { UiModule } from '@shared/ui/ui.module';
 import { ButtonAppearance, InputType } from '@shared/ui/models';
@@ -34,7 +34,7 @@ import { AuthForm } from './models';
 export class AuthPageComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
-  usersService = inject(UsersService);
+  userService = inject(UserService);
   formBuilder = inject(FormBuilder);
   authForm: FormGroup<AuthForm> = this.formBuilder.group<AuthForm>({
     name: this.formBuilder.nonNullable.control('', [trimValidator(2, 36)]),
@@ -62,12 +62,12 @@ export class AuthPageComponent implements OnInit {
   // TODO: add error handling
   onSubmit(): void {
     const payload = this.authForm.getRawValue();
-    const authObservable$ = this.isRegistrationPage ? this.usersService.register$(payload) : this.usersService.login$(payload);
+    const authObservable$ = this.isRegistrationPage ? this.userService.register$(payload) : this.userService.login$(payload);
 
     authObservable$ 
       .pipe(
-        tap((data: AuthResponse) => this.usersService.setToken(data.token)),
-        switchMap(() => this.usersService.getCurrentUser$()),
+        tap((data: AuthResponse) => this.userService.setToken(data.token)),
+        switchMap(() => this.userService.getCurrentUser$()),
         tap(() => this.router.navigate(['/dashboard'])),
         untilDestroyed(this),
       )

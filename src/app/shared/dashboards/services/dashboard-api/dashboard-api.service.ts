@@ -9,7 +9,7 @@ import { Dashboard, DashboardColumn, DashboardColumnCard, DashboardFormState } f
 @Injectable({
   providedIn: 'root',
 })
-export class DashboardsApiService {
+export class DashboardApiService {
   constructor(
     private http: HttpClient,
   ) {}

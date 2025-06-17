@@ -36,6 +36,7 @@ export const folderStructureConfig = createFolderStructure({
       children: [
         { ruleId: 'shared_module_folder' },
         { ruleId: 'validators_folder' },
+        { ruleId: 'layout_folder' }
       ],
     },
 
@@ -198,6 +199,13 @@ export const folderStructureConfig = createFolderStructure({
       children: [
         { name: 'index.ts' },
         { name: '*.interceptor.ts'}
+      ]
+    },
+
+    layout_folder: {
+      name: 'layout',
+      children: [
+        { name: '{folder-name}.component.(ts|html|scss)' },
       ]
     }
   }

@@ -5,22 +5,22 @@ import { combineLatest, filter, Observable, of, switchMap, tap, withLatestFrom }
 
 import { Dashboard, DashboardColumn, DashboardFormState } from '@shared/dashboards/models';
 
-import { DashboardsApiService } from '../dashboards-api/dashboards-api.service';
+import { DashboardApiService } from '../dashboard-api/dashboard-api.service';
 
-export interface DashboardsStoreState {
+export interface DashboardStoreState {
   currentDashboard: Dashboard | null;
   dashboards: Dashboard[];
 }
 
-const initialState: DashboardsStoreState = {
+const initialState: DashboardStoreState = {
   currentDashboard: null,
   dashboards: [],
 };
 
 @Injectable({ providedIn: 'root' })
-export class DashboardsStoreService extends ComponentStore<DashboardsStoreState> {
+export class DashboardStoreService extends ComponentStore<DashboardStoreState> {
   constructor(
-    private dashboardsApiService: DashboardsApiService,
+    private dashboardApiService: DashboardApiService,
     private router: Router,
   ) {
     super(initialState);
@@ -51,7 +51,7 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
         // TODO: handle error
         withLatestFrom(this.dashboards$),
         filter(([_, dashboards]) => !dashboards.length),
-        switchMap(([id]) => combineLatest([of(id), this.dashboardsApiService.getDashboards$()])),
+        switchMap(([id]) => combineLatest([of(id), this.dashboardApiService.getDashboards$()])),
         tap(([id, dashboards]) => {
           this.setDashboards(dashboards);
 
@@ -70,7 +70,7 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
     dashboard$
       .pipe(
         // TODO: handle error
-        switchMap((dashboard) => this.dashboardsApiService.addDashboard$(dashboard)),
+        switchMap((dashboard) => this.dashboardApiService.addDashboard$(dashboard)),
         withLatestFrom(this.dashboards$),
         tap(([newDashboard, dashboards]) => {
           this.setDashboards([...dashboards, newDashboard]);
@@ -90,7 +90,7 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
           this.setDashboards(dashboards);
           this.setCurrentDashboard(dashboard);
 
-          return this.dashboardsApiService.updateDashboard$(dashboard);
+          return this.dashboardApiService.updateDashboard$(dashboard);
         }),
       )
     );
@@ -110,7 +110,7 @@ export class DashboardsStoreService extends ComponentStore<DashboardsStoreState>
           }
 
           // TODO: handle error
-          return this.dashboardsApiService.deleteDashboard$(dashboard);
+          return this.dashboardApiService.deleteDashboard$(dashboard);
         }),
       )
   );
