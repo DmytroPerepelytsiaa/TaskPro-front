@@ -1,4 +1,5 @@
 import { FormControl } from '@angular/forms';
+import { Moment } from 'moment';
 
 export interface Dashboard {
   id: number;
@@ -20,6 +21,17 @@ export interface DashboardFormState {
   background: DashboardBackgrounds;
 }
 
+export type DashboardCardForm = {
+  [FieldName in keyof DashboardCardFormState]: FormControl<DashboardCardFormState[FieldName]>;
+}
+
+export interface DashboardCardFormState {
+  name: string;
+  description: string;
+  priority: CardPriority;
+  deadline: Moment;
+}
+
 export interface DashboardColumn {
   id: number;
   name: string;
@@ -33,6 +45,7 @@ export interface DashboardColumnCard {
   name: string;
   description: string;
   priority: CardPriority;
+  deadline: string;
   createdAt: string;
   updatedAt: string;
 }

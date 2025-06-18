@@ -9,7 +9,8 @@ import {
   HeaderComponent, 
   IconComponent, 
   InputComponent, 
-  SidebarComponent 
+  SidebarComponent, 
+  TextareaComponent
 } from './components';
 
 @NgModule({
@@ -17,6 +18,7 @@ import {
     IconComponent,
     ButtonComponent,
     InputComponent,
+    TextareaComponent,
     HeaderComponent,
     SidebarComponent,
   ],
@@ -30,6 +32,7 @@ import {
     IconComponent,
     ButtonComponent,
     InputComponent,
+    TextareaComponent,
     HeaderComponent,
     SidebarComponent,
   ],

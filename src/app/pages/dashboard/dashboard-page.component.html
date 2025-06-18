@@ -17,12 +17,20 @@
           <span class="font-medium text-font-primary-color truncate max-w-[240px]">
             {{ column.name }}
           </span>
-          <!-- TODO: implement column edit/delete -->
           <div class="items-center flex gap-2">
             <tp-icon class="cursor-pointer text-font-primary-color opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="pencil" size="16" (click)="openColumnModal(column)"></tp-icon>
             <tp-icon class="cursor-pointer text-font-primary-color opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="trash" size="16" (click)="deleteColumn(column)"></tp-icon>
           </div>
         </div>
+        <ul>
+          <!-- TODO: add cards -->
+        </ul>
+        <button tp-button class="mt-4 flex items-center gap-2 justify-center" (click)="openCardModal(column)">
+          <span class="bg-font-tertiary-color rounded-md w-7 h-7 flex items-center justify-center">
+            <tp-icon class="text-font-accent-color" svgIcon="plus" size="14"></tp-icon>
+          </span>
+          Add another card
+        </button>
       </li>
     }
     <li class="min-w-[280px] xs:min-w-[335px] max-w-[335px]">
