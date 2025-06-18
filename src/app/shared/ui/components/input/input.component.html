@@ -22,7 +22,7 @@
   }
   @if (control.dirty) {
     @for (error of control.errors | keyvalue; track error.key) {
-      <span class="text-xs text-danger-color absolute left-0 -bottom-5">{{ error.value }}</span>
+      <span class="text-xs text-danger-color">{{ error.value }}</span>
     }
   }
 </div>

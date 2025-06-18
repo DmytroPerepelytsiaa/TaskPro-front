@@ -42,6 +42,10 @@ module.exports = {
         'home-page-label-secondary-text-hover-color': 'var(--home-page-label-secondary-text-hover-color)',
         
         'black-2': 'var(--black-2)',
+        'transparent-3': 'var(--transparent-3)',
+        'green-1': 'var(--green-1)',
+        'blue-1': 'var(--blue-1)',
+        'red-2': 'var(--red-2)',
       },
       screens: {
         'xs': '375px',

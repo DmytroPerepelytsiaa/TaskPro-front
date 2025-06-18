@@ -1,0 +1,15 @@
+<div class="relative focus-within:[&>button]:opacity-100">
+  <textarea
+    class="w-full rounded-lg border border-solid bg-tertiary-color px-[18px] py-[14px] text-sm text-font-primary-color opacity-40 outline-accent-color focus:opacity-100"
+    [ngClass]="class"
+    [placeholder]="placeholder"
+    [formControl]="control"
+    [class.border-danger-color]="control.errors && control.dirty"
+    [class.border-accent-color]="!control.errors || !control.dirty"
+  ></textarea>
+  @if (control.dirty) {
+    @for (error of control.errors | keyvalue; track error.key) {
+      <span class="text-xs text-danger-color">{{ error.value }}</span>
+    }
+  }
+</div>
