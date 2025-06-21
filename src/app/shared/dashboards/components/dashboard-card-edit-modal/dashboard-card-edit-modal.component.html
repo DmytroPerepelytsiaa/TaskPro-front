@@ -44,11 +44,28 @@
 
   <div class="mb-10">
     <p class="opacity-50 text-font-primary-color text-xs mb-1">Deadline</p>
-    <button class="text-accent-color text-sm font-medium flex items-center gap-1">
+    <button 
+      class="text-accent-color text-sm font-medium flex items-center gap-1"
+      cdkOverlayOrigin 
+      #trigger="cdkOverlayOrigin"
+      (click)="isDatePickerOpen = !isDatePickerOpen"
+    >
       {{ deadline | getFormattedDate }}
-
+      <!-- TODO: add chevron-up -->
       <tp-icon size="18" svgIcon="chevron-down"></tp-icon>
     </button>
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOrigin]="trigger"
+      [cdkConnectedOverlayOpen]="isDatePickerOpen"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      (detach)="isDatePickerOpen = false"
+      (backdropClick)="isDatePickerOpen = false"
+    >
+      <tp-datepicker
+        [control]="dashboardCardForm.controls.deadline"
+      ></tp-datepicker>
+    </ng-template>
   </div>
 
   <button 

@@ -28,6 +28,7 @@ export class DashboardCardEditModalComponent implements OnInit {
   });
   cardPriorityValues = Object.values(CardPriority);
   CardPriority = CardPriority;
+  isDatePickerOpen = false;
 
   // TODO: try to fix this
   get deadline(): Moment {

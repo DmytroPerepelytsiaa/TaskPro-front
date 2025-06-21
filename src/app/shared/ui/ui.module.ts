@@ -4,8 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
 
+import { DatesModule } from '@shared/dates/dates.module';
+
 import { 
   ButtonComponent, 
+  DatepickerComponent, 
   HeaderComponent, 
   IconComponent, 
   InputComponent, 
@@ -21,12 +24,14 @@ import {
     TextareaComponent,
     HeaderComponent,
     SidebarComponent,
+    DatepickerComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
     OverlayModule,
+    DatesModule,
   ],
   exports: [
     IconComponent,
@@ -35,6 +40,7 @@ import {
     TextareaComponent,
     HeaderComponent,
     SidebarComponent,
+    DatepickerComponent,
   ],
 })
 export class UiModule {}
