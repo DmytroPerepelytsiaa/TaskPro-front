@@ -8,7 +8,7 @@ import { DashboardsModule } from '@shared/dashboards/dashboards.module';
 import { DashboardApiService, DashboardStoreService } from '@shared/dashboards/services';
 import { ButtonAppearance } from '@shared/ui/models';
 import { UiModule } from '@shared/ui/ui.module';
-import { Dashboard, DashboardColumn, DashboardColumnCard } from '@shared/dashboards/models';
+import { CardPriority, Dashboard, DashboardColumn, DashboardColumnCard } from '@shared/dashboards/models';
 
 @Component({
   standalone: true,
@@ -27,6 +27,7 @@ export class DashboardPageComponent {
   private dashboardStoreService = inject(DashboardStoreService);
 
   ButtonAppearance = ButtonAppearance;
+  CardPriority = CardPriority;
   currentDashboard$ = this.dashboardStoreService.currentDashboard$;
 
   openColumnModal(column?: DashboardColumn): void {
