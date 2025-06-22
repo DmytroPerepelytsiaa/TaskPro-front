@@ -1,6 +1,7 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { DashboardCardEditModalComponent, DashboardColumnEditModalComponent } from '@shared/dashboards/components';
@@ -10,6 +11,7 @@ import { ButtonAppearance } from '@shared/ui/models';
 import { UiModule } from '@shared/ui/ui.module';
 import { CardPriority, Dashboard, DashboardColumn, DashboardColumnCard } from '@shared/dashboards/models';
 
+@UntilDestroy()
 @Component({
   standalone: true,
   selector: 'tp-dashboard-page',
@@ -31,6 +33,7 @@ export class DashboardPageComponent {
   currentDashboard$ = this.dashboardStoreService.currentDashboard$;
 
   openColumnModal(column?: DashboardColumn): void {
+    // TODO: add error handling
     const modalRef = this.dialogService.open(DashboardColumnEditModalComponent, { data: { column } });
 
     modalRef.componentInstance?.createColumn
@@ -42,6 +45,7 @@ export class DashboardPageComponent {
           return this.dashboardApiService.createColumn$(dashboard as Dashboard, name);
         }),
         tap((column) => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false })),
+        untilDestroyed(this),
       )
       .subscribe();
 
@@ -53,11 +57,13 @@ export class DashboardPageComponent {
             return this.dashboardApiService.editColumn$(newColumn.id, newColumn.name);
           }),
           tap((column) => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false })),
+          untilDestroyed(this),
         )
         .subscribe();
   }
 
   deleteColumn(column: DashboardColumn): void {
+    // TODO: add error handling and confirmation dialog
     this.dashboardApiService.deleteColumn$(column.id)
       .pipe(
         tap(() => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: true })),
@@ -66,27 +72,51 @@ export class DashboardPageComponent {
   }
 
   openCardModal(column: DashboardColumn, card?: DashboardColumnCard): void {
+    // TODO: add error handling
     const modalRef = this.dialogService.open(DashboardCardEditModalComponent, { data: { card } });
 
     modalRef.componentInstance?.createCard
       .pipe(
         switchMap((card) => {
           modalRef.close();
-
+          
           return this.dashboardApiService.addCard$(card, column);
         }),
-        tap(() => {
-          // TODO: implement add card logic
+        tap((newCard) => {
+          column.cards.push(newCard);
+          this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
         }),
+        untilDestroyed(this),
       )
       .subscribe();
 
     modalRef.componentInstance?.editCard
       .pipe(
-        // TODO: Implement edit card functionality
-        // switchMap(() => {
-        //   modalRef.close();
-        // }),
+        switchMap((card) => {
+          modalRef.close();
+
+          return this.dashboardApiService.editCard$(card, column);
+        }),
+        tap((updatedCard) => {
+          const cardIndex = column.cards.findIndex(c => c.id === updatedCard.id);
+
+          if (cardIndex !== -1) {
+            column.cards[cardIndex] = updatedCard;
+            this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
+          }
+        }),
+      )
+      .subscribe();
+  }
+
+  deleteCard(column: DashboardColumn, card: DashboardColumnCard): void {
+    // TODO: add error handling and confirmation dialog
+    this.dashboardApiService.deleteCard$(card)
+      .pipe(
+        tap(() => {
+          column.cards = column.cards.filter(c => c.id !== card.id);
+          this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
+        }),
       )
       .subscribe();
   }

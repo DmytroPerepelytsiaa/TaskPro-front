@@ -16,7 +16,7 @@ export class DashboardCardEditModalComponent implements OnInit {
   constructor(@Inject(DIALOG_DATA) public data: { card: DashboardColumnCard }) {}
 
   @Output() createCard = new EventEmitter<DashboardCardFormState>();
-  @Output() editCard = new EventEmitter<DashboardCardFormState>();
+  @Output() editCard = new EventEmitter<DashboardColumnCard>();
 
   private formBuilder = inject(FormBuilder);
   
@@ -37,13 +37,18 @@ export class DashboardCardEditModalComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data.card) {
-      // TODO: implement edit logic
+      this.dashboardCardForm.patchValue({
+        name: this.data.card.name,
+        description: this.data.card.description,
+        priority: this.data.card.priority,
+        deadline: moment(this.data.card.deadline),
+      });
     }
   }
 
   handleSubmit(): void {
     const value = this.dashboardCardForm.getRawValue();
 
-    this.data.card ? this.editCard.emit({ ...this.data.card, ...value }) : this.createCard.emit(value);
+    this.data.card ? this.editCard.emit({ ...this.data.card, ...value, deadline: value.deadline.format('YYYY-MM-DD') }) : this.createCard.emit(value);
   }
 }

@@ -51,10 +51,10 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-2 text-font-primary-color">
-                  <button>
+                  <button (click)="openCardModal(column, card)">
                     <tp-icon class="opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="pencil" size="16"></tp-icon>
                   </button>
-                  <button>
+                  <button (click)="deleteCard(column, card)">
                     <tp-icon class="opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="trash" size="16"></tp-icon>
                   </button>
                 </div>
