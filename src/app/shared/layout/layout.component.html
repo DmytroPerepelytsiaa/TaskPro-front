@@ -1,7 +1,7 @@
 <!-- TODO: try to handle it better -->
 <tp-header [username]="(user$ | async)?.name ?? ''" (openSidebar)="isSidebarOpen = true"></tp-header>
 
-<main class="bg-primary-color min-h-screen pb-10" [ngClass]="{ 'h-screen overflow-hidden': isSidebarOpen }">
+<main class="bg-primary-color min-h-screen pb-5" [ngClass]="{ 'h-screen overflow-hidden': isSidebarOpen }">
   <router-outlet></router-outlet>
 </main>
 

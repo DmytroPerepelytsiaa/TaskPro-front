@@ -9,10 +9,10 @@
   </div>
 
   <!-- TODO: set right height -->
-  <ul class="mt-6 flex flex-row gap-3 overflow-auto min-h-64 pb-6">
+  <ul class="mt-6 flex flex-row gap-3 overflow-auto min-h-64 pb-6 w-[345px] [&::-webkit-scrollbar]:h-3">
     @for (column of dashboard.columns; track $index) {
-      <li class="min-w-[280px] xs:min-w-[335px] max-w-[335px]">
-        <div class="bg-button-secondary-color h-12 rounded-lg py-3 px-5 flex items-center justify-between mb-3">
+      <li class="min-w-[280px] xs:min-w-[345px] max-w-[345px]">
+        <div class="bg-button-secondary-color h-12 rounded-lg py-3 px-5 flex items-center justify-between mb-3 max-w-[335px]">
           <!-- TODO: add tooltip -->
           <span class="font-medium text-font-primary-color truncate max-w-[240px]">
             {{ column.name }}
@@ -22,10 +22,11 @@
             <tp-icon class="cursor-pointer text-font-primary-color opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="trash" size="16" (click)="deleteColumn(column)"></tp-icon>
           </div>
         </div>
-        <ul>
+        <ul class="max-h-[664px] w-[345px] overflow-auto pr-1 [&::-webkit-scrollbar]:w-1.5">
           @for (card of column.cards; track $index) {
             <li class="w-[335px] h-[154px] rounded-lg bg-button-secondary-color mb-3 py-4 px-6">
-              <h2 class="text-font-primary-color mb-2">{{ card.name }}</h2>
+              <!-- TODO: add tooltip -->
+              <h2 class="text-font-primary-color mb-2 truncate">{{ card.name }}</h2>
               <p class="text-font-primary-color text-xs opacity-50 break-words h-12 overflow-auto mb-3">{{ card.description }}</p>
               <hr class="mb-3 opacity-10">
               <div class="flex items-center justify-between">

@@ -5,7 +5,9 @@
   >
   </button>
   
-  <aside class="absolute top-0 left-0 w-[225px] bg-sidebar-background h-full p-4 flex flex-col overflow-auto overflow-x-hidden">
+  <aside 
+    class="absolute top-0 left-0 w-[225px] bg-sidebar-background h-full p-4 flex flex-col overflow-auto overflow-x-hidden [&::-webkit-scrollbar-thumb]:bg-sidebar-scrollbar-thumb-color"
+  >
     <div class="flex gap-2 items-center">
       <tp-icon [svgIcon]="(currentTheme$ | async) === ThemeColors.Violet ? 'logo-light' : 'logo'" size="32"></tp-icon>
       <h1 class="text-font-secondary-color text-base">Task Pro</h1>
@@ -19,7 +21,7 @@
       <div class="py-4 flex items-center justify-between">
         <p class="text-font-secondary-color w-20 font-medium">Create a new board</p>
         <button 
-          class="w-10 h-9 bg-button-accent-color hover:bg-button-accent-hover-color rounded-md transition-colors duration-300"
+          class="w-10 h-10 bg-button-accent-color hover:bg-button-accent-hover-color rounded-md transition-colors duration-300"
           (click)="createDashboard.emit()"
         >
           <tp-icon class="text-icon-secondary-color" svgIcon="plus" size="20"></tp-icon>
@@ -76,6 +78,7 @@
         , check out our support resources or reach out to our customer support team.
       </p>
   
+      <!-- TODO: add clickable information -->
       <p class="flex gap-2 items-center text-font-secondary-color text-xs">
         <tp-icon svgIcon="help-circle" size="20"></tp-icon>
         Need help?
