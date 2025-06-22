@@ -1,91 +1,93 @@
-<button 
-  class="absolute top-0 left-0 w-screen h-screen bg-black opacity-20 cursor-default"
-  (click)="closeSidebar.emit()"  
->
-</button>
-
-<aside class="absolute top-0 left-0 w-[225px] bg-sidebar-background h-full p-4 flex flex-col overflow-auto overflow-x-hidden">
-  <div class="flex gap-2 items-center">
-    <tp-icon [svgIcon]="(currentTheme$ | async) === ThemeColors.Violet ? 'logo-light' : 'logo'" size="32"></tp-icon>
-    <h1 class="text-font-secondary-color text-base">Task Pro</h1>
-  </div>
-
-  <div class="mt-16 mb-10">
-    <p class="text-font-secondary-color opacity-50 text-xs mb-2">My boards</p>
-
-    <!-- TODO: fix opacity on light theme -->
-    <hr class="opacity-10 bg-font-text-font-secondary-color">
-    <div class="py-4 flex items-center justify-between">
-      <p class="text-font-secondary-color w-20 font-medium">Create a new board</p>
-      <button 
-        class="w-10 h-9 bg-button-accent-color hover:bg-button-accent-hover-color rounded-md transition-colors duration-300"
-        (click)="createDashboard.emit()"
-      >
-        <tp-icon class="text-icon-secondary-color" svgIcon="plus" size="20"></tp-icon>
-      </button>
-    </div>
-    <hr class="opacity-10 bg-font-text-font-secondary-color">
-  </div>
-
-  <ul class="min-h-[180px] w-[225px] mb-5 overflow-auto relative -left-4">
-    @for (dashboard of dashboards; track $index) {
-      <!-- TODO: make before z-index higher than scroll -->
-      <li 
-        class="text-font-secondary-color before:absolute before:right-0 before:w-[4px] before:h-[60px] before:rounded-l-[4px]"
-        [class.before:bg-icon-primary-color]="currentDashboard?.id === dashboard.id"
-      >
-        <button 
-          class="h-[60px] flex items-center cursor-pointer w-full hover:bg-sidebar-dashboard-hover-background transition-colors duration-300 px-4 justify-between"
-          [class.bg-sidebar-dashboard-hover-background]="currentDashboard?.id === dashboard.id"
-          (click)="changeDashboard.emit(dashboard)"
-        >
-          <div class="flex items-center gap-1 text-font-secondary-color">
-            <tp-icon size="18" [svgIcon]="dashboard.icon"></tp-icon>
-            <!-- TODO: add tooltip -->
-            <span class="truncate max-w-28">
-              {{ dashboard.name }}
-            </span>
-          </div>
-          <div class="flex items-center gap-2">
-            <tp-icon 
-              class="text-font-secondary-color opacity-50 hover:opacity-100 transition-opacity duration-300" 
-              size="16" 
-              svgIcon="pencil"
-              (click)="editDashboard.emit(dashboard); $event.stopPropagation()"
-            ></tp-icon>
-            <tp-icon 
-              class="text-font-secondary-color opacity-50 hover:opacity-100 transition-opacity duration-300" 
-              size="16" 
-              svgIcon="trash"
-              (click)="deleteDashboard.emit(dashboard); $event.stopPropagation()"
-            ></tp-icon>
-          </div>
-        </button>
-      </li>
-    }
-  </ul>
-
-  <div class="p-4 mb-6 bg-sidebar-info-background rounded-lg mt-auto">
-    <!-- TODO: add 2x for image -->
-    <img class="mb-4" alt="Flower image" src="sidebar/flower.png">
-
-    <p class="mb-4 text-font-secondary-color text-xs">
-      If you need help with 
-      <span>TaskPro</span>
-      , check out our support resources or reach out to our customer support team.
-    </p>
-
-    <p class="flex gap-2 items-center text-font-secondary-color text-xs">
-      <tp-icon svgIcon="help-circle" size="20"></tp-icon>
-      Need help?
-    </p>
-  </div>
-
+<div class="fixed inset-0 z-[999]">
   <button 
-    class="flex gap-3 items-center text-font-secondary-color hover:text-font-secondary-hover-color transition-colors duration-300"
-    (click)="logOut.emit()"
+    class="absolute top-0 left-0 w-screen h-screen bg-black opacity-20 cursor-default"
+    (click)="closeSidebar.emit()"  
   >
-    <tp-icon class="text-icon-primary-color" svgIcon="logout" size="32"></tp-icon>
-    Log out
   </button>
-</aside>
+  
+  <aside class="absolute top-0 left-0 w-[225px] bg-sidebar-background h-full p-4 flex flex-col overflow-auto overflow-x-hidden">
+    <div class="flex gap-2 items-center">
+      <tp-icon [svgIcon]="(currentTheme$ | async) === ThemeColors.Violet ? 'logo-light' : 'logo'" size="32"></tp-icon>
+      <h1 class="text-font-secondary-color text-base">Task Pro</h1>
+    </div>
+  
+    <div class="mt-16 mb-10">
+      <p class="text-font-secondary-color opacity-50 text-xs mb-2">My boards</p>
+  
+      <!-- TODO: fix opacity on light theme -->
+      <hr class="opacity-10 bg-font-text-font-secondary-color">
+      <div class="py-4 flex items-center justify-between">
+        <p class="text-font-secondary-color w-20 font-medium">Create a new board</p>
+        <button 
+          class="w-10 h-9 bg-button-accent-color hover:bg-button-accent-hover-color rounded-md transition-colors duration-300"
+          (click)="createDashboard.emit()"
+        >
+          <tp-icon class="text-icon-secondary-color" svgIcon="plus" size="20"></tp-icon>
+        </button>
+      </div>
+      <hr class="opacity-10 bg-font-text-font-secondary-color">
+    </div>
+  
+    <ul class="min-h-[180px] w-[225px] mb-5 overflow-auto relative -left-4">
+      @for (dashboard of dashboards; track $index) {
+        <!-- TODO: make before z-index higher than scroll -->
+        <li 
+          class="text-font-secondary-color before:absolute before:right-0 before:w-[4px] before:h-[60px] before:rounded-l-[4px]"
+          [class.before:bg-icon-primary-color]="currentDashboard?.id === dashboard.id"
+        >
+          <button 
+            class="h-[60px] flex items-center cursor-pointer w-full hover:bg-sidebar-dashboard-hover-background transition-colors duration-300 px-4 justify-between"
+            [class.bg-sidebar-dashboard-hover-background]="currentDashboard?.id === dashboard.id"
+            (click)="changeDashboard.emit(dashboard)"
+          >
+            <div class="flex items-center gap-1 text-font-secondary-color">
+              <tp-icon size="18" [svgIcon]="dashboard.icon"></tp-icon>
+              <!-- TODO: add tooltip -->
+              <span class="truncate max-w-28">
+                {{ dashboard.name }}
+              </span>
+            </div>
+            <div class="flex items-center gap-2">
+              <tp-icon 
+                class="text-font-secondary-color opacity-50 hover:opacity-100 transition-opacity duration-300" 
+                size="16" 
+                svgIcon="pencil"
+                (click)="editDashboard.emit(dashboard); $event.stopPropagation()"
+              ></tp-icon>
+              <tp-icon 
+                class="text-font-secondary-color opacity-50 hover:opacity-100 transition-opacity duration-300" 
+                size="16" 
+                svgIcon="trash"
+                (click)="deleteDashboard.emit(dashboard); $event.stopPropagation()"
+              ></tp-icon>
+            </div>
+          </button>
+        </li>
+      }
+    </ul>
+  
+    <div class="p-4 mb-6 bg-sidebar-info-background rounded-lg mt-auto">
+      <!-- TODO: add 2x for image -->
+      <img class="mb-4" alt="Flower image" src="sidebar/flower.png">
+  
+      <p class="mb-4 text-font-secondary-color text-xs">
+        If you need help with 
+        <span>TaskPro</span>
+        , check out our support resources or reach out to our customer support team.
+      </p>
+  
+      <p class="flex gap-2 items-center text-font-secondary-color text-xs">
+        <tp-icon svgIcon="help-circle" size="20"></tp-icon>
+        Need help?
+      </p>
+    </div>
+  
+    <button 
+      class="flex gap-3 items-center text-font-secondary-color hover:text-font-secondary-hover-color transition-colors duration-300"
+      (click)="logOut.emit()"
+    >
+      <tp-icon class="text-icon-primary-color" svgIcon="logout" size="32"></tp-icon>
+      Log out
+    </button>
+  </aside>
+</div>

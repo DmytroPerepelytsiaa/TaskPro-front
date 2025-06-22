@@ -43,8 +43,8 @@ export class DashboardApiService {
     return this.http.delete<null>(environment.baseURL + '/columns/' + id);
   }
 
-  addCard$(card: DashboardCardFormState, column: DashboardColumn): Observable<DashboardCardFormState> {
-    return this.http.post<DashboardCardFormState>(environment.baseURL + '/cards', { columnId: column.id, ...card });
+  addCard$(card: DashboardCardFormState, column: DashboardColumn): Observable<DashboardColumnCard> {
+    return this.http.post<DashboardColumnCard>(environment.baseURL + '/cards', { columnId: column.id, ...card });
   }
 
   editCard$(card: DashboardColumnCard, column: DashboardColumn): Observable<DashboardColumnCard> {
