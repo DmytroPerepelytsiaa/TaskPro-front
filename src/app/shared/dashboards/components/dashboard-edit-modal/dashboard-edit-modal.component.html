@@ -9,7 +9,7 @@
   <ul class="flex gap-2 mb-6">
     @for (icon of dashboardIcons; track $index) {
       <li>
-        <button (click)="setIcon(icon)">
+        <button type="button" (click)="setIcon(icon)">
           <!-- TODO: remove !important rule -->
           <tp-icon 
             size="18"
@@ -26,7 +26,8 @@
   <ul class="flex gap-1 flex-wrap w-64 mb-10">
     @for (background of dashboardBackgrounds; track $index) {
       <li>
-        <button 
+        <button
+          type="button"
           class="transition-shadow duration-300 shadow-font-primary-color rounded-md overflow-hidden"
           [class.shadow-md]="dashboardForm.controls.background.value === background"
           (click)="setBackground(background)"
@@ -46,8 +47,9 @@
   </ul>
 
   <button 
-    tp-button 
+    tp-button
     class="flex gap-2 justify-center items-center text-font-tertiary-color"
+    type="submit"
     [disabled]="dashboardForm.invalid"
     (click)="onSubmit()"
   >

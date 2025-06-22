@@ -73,8 +73,10 @@ export class DashboardStoreService extends ComponentStore<DashboardStoreState> {
         switchMap((dashboard) => this.dashboardApiService.addDashboard$(dashboard)),
         withLatestFrom(this.dashboards$),
         tap(([newDashboard, dashboards]) => {
+          newDashboard.columns = [];
           this.setDashboards([...dashboards, newDashboard]);
           this.setCurrentDashboard(newDashboard);
+          this.router.navigate(['/dashboard', newDashboard.id]);
         }),
       )
   );

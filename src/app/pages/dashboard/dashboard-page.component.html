@@ -52,6 +52,40 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-2 text-font-primary-color">
+                  <button
+                    cdkOverlayOrigin 
+                    #trigger="cdkOverlayOrigin"
+                    (click)="openedPopupCardId = card.id"
+                  >
+                    <tp-icon class="opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="arrow-circle-right" size="16"></tp-icon>
+                  </button>
+                  <ng-template
+                    cdkConnectedOverlay
+                    [cdkConnectedOverlayOrigin]="trigger"
+                    [cdkConnectedOverlayOpen]="openedPopupCardId === card.id"
+                    [cdkConnectedOverlayHasBackdrop]="true"
+                    (detach)="openedPopupCardId = null"
+                    (backdropClick)="openedPopupCardId = null"
+                  >
+                    <ul class="flex flex-col gap-2 bg-primary-color border border-accent-color p-5 rounded-lg text-font-primary-color">
+                      @for (columnForChoose of dashboard.columns; track $index) {
+                        <li>
+                          <button 
+                            class="hover:text-font-primary-hover-color transition-colors duration-300 flex justify-between gap-2 w-28"
+                            [class.text-font-primary-hover-color]="columnForChoose.id === column.id"
+                            [disabled]="columnForChoose.id === column.id"
+                            (click)="changeCardColumn(card, columnForChoose, column)"
+                          >
+                            <!-- TODO: add tooltip -->
+                            <p class="truncate">
+                              {{ columnForChoose.name }}
+                            </p>
+                            <tp-icon svgIcon="arrow-circle-right" size="16"></tp-icon>
+                          </button>
+                        </li>
+                      }
+                    </ul>
+                  </ng-template>
                   <button (click)="openCardModal(column, card)">
                     <tp-icon class="opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="pencil" size="16"></tp-icon>
                   </button>
