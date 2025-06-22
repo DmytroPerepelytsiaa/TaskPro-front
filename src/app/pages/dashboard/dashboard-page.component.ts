@@ -47,7 +47,10 @@ export class DashboardPageComponent {
 
           return this.dashboardApiService.createColumn$(dashboard as Dashboard, name);
         }),
-        tap((column) => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false })),
+        tap((column) => {
+          column.cards = [];
+          this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
+        }),
         untilDestroyed(this),
       )
       .subscribe();
