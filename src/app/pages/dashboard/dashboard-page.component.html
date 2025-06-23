@@ -1,6 +1,9 @@
 <!-- TODO: remove old *ngIf -->
-<div *ngIf="currentDashboard$ | async as dashboard" class="max-w-[375px] pt-header-height px-5 mx-auto">
-  <div class="flex justify-between items-center mt-4">
+<div 
+  *ngIf="currentDashboard$ | async as dashboard" 
+  class="max-w-[375px] pt-header-height px-5 mx-auto"
+>
+  <div class="bg-primary-color flex justify-between items-center mt-4 py-3 px-5 rounded-lg">
     <p class="text-font-primary-color font-medium">Project office</p>
     <div class="flex gap-2 items-center text-font-primary-color">
       <tp-icon size="16" svgIcon="filter"></tp-icon>
@@ -22,9 +25,9 @@
             <tp-icon class="cursor-pointer text-font-primary-color opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="trash" size="16" (click)="deleteColumn(column)"></tp-icon>
           </div>
         </div>
-        <ul class="max-h-[664px] w-[345px] overflow-auto pr-1 [&::-webkit-scrollbar]:w-1.5">
+        <ul class="flex flex-col gap-3 max-h-[664px] min-w-[290px] xs:min-w-[345px] max-w-[345px] overflow-auto pr-1 [&::-webkit-scrollbar]:w-1.5">
           @for (card of column.cards; track $index) {
-            <li class="w-[335px] h-[154px] rounded-lg bg-button-secondary-color mb-3 py-4 px-6">
+            <li class="w-[280px] xs:min-w-[335px] h-[154px] rounded-lg bg-button-secondary-color py-4 px-6">
               <!-- TODO: add tooltip -->
               <h2 class="text-font-primary-color mb-2 truncate">{{ card.name }}</h2>
               <p class="text-font-primary-color text-xs opacity-50 break-words h-12 overflow-auto mb-3">{{ card.description }}</p>

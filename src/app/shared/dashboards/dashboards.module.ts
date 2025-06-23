@@ -11,12 +11,14 @@ import {
   DashboardColumnEditModalComponent, 
   DashboardEditModalComponent,
 } from './components';
+import { DashboardBackgroundDirective } from './directives';
 
 @NgModule({
   declarations: [
     DashboardEditModalComponent,
     DashboardColumnEditModalComponent,
     DashboardCardEditModalComponent,
+    DashboardBackgroundDirective,
   ],
   imports: [
     CommonModule,
@@ -29,6 +31,7 @@ import {
     DashboardEditModalComponent,
     DashboardColumnEditModalComponent,
     DashboardCardEditModalComponent,
+    DashboardBackgroundDirective,
   ],
 })
 export class DashboardsModule {}

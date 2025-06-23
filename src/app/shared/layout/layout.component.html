@@ -1,7 +1,13 @@
 <!-- TODO: try to handle it better -->
 <tp-header [username]="(user$ | async)?.name ?? ''" (openSidebar)="isSidebarOpen = true"></tp-header>
 
-<main class="bg-primary-color min-h-screen pb-5" [ngClass]="{ 'h-screen overflow-hidden': isSidebarOpen }">
+<!-- TODO: try to handle it better -->
+<main
+  tpDashboardBackground
+  class="bg-primary-color min-h-screen pb-5 bg-no-repeat bg-cover bg-center"
+  [currentDashboard]="(currentDashboard$ | async) ?? null"
+  [ngClass]="{ 'h-screen overflow-hidden': isSidebarOpen }"
+>
   <router-outlet></router-outlet>
 </main>
 
