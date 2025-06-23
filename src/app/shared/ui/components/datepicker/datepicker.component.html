@@ -1,0 +1,40 @@
+<div class="h-[264px] w-[232px] p-4 bg-primary-color border border-accent-color rounded-lg">
+  <div class="mb-3 flex items-center justify-between">
+    <button (click)="changeToPrevMonth()">
+      <tp-icon class="text-font-primary-color" svgIcon="chevron-left" size="6"></tp-icon>
+    </button>
+    <h3 class="text-base text-font-primary-color">{{ currentMonth | getFormattedMonth }}</h3>
+    <button (click)="changeToNextMonth()">
+      <tp-icon class="text-font-primary-color" svgIcon="chevron-right" size="6"></tp-icon>
+    </button>
+  </div>
+
+  <hr class="mb-4 opacity-20 border-font-primary-color" />
+
+  <ul class="grid grid-cols-7 gap-2">
+    @for (day of days; track $index) {
+      <li class="flex items-center justify-center">
+        <p class="font-medium opacity-50 text-font-primary-color">
+          {{ day }}
+        </p>
+      </li>
+    }
+
+    @for (currentMonthDay of currentMonthDays; track $index) {
+      <li>
+        <button
+          class="flex h-6 w-6 cursor-pointer items-center justify-center"
+          [ngClass]="{ 'rounded-full bg-accent-color text-accent-black': currentMonthDay | isSelectedDate: selectedDate }"
+          (click)="selectDate(currentMonthDay)"
+        >
+          <p
+            class="text-sm text-font-primary-color"
+            [class.opacity-20]="(currentMonthDay | getFormattedMonth) !== (currentMonth | getFormattedMonth)"
+          >
+            {{ currentMonthDay | getDayFromDate }}
+          </p>
+        </button>
+      </li>
+    }
+  </ul>
+</div>

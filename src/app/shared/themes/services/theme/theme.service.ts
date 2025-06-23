@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, pairwise, tap } from 'rxjs';
 
-import { ThemeColors } from '../models';
+import { ThemeColors } from '../../models';
 
 @Injectable({
   providedIn: 'root',
@@ -29,8 +29,13 @@ export class ThemeService {
     }
   }
 
-  setTheme(theme: ThemeColors) {
+  setTheme(theme: ThemeColors): void {
     this.currentTheme$.next(theme);
     localStorage.setItem('theme', theme);
+  }
+
+  resetTheme(): void {
+    document.body.className = '';
+    document.body.classList.add(this.currentTheme$.value + '-theme');
   }
 }

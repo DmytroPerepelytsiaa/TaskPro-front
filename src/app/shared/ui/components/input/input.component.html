@@ -1,13 +1,14 @@
 <!-- TODO: remove UI jumping -->
 <div class="relative">
   <input
-    class="w-full rounded-lg border border-solid bg-black-4 px-[18px] py-[14px] text-sm text-white opacity-40 outline-green-1 focus:opacity-100"
+    class="w-full rounded-lg border border-solid bg-tertiary-color px-[18px] py-[14px] text-sm text-font-primary-color opacity-40 outline-accent-color focus:opacity-100"
+    autocomplete="off"
     [type]="type === InputType.Password ? (hidePassword ? type : InputType.Text) : type"
     [placeholder]="placeholder"
     [formControl]="control"
     [class.pr-12]="type === InputType.Password"
-    [class.border-red-1]="control.errors && control.dirty"
-    [class.border-green-1]="!control.errors || !control.dirty"
+    [class.border-danger-color]="control.errors && control.dirty"
+    [class.border-accent-color]="!control.errors || !control.dirty"
   />
   @if (type === InputType.Password) {
     <!-- TODO: remove important rule -->
@@ -20,9 +21,9 @@
       <tp-icon svgIcon="eye" size="18"></tp-icon>
     </button>
   }
-</div>
-@if (control.dirty) {
-  @for (error of control.errors | keyvalue; track error.key) {
-    <span class="text-xs text-red-1">{{ error.value }}</span>
+  @if (control.dirty) {
+    @for (error of control.errors | keyvalue; track error.key) {
+      <span class="text-xs text-danger-color">{{ error.value }}</span>
+    }
   }
-}
+</div>

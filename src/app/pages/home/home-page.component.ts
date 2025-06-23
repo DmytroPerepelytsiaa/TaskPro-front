@@ -1,25 +1,16 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { UsersService } from '@shared/auth/services';
 import { UiModule } from '@shared/ui/ui.module';
+import { DashboardsModule } from '@shared/dashboards/dashboards.module';
+import { DashboardsPageDirective } from '@shared/dashboards/directives';
 
 @Component({
   selector: 'tp-home-page',
   templateUrl: './home-page.component.html',
   imports: [
-    CommonModule,
     UiModule,
+    DashboardsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomePageComponent {
-  private usersService = inject(UsersService);
-
-  user$ = this.usersService.user$;
-  isSidebarOpen = false;
-
-  logOut(): void {
-    this.usersService.logOut();
-  }
-}
+export class HomePageComponent extends DashboardsPageDirective {}

@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
+import { ButtonAppearance } from '@shared/ui/models';
+
 @Component({
   /* eslint-disable @angular-eslint/component-selector */
   selector: 'button[tp-button]',
@@ -9,10 +11,9 @@ import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
-  // TODO: add enum for button types
-  @Input() appearance: 'primary' | 'secondary' | 'transparent' = 'primary';
+  @Input() appearance = ButtonAppearance.Primary;
 
-  @HostBinding('class') private get baseClassNames() {
+  @HostBinding('class') private get baseClassNames(): string {
     return `btn btn-${this.appearance}`;
   }
 }

@@ -5,12 +5,12 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import { environment } from '@environments/environment';
 
-import { AuthResponse, LoginPayload, RegisterPayload, User } from '../models';
+import { AuthResponse, LoginPayload, RegisterPayload, User } from '../../models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UsersService {
+export class UserService {
   user$ = new BehaviorSubject<User | null>(null);
 
   private http = inject(HttpClient);

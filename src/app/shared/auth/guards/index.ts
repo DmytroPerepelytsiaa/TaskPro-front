@@ -1,2 +1,2 @@
-export * from './public.guard';
-export * from './private.guard';
+export * from './public/public.guard';
+export * from './private/private.guard';

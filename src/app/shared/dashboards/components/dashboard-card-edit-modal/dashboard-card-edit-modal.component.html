@@ -1,0 +1,82 @@
+<form [formGroup]="dashboardCardForm" class="w-[280px] xs:w-[335px] p-6 bg-modal-background rounded-lg">
+  <h3 class="text-font-primary-color mb-6">{{ data.card ? 'Edit Card' : 'Add Card' }}</h3>
+
+  <div class="mb-4">
+    <tp-input [control]="dashboardCardForm.controls.name" placeholder="Title"></tp-input>
+  </div>
+
+  <div class="mb-6">
+    <tp-textarea class="h-40 resize-none" [control]="dashboardCardForm.controls.description" placeholder="Description"></tp-textarea>
+  </div>
+
+  <div class="mb-4">
+    <p class="opacity-50 text-font-primary-color text-xs mb-1">Label color</p>
+    <ul class="flex gap-2">
+      @for (priority of cardPriorityValues; track $index) {
+        <li>
+          <input
+            class="hidden"
+            type="radio"
+            formControlName="priority"
+            [value]="priority"
+            [id]="priority"
+          />
+          <label class="cursor-pointer" [for]="priority">
+            <div
+              class="flex h-4 w-4 items-center justify-center rounded-full"
+              [ngClass]="{
+                'bg-blue-1': priority === CardPriority.Low,
+                'bg-red-2': priority === CardPriority.Medium,
+                'bg-green-1': priority === CardPriority.High,
+                'bg-font-primary-color opacity-30': priority === CardPriority.Without
+              }"
+            >
+            <!-- TODO: fix inner circle overflow -->
+              <div
+                class="h-3.5 w-3.5 rounded-full border-[2px] border-secondary-color"
+                [class.opacity-0]="dashboardCardForm.value.priority !== priority"
+              ></div>
+            </div>
+          </label>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <div class="mb-10">
+    <p class="opacity-50 text-font-primary-color text-xs mb-1">Deadline</p>
+    <button 
+      class="text-accent-color text-sm font-medium flex items-center gap-1"
+      cdkOverlayOrigin 
+      #trigger="cdkOverlayOrigin"
+      (click)="isDatePickerOpen = !isDatePickerOpen"
+    >
+      {{ deadline | getFormattedDate }}
+      <!-- TODO: add chevron-up -->
+      <tp-icon size="18" svgIcon="chevron-down"></tp-icon>
+    </button>
+    <ng-template
+      cdkConnectedOverlay
+      [cdkConnectedOverlayOrigin]="trigger"
+      [cdkConnectedOverlayOpen]="isDatePickerOpen"
+      [cdkConnectedOverlayHasBackdrop]="true"
+      (detach)="isDatePickerOpen = false"
+      (backdropClick)="isDatePickerOpen = false"
+    >
+      <tp-datepicker
+        [control]="dashboardCardForm.controls.deadline"
+      ></tp-datepicker>
+    </ng-template>
+  </div>
+
+  <button 
+    tp-button
+    class="flex gap-2 justify-center items-center text-font-tertiary-color"
+    (click)="handleSubmit()"
+  >
+    <span class="bg-icon-secondary-color w-7 h-7 rounded-md flex items-center justify-center">
+      <tp-icon class="text-font-accent-color" svgIcon="plus" size="14"></tp-icon>
+    </span>
+    {{ data.card ? 'Save' : 'Create' }}
+  </button>
+</form>

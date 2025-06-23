@@ -1,1 +1,1 @@
-export * from './trim.validator';
+export * from './trim/trim.validator';

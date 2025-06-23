@@ -10,21 +10,29 @@
   transition: all 0.3s ease-in-out;
 }
 
-.btn-primary {
-  background-color: var(--black-2);
-  color: var(--white-1);
+.btn:disabled {
+  background-color: var(--black-10);
 
   &:hover {
-    background-color: var(--black-3);
+    background-color: var(--black-11);
+  }
+}
+
+.btn-primary {
+  background-color: var(--button-primary-color);
+  color: var(--button-primary-text-color);
+
+  &:hover {
+    background-color: var(--button-primary-hover-color);
   }
 }
 
 .btn-secondary {
-  background-color: var(--green-1);
-  color: var(--black-2);
+  background-color: var(--button-secondary-color);
+  color: var(--button-secondary-text-color);
 
   &:hover {
-    background-color: var(--green-2);
+    background-color: var(--button-secondary-hover-color);
   }
 }
 
@@ -33,6 +41,6 @@
   color: var(--black-2);
 
   &:hover {
-    background-color: var(--transparent-black);
+    background-color: var(--transparent-1);
   }
 }

@@ -12,7 +12,7 @@ import { InputType } from '@shared/ui/models';
 export class InputComponent {
   @Input() control!: FormControl;
   @Input() type: InputType = InputType.Text;
-  @Input() placeholder!: string;
+  @Input() placeholder = '';
   
   hidePassword = true;
   InputType = InputType;

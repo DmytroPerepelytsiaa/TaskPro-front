@@ -1,0 +1,23 @@
+<!-- TODO: try to handle it better -->
+<tp-header [username]="(user$ | async)?.name ?? ''" (openSidebar)="isSidebarOpen = true"></tp-header>
+
+<!-- TODO: try to handle it better -->
+<main
+  class="bg-primary-color min-h-screen"
+  [ngClass]="{ 'h-screen overflow-hidden': isSidebarOpen }"
+>
+  <router-outlet></router-outlet>
+</main>
+
+@if (isSidebarOpen) {
+  <tp-sidebar
+    [currentDashboard]="(currentDashboard$ | async) ?? null"
+    [dashboards]="(dashboards$ | async) ?? []"
+    (changeDashboard)="changeDashboard($event)"
+    (createDashboard)="openDashboardModal()"
+    (editDashboard)="openDashboardModal($event)"
+    (deleteDashboard)="deleteDashboard($event)"
+    (closeSidebar)="isSidebarOpen = false" 
+    (logOut)="logOut()"
+  ></tp-sidebar>
+}

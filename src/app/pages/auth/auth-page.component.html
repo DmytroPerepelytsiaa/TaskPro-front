@@ -42,7 +42,7 @@
       </li>
     </ul>
 
-    <button tp-button appearance="secondary" (click)="onSubmit()">
+    <button tp-button [appearance]="ButtonAppearance.Primary" (click)="onSubmit()">
       {{ isRegistrationPage ? 'Register Now' : 'Log In Now' }}
     </button>
   </form>

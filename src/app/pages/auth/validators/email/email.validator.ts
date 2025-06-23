@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-import { emailRegex } from '../constants';
+import { emailRegex } from '../../constants';
 
 export const emailValidator = (min: number, max: number): ValidatorFn => (control: AbstractControl): ValidationErrors | null => {
   const trimmedValue = control.value.trim();
