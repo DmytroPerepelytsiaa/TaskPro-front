@@ -3,9 +3,7 @@
 
 <!-- TODO: try to handle it better -->
 <main
-  tpDashboardBackground
-  class="bg-primary-color min-h-screen pb-5 bg-no-repeat bg-cover bg-center"
-  [currentDashboard]="(currentDashboard$ | async) ?? null"
+  class="bg-primary-color min-h-screen"
   [ngClass]="{ 'h-screen overflow-hidden': isSidebarOpen }"
 >
   <router-outlet></router-outlet>

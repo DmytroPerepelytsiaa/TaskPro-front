@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ComponentStore } from '@ngrx/component-store';
-import { combineLatest, filter, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { combineLatest, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { Dashboard, DashboardColumn, DashboardFormState } from '@shared/dashboards/models';
 
@@ -50,7 +50,6 @@ export class DashboardStoreService extends ComponentStore<DashboardStoreState> {
       .pipe(
         // TODO: handle error
         withLatestFrom(this.dashboards$),
-        filter(([_, dashboards]) => !dashboards.length),
         switchMap(([id]) => combineLatest([of(id), this.dashboardApiService.getDashboards$()])),
         tap(([id, dashboards]) => {
           this.setDashboards(dashboards);

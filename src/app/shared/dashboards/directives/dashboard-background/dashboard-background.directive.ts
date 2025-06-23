@@ -52,6 +52,6 @@ export class DashboardBackgroundDirective implements OnChanges {
       imageName += '@2x';
     }
 
-    return `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./dashboard-bg/${imageName}.png')`;
+    return `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('./dashboard-bg/${imageName}.png')`;
   }
 }

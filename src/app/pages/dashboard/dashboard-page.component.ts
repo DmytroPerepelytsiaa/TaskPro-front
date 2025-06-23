@@ -11,6 +11,7 @@ import { DashboardApiService, DashboardStoreService } from '@shared/dashboards/s
 import { ButtonAppearance } from '@shared/ui/models';
 import { UiModule } from '@shared/ui/ui.module';
 import { CardPriority, Dashboard, DashboardColumn, DashboardColumnCard } from '@shared/dashboards/models';
+import { FilterArrayPipe } from '@shared/pipes';
 
 @UntilDestroy()
 @Component({
@@ -23,6 +24,7 @@ import { CardPriority, Dashboard, DashboardColumn, DashboardColumnCard } from '@
     UiModule,
     DashboardsModule,
     OverlayModule,
+    FilterArrayPipe,
   ],
 })
 export class DashboardPageComponent {
@@ -34,6 +36,9 @@ export class DashboardPageComponent {
   CardPriority = CardPriority;
   currentDashboard$ = this.dashboardStoreService.currentDashboard$;
   openedPopupCardId: number | null = null;
+  cardPriorities = Object.values(CardPriority);
+  cardFilter: null | CardPriority = null;
+  isFiltersOpen = false;
 
   openColumnModal(column?: DashboardColumn): void {
     // TODO: add error handling
