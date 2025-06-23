@@ -2,7 +2,7 @@
 <div tpDashboardBackground class="bg-cover bg-center bg-no-repeat min-h-screen pb-5" [currentDashboard]="currentDashboard$ | async">
   <div 
     *ngIf="currentDashboard$ | async as dashboard" 
-    class="max-w-[375px] pt-header-height px-5 mx-auto"
+    class="pt-header-height px-5 mx-auto"
   >
     <div class="bg-primary-color flex justify-between items-center mt-4 py-3 px-5 rounded-lg">
       <p class="text-font-primary-color font-medium">Project office</p>
@@ -78,12 +78,13 @@
             </div>
           </div>
           <ul class="flex flex-col gap-3 max-h-[664px] min-w-[290px] xs:min-w-[345px] max-w-[345px] overflow-auto pr-1 [&::-webkit-scrollbar]:w-1.5">
+            <!-- TODO: move to separate component? -->
             @for (card of (column.cards | filterArrayByValue : 'priority' : cardFilter); track $index) {
               <li class="w-[280px] xs:min-w-[335px] h-[154px] rounded-lg bg-button-secondary-color py-4 px-6">
                 <!-- TODO: add tooltip -->
                 <h2 class="text-font-primary-color mb-2 truncate">{{ card.name }}</h2>
                 <p class="text-font-primary-color text-xs opacity-50 break-words h-12 overflow-auto mb-3">{{ card.description }}</p>
-                <hr class="mb-3 opacity-30 text-font-primary-color">
+                <hr class="mb-2 opacity-30 text-font-primary-color">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-3">
                     <div class="flex flex-col justify-center gap-1">
@@ -152,7 +153,7 @@
               </li>
             }
           </ul>
-          <button tp-button class="mt-4 flex items-center gap-2 justify-center" (click)="openCardModal(column)">
+          <button tp-button class="mt-4 flex items-center gap-2 justify-center max-w-[335px] ml-0" (click)="openCardModal(column)">
             <span class="bg-font-tertiary-color rounded-md w-7 h-7 flex items-center justify-center">
               <tp-icon class="text-font-accent-color" svgIcon="plus" size="14"></tp-icon>
             </span>
