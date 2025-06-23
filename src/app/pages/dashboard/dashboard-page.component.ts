@@ -1,6 +1,7 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { switchMap, tap, withLatestFrom } from 'rxjs';
 
@@ -10,6 +11,7 @@ import { DashboardApiService, DashboardStoreService } from '@shared/dashboards/s
 import { ButtonAppearance } from '@shared/ui/models';
 import { UiModule } from '@shared/ui/ui.module';
 import { CardPriority, Dashboard, DashboardColumn, DashboardColumnCard } from '@shared/dashboards/models';
+import { FilterArrayPipe } from '@shared/pipes';
 
 @UntilDestroy()
 @Component({
@@ -21,6 +23,8 @@ import { CardPriority, Dashboard, DashboardColumn, DashboardColumnCard } from '@
     CommonModule,
     UiModule,
     DashboardsModule,
+    OverlayModule,
+    FilterArrayPipe,
   ],
 })
 export class DashboardPageComponent {
@@ -31,6 +35,10 @@ export class DashboardPageComponent {
   ButtonAppearance = ButtonAppearance;
   CardPriority = CardPriority;
   currentDashboard$ = this.dashboardStoreService.currentDashboard$;
+  openedPopupCardId: number | null = null;
+  cardPriorities = Object.values(CardPriority);
+  cardFilter: null | CardPriority = null;
+  isFiltersOpen = false;
 
   openColumnModal(column?: DashboardColumn): void {
     // TODO: add error handling
@@ -44,7 +52,10 @@ export class DashboardPageComponent {
 
           return this.dashboardApiService.createColumn$(dashboard as Dashboard, name);
         }),
-        tap((column) => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false })),
+        tap((column) => {
+          column.cards = [];
+          this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
+        }),
         untilDestroyed(this),
       )
       .subscribe();
@@ -116,6 +127,22 @@ export class DashboardPageComponent {
         tap(() => {
           column.cards = column.cards.filter(c => c.id !== card.id);
           this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
+        }),
+      )
+      .subscribe();
+  }
+
+  changeCardColumn(card: DashboardColumnCard, newColumn: DashboardColumn, oldColumn: DashboardColumn): void {
+    // TODO: add error handling
+    this.dashboardApiService.editCard$(card, newColumn)
+      .pipe(
+        tap((updatedCard) => {
+          const updatedNewColumn = { ...newColumn, cards: [...newColumn.cards, updatedCard] };
+          const updatedOldColumn = { ...oldColumn, cards: oldColumn.cards.filter(c => c.id !== updatedCard.id) };
+
+          this.dashboardStoreService.updateDashboardColumns({ column: updatedNewColumn, isDeleted: false });
+          this.dashboardStoreService.updateDashboardColumns({ column: updatedOldColumn, isDeleted: false });
+          this.openedPopupCardId = null;
         }),
       )
       .subscribe();

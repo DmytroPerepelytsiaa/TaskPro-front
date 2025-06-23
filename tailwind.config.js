@@ -35,6 +35,7 @@ module.exports = {
         'sidebar-background': 'var(--sidebar-background)',
         'sidebar-info-background': 'var(--sidebar-info-background)',
         'sidebar-dashboard-hover-background': 'var(--sidebar-dashboard-hover-background)',
+        'sidebar-scrollbar-thumb-color': 'var(--sidebar-scrollbar-thumb-color)',
         'modal-background': 'var(--modal-background)',
         'logo-color': 'var(--logo-color)',
         'home-page-label-primary-text-color': 'var(--home-page-label-primary-text-color)',

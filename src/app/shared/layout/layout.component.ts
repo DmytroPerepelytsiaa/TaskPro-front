@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
 import { UserService } from '@shared/auth/services';
+import { DashboardsModule } from '@shared/dashboards/dashboards.module';
 import { DashboardsPageDirective } from '@shared/dashboards/directives';
 import { Dashboard } from '@shared/dashboards/models';
 import { ThemeService } from '@shared/themes/services';
@@ -18,6 +19,7 @@ import { UiModule } from '@shared/ui/ui.module';
     CommonModule,
     RouterModule,
     UiModule,
+    DashboardsModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

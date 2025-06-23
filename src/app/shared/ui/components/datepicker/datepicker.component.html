@@ -21,17 +21,19 @@
     }
 
     @for (currentMonthDay of currentMonthDays; track $index) {
-      <li
-        class="flex h-6 w-6 cursor-pointer items-center justify-center"
-        [ngClass]="{ 'rounded-full bg-accent-color text-accent-black': currentMonthDay | isSelectedDate: selectedDate }"
-        (click)="selectDate(currentMonthDay)"
-      >
-        <p
-          class="text-sm text-font-primary-color"
-          [class.opacity-20]="(currentMonthDay | getFormattedMonth) !== (currentMonth | getFormattedMonth)"
+      <li>
+        <button
+          class="flex h-6 w-6 cursor-pointer items-center justify-center"
+          [ngClass]="{ 'rounded-full bg-accent-color text-accent-black': currentMonthDay | isSelectedDate: selectedDate }"
+          (click)="selectDate(currentMonthDay)"
         >
-          {{ currentMonthDay | getDayFromDate }}
-        </p>
+          <p
+            class="text-sm text-font-primary-color"
+            [class.opacity-20]="(currentMonthDay | getFormattedMonth) !== (currentMonth | getFormattedMonth)"
+          >
+            {{ currentMonthDay | getDayFromDate }}
+          </p>
+        </button>
       </li>
     }
   </ul>
