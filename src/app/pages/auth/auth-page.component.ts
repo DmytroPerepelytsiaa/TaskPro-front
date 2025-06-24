@@ -7,7 +7,7 @@ import {
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { switchMap, tap } from 'rxjs';
+import { BehaviorSubject, switchMap, tap } from 'rxjs';
 
 import { AuthResponse } from '@shared/auth/models';
 import { UserService } from '@shared/auth/services';
@@ -36,12 +36,13 @@ export class AuthPageComponent implements OnInit {
   router = inject(Router);
   userService = inject(UserService);
   formBuilder = inject(FormBuilder);
+  // TOOD: remove validators for log in form
   authForm: FormGroup<AuthForm> = this.formBuilder.group<AuthForm>({
     name: this.formBuilder.nonNullable.control('', [trimValidator(2, 36)]),
     email: this.formBuilder.nonNullable.control('', [emailValidator(0, 256)]),
     password: this.formBuilder.nonNullable.control('', [passwordValidator(8, 36)]),
   });
-  isRegistrationPage = false;
+  isRegistrationPage$ = new BehaviorSubject(false);
   InputType = InputType;
   ButtonAppearance = ButtonAppearance;
 
@@ -52,7 +53,24 @@ export class AuthPageComponent implements OnInit {
     this.activatedRoute.url
       .pipe(
         tap((params) => {
-          this.isRegistrationPage = params[1].path === 'registration';
+          this.isRegistrationPage$.next(params[1].path === 'registration');
+        }),
+        untilDestroyed(this),
+      )
+      .subscribe();
+
+    this.isRegistrationPage$
+      .pipe(
+        tap((isRegistrationPage) => {
+          if (isRegistrationPage) {
+            this.authForm.controls.name.setValidators([trimValidator(2, 36)]);
+            this.authForm.controls.email.setValidators([emailValidator(0, 256)]);
+            this.authForm.controls.password.setValidators([passwordValidator(8, 36)]);
+          } else {
+            this.authForm.controls.name.clearValidators();
+            this.authForm.controls.email.clearValidators();
+            this.authForm.controls.password.clearValidators();
+          }
         }),
         untilDestroyed(this),
       )
@@ -62,7 +80,7 @@ export class AuthPageComponent implements OnInit {
   // TODO: add error handling
   onSubmit(): void {
     const payload = this.authForm.getRawValue();
-    const authObservable$ = this.isRegistrationPage ? this.userService.register$(payload) : this.userService.login$(payload);
+    const authObservable$ = this.isRegistrationPage$.value ? this.userService.register$(payload) : this.userService.login$(payload);
 
     authObservable$ 
       .pipe(

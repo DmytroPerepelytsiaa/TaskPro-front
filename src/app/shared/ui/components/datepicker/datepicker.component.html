@@ -22,6 +22,7 @@
 
     @for (currentMonthDay of currentMonthDays; track $index) {
       <li>
+        <!-- TODO: fix text color when it's selected -->
         <button
           class="flex h-6 w-6 cursor-pointer items-center justify-center"
           [ngClass]="{ 'rounded-full bg-accent-color text-accent-black': currentMonthDay | isSelectedDate: selectedDate }"

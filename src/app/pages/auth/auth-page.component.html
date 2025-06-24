@@ -8,14 +8,14 @@
     <div class="mb-10 flex gap-4 text-lg font-medium text-white">
       <a
         routerLink="/auth/registration"
-        [class.opacity-30]="!isRegistrationPage"
+        [class.opacity-30]="(isRegistrationPage$ | async) === false"
       >
         Registration
       </a>
-      <a routerLink="/auth/login" [class.opacity-30]="isRegistrationPage">Log In</a>
+      <a routerLink="/auth/login" [class.opacity-30]="isRegistrationPage$ | async">Log In</a>
     </div>
     <ul class="mb-6 flex flex-col gap-4">
-      @if (isRegistrationPage) {
+      @if (isRegistrationPage$ | async) {
         <li>
           <tp-input
             placeholder="Enter your name"
@@ -34,7 +34,7 @@
       </li>
       <li>
         <tp-input
-          [placeholder]="isRegistrationPage ? 'Create a password' : 'Confirm a password'"
+          [placeholder]="(isRegistrationPage$ | async) ? 'Create a password' : 'Confirm a password'"
           [control]="authForm.controls.password"
           [type]="InputType.Password"
         >
@@ -42,8 +42,8 @@
       </li>
     </ul>
 
-    <button tp-button [appearance]="ButtonAppearance.Primary" (click)="onSubmit()">
-      {{ isRegistrationPage ? 'Register Now' : 'Log In Now' }}
+    <button tp-button [disabled]="authForm.invalid" [appearance]="ButtonAppearance.Primary" (click)="onSubmit()">
+      {{ (isRegistrationPage$ | async) ? 'Register Now' : 'Log In Now' }}
     </button>
   </form>
 </main>

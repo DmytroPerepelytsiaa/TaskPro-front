@@ -23,6 +23,7 @@ export const folderStructureConfig = createFolderStructure({
       name: 'environments',
       children: [
         { name: 'environment.ts' },
+        { name: 'environment.prod.ts' },
       ]
     },
 
@@ -36,7 +37,8 @@ export const folderStructureConfig = createFolderStructure({
       children: [
         { ruleId: 'shared_module_folder' },
         { ruleId: 'validators_folder' },
-        { ruleId: 'layout_folder' }
+        { ruleId: 'layout_folder' },
+        { ruleId: 'shared_pipes_folder' },
       ],
     },
 
@@ -206,6 +208,14 @@ export const folderStructureConfig = createFolderStructure({
       name: 'layout',
       children: [
         { name: '{folder-name}.component.(ts|html|scss)' },
+      ]
+    },
+
+    shared_pipes_folder: {
+      name: 'pipes',
+      children: [
+        { name: '*.pipe.ts' },
+        { name: 'index.ts'},
       ]
     }
   }
