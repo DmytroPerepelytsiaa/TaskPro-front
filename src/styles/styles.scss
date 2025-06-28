@@ -64,3 +64,26 @@ p {
 .layout {
   background: linear-gradient(180deg, var(--black-1) 25%, var(--green-1) 92.19%);
 }
+
+// TODO: maybe move to snackbar styles?
+.mdc-snackbar,
+.mat-mdc-snackbar-surface {
+  border-radius: 8px !important;
+}
+
+.error-snackbar {
+  background-color: var(--primary-color);
+
+  .mat-mdc-snack-bar-label {
+    color: var(--red-1);
+  }
+
+  .mat-mdc-button {
+    &:hover {
+      .mat-mdc-button-ripple {
+        border: 1px solid var(--red-1);
+        background-color: var(--primary-color);
+      }
+    }
+  }
+}
