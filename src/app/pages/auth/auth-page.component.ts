@@ -6,8 +6,10 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { BehaviorSubject, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, of, switchMap, tap } from 'rxjs';
 
 import { AuthResponse } from '@shared/auth/models';
 import { UserService } from '@shared/auth/services';
@@ -32,11 +34,12 @@ import { AuthForm } from './models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthPageComponent implements OnInit {
-  activatedRoute = inject(ActivatedRoute);
-  router = inject(Router);
-  userService = inject(UserService);
-  formBuilder = inject(FormBuilder);
-  // TOOD: remove validators for log in form
+  private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
+  private userService = inject(UserService);
+  private formBuilder = inject(FormBuilder);
+  private snackBar = inject(MatSnackBar);
+
   authForm: FormGroup<AuthForm> = this.formBuilder.group<AuthForm>({
     name: this.formBuilder.nonNullable.control('', [trimValidator(2, 36)]),
     email: this.formBuilder.nonNullable.control('', [emailValidator(0, 256)]),
@@ -68,8 +71,8 @@ export class AuthPageComponent implements OnInit {
             this.authForm.controls.password.setValidators([passwordValidator(8, 36)]);
           } else {
             this.authForm.controls.name.clearValidators();
-            this.authForm.controls.email.clearValidators();
-            this.authForm.controls.password.clearValidators();
+            this.authForm.controls.email.setValidators([trimValidator(0, 256)]);
+            this.authForm.controls.password.setValidators([trimValidator(0, 256)]);
           }
         }),
         untilDestroyed(this),
@@ -77,16 +80,25 @@ export class AuthPageComponent implements OnInit {
       .subscribe();
   }
 
-  // TODO: add error handling
   onSubmit(): void {
     const payload = this.authForm.getRawValue();
     const authObservable$ = this.isRegistrationPage$.value ? this.userService.register$(payload) : this.userService.login$(payload);
+    this.authForm.reset();
 
     authObservable$ 
       .pipe(
         tap((data: AuthResponse) => this.userService.setToken(data.token)),
         switchMap(() => this.userService.getCurrentUser$()),
         tap(() => this.router.navigate(['/dashboard'])),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
         untilDestroyed(this),
       )
       .subscribe();
