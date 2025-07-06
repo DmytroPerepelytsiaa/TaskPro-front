@@ -11,14 +11,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { BehaviorSubject, catchError, of, switchMap, tap } from 'rxjs';
 
-import { AuthResponse } from '@shared/auth/models';
+import { AuthForm, AuthResponse } from '@shared/auth/models';
 import { UserService } from '@shared/auth/services';
-import { trimValidator } from '@shared/validators';
+import { emailValidator, passwordValidator, trimValidator } from '@shared/validators';
 import { UiModule } from '@shared/ui/ui.module';
 import { ButtonAppearance, InputType } from '@shared/ui/models';
-
-import { emailValidator, passwordValidator } from './validators';
-import { AuthForm } from './models';
 
 @UntilDestroy()
 @Component({

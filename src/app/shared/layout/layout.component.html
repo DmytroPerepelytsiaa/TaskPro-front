@@ -1,5 +1,9 @@
 <!-- TODO: try to handle it better -->
-<tp-header [username]="(user$ | async)?.name ?? ''" (openSidebar)="isSidebarOpen = true"></tp-header>
+<tp-header 
+  [username]="(user$ | async)?.name ?? ''" 
+  (openSidebar)="isSidebarOpen = true"
+  (editProfile)="openProfileEditModal()"
+></tp-header>
 
 <!-- TODO: try to handle it better -->
 <main

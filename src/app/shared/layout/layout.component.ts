@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/cor
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { UntilDestroy } from '@ngneat/until-destroy';
 
+import { ProfileEditModalComponent } from '@shared/auth/components';
 import { UserService } from '@shared/auth/services';
 import { DashboardsModule } from '@shared/dashboards/dashboards.module';
 import { DashboardsPageDirective } from '@shared/dashboards/directives';
@@ -52,5 +53,11 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
 
   deleteDashboard(dashboard: Dashboard): void {
     this.dashboardStore.deleteDashboard(dashboard);
+  }
+
+  openProfileEditModal(): void {
+    const modalRef = this.dialogService.open(ProfileEditModalComponent, { data: { user: this.user$.value } });
+
+    // TODO: implement edit profile modal
   }
 }

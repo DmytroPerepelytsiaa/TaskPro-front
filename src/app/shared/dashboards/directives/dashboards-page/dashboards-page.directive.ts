@@ -10,7 +10,7 @@ import { Dashboard } from '@shared/dashboards/models';
 @UntilDestroy()
 @Directive()
 export abstract class DashboardsPageDirective {
-  private dialogService = inject(Dialog);
+  dialogService = inject(Dialog);
   dashboardStore = inject(DashboardStoreService);
 
   openDashboardModal(dashboard?: Dashboard): void {
