@@ -1,5 +1,5 @@
 import { DIALOG_DATA } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, Inject, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { EditProfileForm, User } from '@shared/auth/models';
@@ -14,9 +14,8 @@ import { emailValidator, trimValidator } from '@shared/validators';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileEditModalComponent implements OnInit {
-  constructor(@Inject(DIALOG_DATA) public data: { user: User }) {}
-  
+export class ProfileEditModalComponent implements OnInit {  
+  private dialogData = inject<{ user: User }>(DIALOG_DATA);
   private formBuilder = inject(FormBuilder);
 
   editProfileForm: FormGroup<EditProfileForm> = this.formBuilder.group<EditProfileForm>({
@@ -27,8 +26,8 @@ export class ProfileEditModalComponent implements OnInit {
   
   ngOnInit(): void {
     this.editProfileForm.patchValue({
-      name: this.data.user.name,
-      email: this.data.user.email,
+      name: this.dialogData.user.name,
+      email: this.dialogData.user.email,
     });
   }
 

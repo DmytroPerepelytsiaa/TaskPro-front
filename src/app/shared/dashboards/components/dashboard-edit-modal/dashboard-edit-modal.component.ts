@@ -1,5 +1,5 @@
 import { DIALOG_DATA } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, inject, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Dashboard, DashboardBackgrounds, DashboardForm, DashboardFormState, DashboardIcons } from '@shared/dashboards/models';
@@ -12,12 +12,12 @@ import { trimValidator } from '@shared/validators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardEditModalComponent implements OnInit {
-  constructor(@Inject(DIALOG_DATA) public data: { dashboard: Dashboard }) {}
-
   @Output() editDashboard = new EventEmitter<Dashboard>();
   @Output() createDashboard = new EventEmitter<DashboardFormState>();
 
   private formBuilder = inject(FormBuilder);
+
+  dialogData = inject<{ dashboard?: Dashboard }>(DIALOG_DATA);
 
   dashboardIcons = Object.values(DashboardIcons);
   dashboardBackgrounds = Object.values(DashboardBackgrounds);
@@ -30,11 +30,11 @@ export class DashboardEditModalComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    if (this.data.dashboard) {
+    if (this.dialogData.dashboard) {
       this.dashboardForm.patchValue({
-        name: this.data.dashboard.name,
-        icon: this.data.dashboard.icon,
-        background: this.data.dashboard.background,
+        name: this.dialogData.dashboard.name,
+        icon: this.dialogData.dashboard.icon,
+        background: this.dialogData.dashboard.background,
       });
     }
   }
@@ -50,6 +50,6 @@ export class DashboardEditModalComponent implements OnInit {
   onSubmit(): void {
     const value = this.dashboardForm.getRawValue();
     
-    this.data.dashboard ? this.editDashboard.emit({ ...this.data.dashboard, ...value }) : this.createDashboard.emit(value);
+    this.dialogData.dashboard ? this.editDashboard.emit({ ...this.dialogData.dashboard, ...value }) : this.createDashboard.emit(value);
   }
 }

@@ -1,5 +1,5 @@
 import { DIALOG_DATA } from '@angular/cdk/dialog';
-import { ChangeDetectionStrategy, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { DashboardColumn } from '@shared/dashboards/models';
@@ -12,20 +12,20 @@ import { trimValidator } from '@shared/validators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardColumnEditModalComponent implements OnInit {
-  constructor(@Inject(DIALOG_DATA) public data: { column: DashboardColumn }) {}
-
   @Output() createColumn = new EventEmitter<string>();
   @Output() editColumn = new EventEmitter<DashboardColumn>();
+
+  dialogData = inject<{ column?: DashboardColumn }>(DIALOG_DATA);
 
   columnName = new FormControl('', { nonNullable: true, validators: [trimValidator(2, 64)] },);
 
   ngOnInit(): void {
-    if (this.data.column) {
-      this.columnName.patchValue(this.data.column.name);
+    if (this.dialogData.column) {
+      this.columnName.patchValue(this.dialogData.column.name);
     }
   }
 
   handleSubmit(): void {
-    this.data.column ? this.editColumn.emit({ ...this.data.column, name: this.columnName.value }) : this.createColumn.emit(this.columnName.value);
+    this.dialogData.column ? this.editColumn.emit({ ...this.dialogData.column, name: this.columnName.value }) : this.createColumn.emit(this.columnName.value);
   }
 }
