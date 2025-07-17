@@ -15,11 +15,7 @@
     <tp-input placeholder="Enter your name" [control]="editProfileForm.controls.name"></tp-input>
   </div>
 
-  <div class="mb-6">
-    <tp-input placeholder="Enter your email" [control]="editProfileForm.controls.email" [type]="InputType.Email"></tp-input>
-  </div>
-
-  <button tp-button [disabled]="editProfileForm.invalid || editProfileForm.pristine">
+  <button tp-button [disabled]="editProfileForm.invalid">
     Save
   </button>
 </form>

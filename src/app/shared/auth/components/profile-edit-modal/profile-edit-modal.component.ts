@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { EditProfileForm, User } from '@shared/auth/models';
 import { InputType } from '@shared/ui/models';
 import { UiModule } from '@shared/ui/ui.module';
-import { emailValidator, trimValidator } from '@shared/validators';
+import { trimValidator } from '@shared/validators';
 
 @Component({
   selector: 'tp-profile-edit-modal',
@@ -20,14 +20,14 @@ export class ProfileEditModalComponent implements OnInit {
 
   editProfileForm: FormGroup<EditProfileForm> = this.formBuilder.group<EditProfileForm>({
     name: this.formBuilder.nonNullable.control('', [trimValidator(2, 36)]),
-    email: this.formBuilder.nonNullable.control('', [emailValidator(0, 256)]),
+    avatarUrl: this.formBuilder.control(null),
   });
   InputType = InputType;
   
   ngOnInit(): void {
     this.editProfileForm.patchValue({
       name: this.dialogData.user.name,
-      email: this.dialogData.user.email,
+      avatarUrl: this.dialogData.user.avatarUrl,
     });
   }
 
