@@ -10,7 +10,7 @@ import { DashboardsModule } from '@shared/dashboards/dashboards.module';
 import { DashboardApiService, DashboardStoreService } from '@shared/dashboards/services';
 import { ButtonAppearance } from '@shared/ui/models';
 import { UiModule } from '@shared/ui/ui.module';
-import { CardPriority, Dashboard, DashboardColumn, DashboardColumnCard } from '@shared/dashboards/models';
+import { CardPriority, CardUpdateActionPayload, ChangeCardColumnPayload, Dashboard, DashboardColumn } from '@shared/dashboards/models';
 import { FilterArrayPipe } from '@shared/pipes';
 
 @UntilDestroy()
@@ -89,7 +89,7 @@ export class DashboardPageComponent {
       .subscribe();
   }
 
-  openCardModal(column: DashboardColumn, card?: DashboardColumnCard): void {
+  openCardModal({ currentColumn: column, card }: CardUpdateActionPayload): void {
     // TODO: add error handling
     const modalRef = this.dialogService.open(DashboardCardEditModalComponent, { data: { card } });
 
@@ -134,7 +134,7 @@ export class DashboardPageComponent {
       .subscribe();
   }
 
-  deleteCard(column: DashboardColumn, card: DashboardColumnCard): void {
+  deleteCard({ currentColumn: column, card }: CardUpdateActionPayload): void {
     // TODO: add error handling and confirmation dialog
     this.dashboardApiService.deleteCard$(card)
       .pipe(
@@ -146,13 +146,13 @@ export class DashboardPageComponent {
       .subscribe();
   }
 
-  changeCardColumn(card: DashboardColumnCard, newColumn: DashboardColumn, oldColumn: DashboardColumn): void {
+  changeCardColumn({ card, columnForChoose, currentColumn }: ChangeCardColumnPayload): void {
     // TODO: add error handling
-    this.dashboardApiService.editCard$(card, newColumn)
+    this.dashboardApiService.editCard$(card, columnForChoose)
       .pipe(
         tap((updatedCard) => {
-          const updatedNewColumn = { ...newColumn, cards: [...newColumn.cards, updatedCard] };
-          const updatedOldColumn = { ...oldColumn, cards: oldColumn.cards.filter(c => c.id !== updatedCard.id) };
+          const updatedNewColumn = { ...columnForChoose, cards: [...columnForChoose.cards, updatedCard] };
+          const updatedOldColumn = { ...currentColumn, cards: currentColumn.cards.filter(c => c.id !== updatedCard.id) };
 
           this.dashboardStoreService.updateDashboardColumns({ column: updatedNewColumn, isDeleted: false });
           this.dashboardStoreService.updateDashboardColumns({ column: updatedOldColumn, isDeleted: false });

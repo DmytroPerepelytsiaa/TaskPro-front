@@ -57,6 +57,7 @@
   
     <!-- TODO: set right height -->
     <ul class="mt-6 flex flex-row gap-3 overflow-auto min-h-64 pb-6 min-w-[280px] xs:min-w-[345px] [&::-webkit-scrollbar]:h-3">
+      <!-- TODO: sort by create time -->
       @for (column of dashboard.columns; track $index) {
         <li class="min-w-[280px] xs:min-w-[345px] max-w-[345px]">
           <div class="bg-button-secondary-color h-12 rounded-lg py-3 px-5 flex items-center justify-between mb-3 max-w-[335px]">
@@ -72,72 +73,20 @@
           <ul class="flex flex-col gap-3 max-h-[664px] min-w-[290px] xs:min-w-[345px] max-w-[345px] overflow-auto pr-1 [&::-webkit-scrollbar]:w-1.5">
             <!-- TODO: move to separate component? -->
             @for (card of (column.cards | filterArrayByValue : 'priority' : cardFilter); track $index) {
-              <li class="w-[280px] xs:min-w-[335px] h-[154px] rounded-lg bg-button-secondary-color py-4 px-6">
-                <!-- TODO: add tooltip -->
-                <h2 class="text-font-primary-color mb-2 truncate">{{ card.name }}</h2>
-                <p class="text-font-primary-color text-xs opacity-50 break-words h-12 overflow-auto mb-3">{{ card.description }}</p>
-                <hr class="mb-2 opacity-30 text-font-primary-color">
-                <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-3">
-                    <div class="flex flex-col justify-center gap-1">
-                      <p class="text-font-primary-color opacity-50 text-[8px] leading-3">Priority</p>
-                      <div class="flex items-center gap-1 text-font-primary-color text-xs capitalize text-[10px]">
-                       <tp-card-priority-circle [priority]="card.priority"></tp-card-priority-circle>
-                        {{ card.priority }}
-                      </div>
-                    </div>
-                    <div class="flex flex-col justify-center gap-1">
-                      <p class="text-font-primary-color opacity-50 text-[8px] leading-3">Deadline</p>
-                      <span class="text-font-primary-color text-[10px]">{{ card.deadline }}</span>
-                    </div>
-                  </div>
-                  <div class="flex items-center gap-2 text-font-primary-color">
-                    <button
-                      cdkOverlayOrigin 
-                      #trigger="cdkOverlayOrigin"
-                      (click)="openedPopupCardId = card.id"
-                    >
-                      <tp-icon class="opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="arrow-circle-right" size="16"></tp-icon>
-                    </button>
-                    <ng-template
-                      cdkConnectedOverlay
-                      [cdkConnectedOverlayOrigin]="trigger"
-                      [cdkConnectedOverlayOpen]="openedPopupCardId === card.id"
-                      [cdkConnectedOverlayHasBackdrop]="true"
-                      (detach)="openedPopupCardId = null"
-                      (backdropClick)="openedPopupCardId = null"
-                    >
-                      <ul class="flex flex-col gap-2 bg-primary-color border border-accent-color p-5 rounded-lg text-font-primary-color">
-                        @for (columnForChoose of dashboard.columns; track $index) {
-                          <li>
-                            <button 
-                              class="hover:text-font-primary-hover-color transition-colors duration-300 flex justify-between gap-2 w-28"
-                              [class.text-font-primary-hover-color]="columnForChoose.id === column.id"
-                              [disabled]="columnForChoose.id === column.id"
-                              (click)="changeCardColumn(card, columnForChoose, column)"
-                            >
-                              <!-- TODO: add tooltip -->
-                              <p class="truncate">
-                                {{ columnForChoose.name }}
-                              </p>
-                              <tp-icon svgIcon="arrow-circle-right" size="16"></tp-icon>
-                            </button>
-                          </li>
-                        }
-                      </ul>
-                    </ng-template>
-                    <button (click)="openCardModal(column, card)">
-                      <tp-icon class="opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="pencil" size="16"></tp-icon>
-                    </button>
-                    <button (click)="deleteCard(column, card)">
-                      <tp-icon class="opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="trash" size="16"></tp-icon>
-                    </button>
-                  </div>
-                </div>
+              <li>
+                <tp-dashboard-card 
+                  [card]="card" 
+                  [currentDashboard]="dashboard" 
+                  [currentColumn]="column" 
+                  [openedPopupCardId]="openedPopupCardId"
+                  (changeCardColumn)="changeCardColumn($event)"
+                  (openCardModal)="openCardModal($event)"
+                  (deleteCard)="deleteCard($event)"
+                ></tp-dashboard-card>
               </li>
             }
           </ul>
-          <button tp-button class="mt-4 flex items-center gap-2 justify-center max-w-[335px] ml-0" (click)="openCardModal(column)">
+          <button tp-button class="mt-4 flex items-center gap-2 justify-center max-w-[335px] ml-0" (click)="openCardModal({ currentColumn: column, card: null })">
             <span class="bg-font-tertiary-color rounded-md w-7 h-7 flex items-center justify-center">
               <tp-icon class="text-font-accent-color" svgIcon="plus" size="14"></tp-icon>
             </span>
