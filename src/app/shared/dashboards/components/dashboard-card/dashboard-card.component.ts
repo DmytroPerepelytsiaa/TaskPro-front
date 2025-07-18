@@ -1,6 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { CardUpdateActionPayload, ChangeCardColumnPayload, Dashboard, DashboardColumn, DashboardColumnCard } from '@shared/dashboards/models';
+import { 
+  CardDeleteActionPayload, 
+  CardUpdateActionPayload, 
+  ChangeCardColumnPayload, 
+  Dashboard, 
+  DashboardColumn, 
+  DashboardColumnCard,
+ } from '@shared/dashboards/models';
 
 @Component({
   selector: 'tp-dashboard-card',
@@ -15,5 +22,5 @@ export class DashboardCardComponent {
 
   @Output() changeCardColumn = new EventEmitter<ChangeCardColumnPayload>();
   @Output() openCardModal = new EventEmitter<CardUpdateActionPayload>();
-  @Output() deleteCard = new EventEmitter<CardUpdateActionPayload>();
+  @Output() deleteCard = new EventEmitter<CardDeleteActionPayload>();
 }

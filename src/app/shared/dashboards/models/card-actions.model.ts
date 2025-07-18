@@ -8,5 +8,10 @@ export interface ChangeCardColumnPayload {
 
 export interface CardUpdateActionPayload {
   currentColumn: DashboardColumn;
+  card: DashboardColumnCard | null;
+}
+
+export interface CardDeleteActionPayload {
+  currentColumn: DashboardColumn;
   card: DashboardColumnCard;
 }

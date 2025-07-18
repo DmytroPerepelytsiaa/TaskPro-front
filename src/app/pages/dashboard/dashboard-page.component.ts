@@ -10,7 +10,14 @@ import { DashboardsModule } from '@shared/dashboards/dashboards.module';
 import { DashboardApiService, DashboardStoreService } from '@shared/dashboards/services';
 import { ButtonAppearance } from '@shared/ui/models';
 import { UiModule } from '@shared/ui/ui.module';
-import { CardPriority, CardUpdateActionPayload, ChangeCardColumnPayload, Dashboard, DashboardColumn } from '@shared/dashboards/models';
+import { 
+  CardDeleteActionPayload, 
+  CardPriority, 
+  CardUpdateActionPayload, 
+  ChangeCardColumnPayload, 
+  Dashboard, 
+  DashboardColumn,
+} from '@shared/dashboards/models';
 import { FilterArrayPipe } from '@shared/pipes';
 
 @UntilDestroy()
@@ -134,7 +141,7 @@ export class DashboardPageComponent {
       .subscribe();
   }
 
-  deleteCard({ currentColumn: column, card }: CardUpdateActionPayload): void {
+  deleteCard({ currentColumn: column, card }: CardDeleteActionPayload): void {
     // TODO: add error handling and confirmation dialog
     this.dashboardApiService.deleteCard$(card)
       .pipe(
