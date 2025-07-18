@@ -52,6 +52,15 @@ export class DashboardStoreService extends ComponentStore<DashboardStoreState> {
         withLatestFrom(this.dashboards$),
         switchMap(([id]) => combineLatest([of(id), this.dashboardApiService.getDashboards$()])),
         tap(([id, dashboards]) => {
+          dashboards.forEach((dashboard) => {
+            dashboard.columns = dashboard.columns.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+
+            // TODO: implement order property in the backend
+            dashboard.columns.forEach((column) => {
+              column.cards = column.cards.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+            });
+          });
+
           this.setDashboards(dashboards);
 
           const currentDashboard = dashboards.find((dashboard) => dashboard.id === id);

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { UiModule } from '@shared/ui/ui.module';
 import { DatesModule } from '@shared/dates/dates.module';
@@ -30,6 +31,7 @@ import { DashboardBackgroundDirective } from './directives';
     ReactiveFormsModule,
     OverlayModule,
     DatesModule,
+    MatTooltipModule,
   ],
   exports: [
     DashboardEditModalComponent,

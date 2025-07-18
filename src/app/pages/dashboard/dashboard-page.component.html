@@ -55,14 +55,11 @@
       </div>
     </div>
   
-    <!-- TODO: set right height -->
     <ul class="mt-6 flex flex-row gap-3 overflow-auto min-h-64 pb-6 min-w-[280px] xs:min-w-[345px] [&::-webkit-scrollbar]:h-3">
-      <!-- TODO: sort by create time -->
       @for (column of dashboard.columns; track $index) {
         <li class="min-w-[280px] xs:min-w-[345px] max-w-[345px]">
           <div class="bg-button-secondary-color h-12 rounded-lg py-3 px-5 flex items-center justify-between mb-3 max-w-[335px]">
-            <!-- TODO: add tooltip -->
-            <span class="font-medium text-font-primary-color truncate max-w-[240px]">
+            <span class="font-medium text-font-primary-color truncate max-w-[240px]" [matTooltip]="column.name" tpTooltip>
               {{ column.name }}
             </span>
             <div class="items-center flex gap-2">
@@ -71,7 +68,6 @@
             </div>
           </div>
           <ul class="flex flex-col gap-3 max-h-[664px] min-w-[290px] xs:min-w-[345px] max-w-[345px] overflow-auto pr-1 [&::-webkit-scrollbar]:w-1.5">
-            <!-- TODO: move to separate component? -->
             @for (card of (column.cards | filterArrayByValue : 'priority' : cardFilter); track $index) {
               <li>
                 <tp-dashboard-card 

@@ -44,8 +44,7 @@
           >
             <div class="flex items-center gap-1 text-font-secondary-color">
               <tp-icon size="18" [svgIcon]="dashboard.icon"></tp-icon>
-              <!-- TODO: add tooltip -->
-              <span class="truncate max-w-28">
+              <span class="truncate max-w-28" [matTooltip]="dashboard.name" tpTooltip>
                 {{ dashboard.name }}
               </span>
             </div>

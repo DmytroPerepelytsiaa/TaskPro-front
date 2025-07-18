@@ -1,6 +1,5 @@
 <div class="w-[280px] xs:min-w-[335px] h-[154px] rounded-lg bg-button-secondary-color py-4 px-6">
-  <!-- TODO: add tooltip -->
-  <h2 class="text-font-primary-color mb-2 truncate">{{ card.name }}</h2>
+  <h2 class="text-font-primary-color mb-2 truncate" [matTooltip]="card.name" tpTooltip>{{ card.name }}</h2>
   <p class="text-font-primary-color text-xs opacity-50 break-words h-12 overflow-auto mb-3">{{ card.description }}</p>
   <hr class="mb-2 opacity-30 text-font-primary-color">
   <div class="flex items-center justify-between">
@@ -42,8 +41,7 @@
                 [disabled]="columnForChoose.id === currentColumn.id"
                 (click)="changeCardColumn.emit({ card, columnForChoose, currentColumn })"
               >
-                <!-- TODO: add tooltip -->
-                <p class="truncate">
+                <p class="truncate" [matTooltip]="columnForChoose.name" tpTooltip>
                   {{ columnForChoose.name }}
                 </p>
                 <tp-icon svgIcon="arrow-circle-right" size="16"></tp-icon>

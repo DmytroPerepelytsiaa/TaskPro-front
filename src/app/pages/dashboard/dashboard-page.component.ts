@@ -2,6 +2,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { switchMap, tap, withLatestFrom } from 'rxjs';
 
@@ -32,6 +33,7 @@ import { FilterArrayPipe } from '@shared/pipes';
     DashboardsModule,
     OverlayModule,
     FilterArrayPipe,
+    MatTooltipModule,
   ],
 })
 export class DashboardPageComponent {
