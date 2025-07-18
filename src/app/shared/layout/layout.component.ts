@@ -1,15 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { UntilDestroy } from '@ngneat/until-destroy';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { combineLatest, Observable, of, switchMap, tap } from 'rxjs';
 
 import { ProfileEditModalComponent } from '@shared/auth/components';
+import { EditProfileFormState } from '@shared/auth/models';
 import { UserService } from '@shared/auth/services';
 import { DashboardsModule } from '@shared/dashboards/dashboards.module';
 import { DashboardsPageDirective } from '@shared/dashboards/directives';
 import { Dashboard } from '@shared/dashboards/models';
+import { CloudinaryService } from '@shared/cloudinary/services';
 import { ThemeService } from '@shared/themes/services';
 import { UiModule } from '@shared/ui/ui.module';
+import { CloudinaryUploadResponse } from '@shared/cloudinary/models';
 
 @UntilDestroy()
 @Component({
@@ -25,6 +29,7 @@ import { UiModule } from '@shared/ui/ui.module';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent extends DashboardsPageDirective implements OnInit {
+  private cloudinaryService = inject(CloudinaryService);
   private userService = inject(UserService);
   private themeService = inject(ThemeService);
   private router = inject(Router);
@@ -58,6 +63,24 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
   openProfileEditModal(): void {
     const modalRef = this.dialogService.open(ProfileEditModalComponent, { data: { user: this.user$.value } });
 
+    modalRef.componentInstance?.saveData
+      .pipe(
+        switchMap((data: EditProfileFormState) => {
+          const name$ = of(data.name);
+          const upload$: Observable<CloudinaryUploadResponse | null> = data.avatarUrl
+            ? this.cloudinaryService.uploadImage(data.avatarUrl)
+            : of(null);
+
+          return combineLatest([name$, upload$]);
+        }),
+        switchMap(([name, uploadResonse]) => {
+          return this.userService.updateUserGeneralInfo$(name, uploadResonse?.secure_url ?? null);
+        }),
+        // TODO: handle error
+        tap(() => modalRef.close()),
+        untilDestroyed(this),
+      )
+      .subscribe();
     // TODO: implement edit profile modal
   }
 }

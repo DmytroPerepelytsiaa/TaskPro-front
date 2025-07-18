@@ -39,7 +39,7 @@
       @if (username) {
         <p class="text-font-primary-color font-medium">{{ username }}</p>
         <button (click)="editProfile.emit()">
-          <img src="avatar.png" alt="Avatar image" class="w-8 h-8 rounded-lg object-cover">
+          <img [src]="avatarUrl ?? 'avatar.png'" alt="Avatar image" class="w-8 h-8 rounded-lg object-cover">
         </button>
       }
     </div>

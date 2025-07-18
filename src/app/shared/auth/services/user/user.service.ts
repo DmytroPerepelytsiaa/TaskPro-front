@@ -24,17 +24,24 @@ export class UserService {
     return this.http.post<AuthResponse>(environment.baseURL + '/users/register', body);
   }
 
-  logOut(): void {
-    localStorage.removeItem('token');
-    this.user$.next(null);
-    this.router.navigate(['welcome']);
-  }
-
   getCurrentUser$(): Observable<User> {
     return this.http.get<User>(environment.baseURL + '/users/me')
       .pipe(
         tap((user: User) => this.user$.next(user)),
       );
+  }
+
+  updateUserGeneralInfo$(name: string, avatarUrl: string | null): Observable<User> {
+    return this.http.patch<User>(environment.baseURL + '/users/me', { name, avatarUrl })
+      .pipe(
+        tap((user: User) => this.user$.next(user)),
+      );
+  }
+
+  logOut(): void {
+    localStorage.removeItem('token');
+    this.user$.next(null);
+    this.router.navigate(['welcome']);
   }
 
   setToken(token: string): void {

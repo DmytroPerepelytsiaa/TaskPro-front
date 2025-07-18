@@ -11,6 +11,7 @@ import { ThemeService } from '@shared/themes/services';
 })
 export class HeaderComponent {
   @Input() username = '';
+  @Input() avatarUrl: string | null = null;
   @Output() openSidebar = new EventEmitter<void>();
   @Output() editProfile = new EventEmitter<void>();
 

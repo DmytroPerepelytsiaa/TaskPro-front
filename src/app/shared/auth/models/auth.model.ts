@@ -31,5 +31,5 @@ export type EditProfileForm = {
 
 export interface EditProfileFormState {
   name: string;
-  avatarUrl: string | null;
+  avatarUrl: File | null;
 }
