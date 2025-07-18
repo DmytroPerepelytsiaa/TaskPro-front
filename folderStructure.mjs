@@ -39,6 +39,7 @@ export const folderStructureConfig = createFolderStructure({
         { ruleId: 'validators_folder' },
         { ruleId: 'layout_folder' },
         { ruleId: 'shared_pipes_folder' },
+        { ruleId: 'shared_constants_folder' },
       ],
     },
 
@@ -216,6 +217,14 @@ export const folderStructureConfig = createFolderStructure({
       children: [
         { name: '*.pipe.ts' },
         { name: 'index.ts'},
+      ]
+    },
+
+    shared_constants_folder: {
+      name: 'constants',
+      children: [
+        { name: '*.const.ts' },
+        { name: 'index.ts' },
       ]
     }
   }

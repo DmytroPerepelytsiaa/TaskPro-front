@@ -71,6 +71,13 @@ export class DashboardPageComponent {
           untilDestroyed(this),
         )
         .subscribe();
+
+      modalRef.componentInstance?.closeModal
+        .pipe(
+          tap(() => modalRef.close()),
+          untilDestroyed(this),
+        )
+        .subscribe();
   }
 
   deleteColumn(column: DashboardColumn): void {
@@ -116,6 +123,13 @@ export class DashboardPageComponent {
             this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
           }
         }),
+      )
+      .subscribe();
+
+    modalRef.componentInstance?.closeModal
+      .pipe(
+        tap(() => modalRef.close()),
+        untilDestroyed(this),
       )
       .subscribe();
   }

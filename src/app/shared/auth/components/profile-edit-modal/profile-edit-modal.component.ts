@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Outpu
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { EditProfileForm, EditProfileFormState, User } from '@shared/auth/models';
+import { SharedModalDirective } from '@shared/ui/directives';
 import { InputType } from '@shared/ui/models';
 import { UiModule } from '@shared/ui/ui.module';
 import { trimValidator } from '@shared/validators';
@@ -14,7 +15,7 @@ import { trimValidator } from '@shared/validators';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProfileEditModalComponent implements OnInit {
+export class ProfileEditModalComponent extends SharedModalDirective implements OnInit {
   @Output() saveData = new EventEmitter<EditProfileFormState>();
   
   private dialogData = inject<{ user: User }>(DIALOG_DATA);

@@ -1,4 +1,11 @@
-<form class="w-[280px] xs:w-[335px] p-6 bg-modal-background rounded-lg">
+<form class="w-[280px] xs:w-[335px] p-6 bg-modal-background rounded-lg relative">
+  <button type="button" class="absolute right-5 top-5" (click)="closeModal.emit()">
+    <tp-icon 
+      class="text-font-primary-color opacity-80 duration-300 transition-opacity hover:opacity-100" 
+      svgIcon="close" 
+      size="16"
+    ></tp-icon>
+  </button>
   <h3 class="text-font-primary-color mb-6">{{ dialogData.column ? 'Edit Column' : 'Add Column' }}</h3>
 
   <div class="mb-6">

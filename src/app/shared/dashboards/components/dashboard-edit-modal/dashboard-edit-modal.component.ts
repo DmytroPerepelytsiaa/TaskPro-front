@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Outpu
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Dashboard, DashboardBackgrounds, DashboardForm, DashboardFormState, DashboardIcons } from '@shared/dashboards/models';
+import { SharedModalDirective } from '@shared/ui/directives';
 import { trimValidator } from '@shared/validators';
 
 @Component({
@@ -11,7 +12,7 @@ import { trimValidator } from '@shared/validators';
   templateUrl: './dashboard-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardEditModalComponent implements OnInit {
+export class DashboardEditModalComponent extends SharedModalDirective implements OnInit {
   @Output() editDashboard = new EventEmitter<Dashboard>();
   @Output() createDashboard = new EventEmitter<DashboardFormState>();
 

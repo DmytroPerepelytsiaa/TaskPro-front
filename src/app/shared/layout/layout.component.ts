@@ -81,6 +81,12 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
         untilDestroyed(this),
       )
       .subscribe();
-    // TODO: implement edit profile modal
+    
+    modalRef.componentInstance?.closeModal
+      .pipe(
+        tap(() => modalRef.close()),
+        untilDestroyed(this),
+      )
+      .subscribe();
   }
 }

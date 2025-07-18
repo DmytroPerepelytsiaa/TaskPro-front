@@ -5,6 +5,7 @@ import moment, { Moment } from 'moment';
 
 import { CardPriority, DashboardCardForm, DashboardCardFormState, DashboardColumnCard } from '@shared/dashboards/models';
 import { trimValidator } from '@shared/validators';
+import { SharedModalDirective } from '@shared/ui/directives';
 
 @Component({
   selector: 'tp-dashboard-card-edit-modal',
@@ -12,7 +13,7 @@ import { trimValidator } from '@shared/validators';
   templateUrl: './dashboard-card-edit-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardCardEditModalComponent implements OnInit {
+export class DashboardCardEditModalComponent extends SharedModalDirective implements OnInit {
   @Output() createCard = new EventEmitter<DashboardCardFormState>();
   @Output() editCard = new EventEmitter<DashboardColumnCard>();
 

@@ -35,5 +35,12 @@ export abstract class DashboardsPageDirective {
         untilDestroyed(this),
       )
       .subscribe();
+
+    modalRef.componentInstance?.closeModal
+      .pipe(
+        tap(() => modalRef.close()),
+        untilDestroyed(this),
+      )
+      .subscribe();
   }
 };
