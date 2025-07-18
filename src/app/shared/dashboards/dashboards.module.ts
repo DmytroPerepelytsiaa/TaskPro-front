@@ -7,6 +7,7 @@ import { UiModule } from '@shared/ui/ui.module';
 import { DatesModule } from '@shared/dates/dates.module';
 
 import { 
+  CardPriorityCircleComponent,
   DashboardCardEditModalComponent, 
   DashboardColumnEditModalComponent, 
   DashboardEditModalComponent,
@@ -19,6 +20,7 @@ import { DashboardBackgroundDirective } from './directives';
     DashboardColumnEditModalComponent,
     DashboardCardEditModalComponent,
     DashboardBackgroundDirective,
+    CardPriorityCircleComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { DashboardBackgroundDirective } from './directives';
     DashboardColumnEditModalComponent,
     DashboardCardEditModalComponent,
     DashboardBackgroundDirective,
+    CardPriorityCircleComponent,
   ],
 })
 export class DashboardsModule {}
