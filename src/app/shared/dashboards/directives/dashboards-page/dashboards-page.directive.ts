@@ -10,7 +10,7 @@ import { Dashboard } from '@shared/dashboards/models';
 @UntilDestroy()
 @Directive()
 export abstract class DashboardsPageDirective {
-  private dialogService = inject(Dialog);
+  dialogService = inject(Dialog);
   dashboardStore = inject(DashboardStoreService);
 
   openDashboardModal(dashboard?: Dashboard): void {
@@ -32,6 +32,13 @@ export abstract class DashboardsPageDirective {
           this.dashboardStore.editDashboard(dashboard);
           modalRef.close();
         }),
+        untilDestroyed(this),
+      )
+      .subscribe();
+
+    modalRef.componentInstance?.closeModal
+      .pipe(
+        tap(() => modalRef.close()),
         untilDestroyed(this),
       )
       .subscribe();

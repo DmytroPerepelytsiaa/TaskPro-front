@@ -36,7 +36,6 @@
         <li 
           class="text-font-secondary-color before:absolute before:right-0 before:w-[4px] before:h-[60px] before:rounded-l-[4px]"
           [class.before:bg-icon-primary-color]="currentDashboard?.id === dashboard.id"
-          [ngClass]="{ 'before:right-1': isScrollable$ | async }"
         >
           <button 
             class="h-[60px] flex items-center cursor-pointer w-full hover:bg-sidebar-dashboard-hover-background transition-colors duration-300 px-4 justify-between"

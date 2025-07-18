@@ -1,5 +1,12 @@
-<form [formGroup]="dashboardCardForm" class="w-[280px] xs:w-[335px] p-6 bg-modal-background rounded-lg">
-  <h3 class="text-font-primary-color mb-6">{{ data.card ? 'Edit Card' : 'Add Card' }}</h3>
+<form [formGroup]="dashboardCardForm" class="w-[280px] xs:w-[335px] p-6 bg-modal-background rounded-lg relative">
+  <button type="button" class="absolute right-5 top-5" (click)="closeModal.emit()">
+    <tp-icon 
+      class="text-font-primary-color opacity-80 duration-300 transition-opacity hover:opacity-100" 
+      svgIcon="close" 
+      size="16"
+    ></tp-icon>
+  </button>
+  <h3 class="text-font-primary-color mb-6">{{ dialogData.card ? 'Edit Card' : 'Add Card' }}</h3>
 
   <div class="mb-4">
     <tp-input [control]="dashboardCardForm.controls.name" placeholder="Title"></tp-input>
@@ -77,6 +84,6 @@
     <span class="bg-icon-secondary-color w-7 h-7 rounded-md flex items-center justify-center">
       <tp-icon class="text-font-accent-color" svgIcon="plus" size="14"></tp-icon>
     </span>
-    {{ data.card ? 'Save' : 'Create' }}
+    {{ dialogData.card ? 'Save' : 'Create' }}
   </button>
 </form>

@@ -42,7 +42,7 @@
       </li>
     </ul>
 
-    <button tp-button [disabled]="authForm.invalid" [appearance]="ButtonAppearance.Primary" (click)="onSubmit()">
+    <button tp-button [disabled]="authForm.invalid" (click)="onSubmit()">
       {{ (isRegistrationPage$ | async) ? 'Register Now' : 'Log In Now' }}
     </button>
   </form>

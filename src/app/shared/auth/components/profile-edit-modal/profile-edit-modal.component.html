@@ -1,0 +1,36 @@
+<form class="w-[280px] xs:w-[335px] p-6 bg-modal-background rounded-lg relative">
+  <button type="button" class="absolute right-5 top-5" (click)="closeModal.emit()">
+    <tp-icon 
+      class="text-font-primary-color opacity-80 duration-300 transition-opacity hover:opacity-100" 
+      svgIcon="close" 
+      size="16"
+    ></tp-icon>
+  </button>
+  <h3 class="text-font-primary-color mb-6">Edit Profile</h3>
+
+  <div class="relative mx-auto w-16 h-16 mb-6">
+    <img [src]="temporaryAvatarUrl ?? 'avatar.png'" alt="Avatar image" class="w-16 h-16 object-cover mb-4 rounded-lg">
+    <button
+      type="button"
+      class="w-6 h-6 rounded-md absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center justify-center bg-button-accent-color hover:bg-button-accent-hover-color duration-300 transition-colors"
+      (click)="fileInput.click()"
+    >
+      <tp-icon class="text-icon-secondary-color" svgIcon="plus" size="10"></tp-icon>
+    </button>
+    <input
+      #fileInput
+      type="file" 
+      accept=".png, .jpg, .jpeg" 
+      class="hidden"
+      (change)="handleAvatarChange($event)"
+    >
+  </div>
+
+  <div class="mb-4">
+    <tp-input placeholder="Enter your name" [control]="editProfileForm.controls.name"></tp-input>
+  </div>
+
+  <button tp-button type="button" (click)="onSaveData()" [disabled]="editProfileForm.invalid">
+    Save
+  </button>
+</form>

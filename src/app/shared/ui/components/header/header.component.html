@@ -38,7 +38,9 @@
     <div class="flex items-center gap-2">
       @if (username) {
         <p class="text-font-primary-color font-medium">{{ username }}</p>
-        <img src="avatar.jpg" alt="Avatar image" class="w-8 h-8 rounded-lg object-cover">
+        <button (click)="editProfile.emit()">
+          <img [src]="avatarUrl ?? 'avatar.png'" alt="Avatar image" class="w-8 h-8 rounded-lg object-cover">
+        </button>
       }
     </div>
   </div>
