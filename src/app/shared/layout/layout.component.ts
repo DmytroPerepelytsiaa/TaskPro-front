@@ -41,6 +41,7 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
   dashboards$ = this.dashboardStore.dashboards$;
   currentDashboard$ = this.dashboardStore.currentDashboard$;
   isSidebarOpen = false;
+  // TODO: move to ngOnInit and check before accesing
   isDesktopWidth = window.innerWidth >= 1440;
 
   ngOnInit(): void {

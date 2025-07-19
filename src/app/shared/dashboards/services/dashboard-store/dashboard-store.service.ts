@@ -54,6 +54,7 @@ export class DashboardStoreService extends ComponentStore<DashboardStoreState> {
         withLatestFrom(this.dashboards$),
         switchMap(([id]) => combineLatest([of(id), this.dashboardApiService.getDashboards$()])),
         tap(([id, dashboards]) => {
+          // TODO: consider parsing dates once before sorting or using a more efficient date comparison method.
           dashboards.forEach((dashboard) => {
             dashboard.columns = dashboard.columns.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 

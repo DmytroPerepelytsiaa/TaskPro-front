@@ -15,6 +15,7 @@ export class TooltipDirective implements AfterViewInit {
   private tooltip = inject(MatTooltip);
 
   ngAfterViewInit(): void {
+    // TODO: delete after destroy
     new MutationObserver(() => this.checkTruncation())
       .observe(this.elRef.nativeElement, {
         characterData: true,

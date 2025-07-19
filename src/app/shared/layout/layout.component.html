@@ -1,6 +1,6 @@
 <tp-header 
-  [username]="user$.value?.name ?? ''"
-  [avatarUrl]="user$.value?.avatarUrl ?? null"
+  [username]="(user$ | async)?.name ?? ''"
+  [avatarUrl]="(user$ | async)?.avatarUrl ?? null"
   (openSidebar)="isSidebarOpen = true"
   (editProfile)="openProfileEditModal()"
 ></tp-header>
