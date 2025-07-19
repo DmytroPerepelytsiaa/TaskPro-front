@@ -3,11 +3,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { DatesModule } from '@shared/dates/dates.module';
 
 import { 
   ButtonComponent, 
+  ConfirmationDialogComponent, 
   DatepickerComponent, 
   HeaderComponent, 
   IconComponent, 
@@ -15,6 +17,7 @@ import {
   SidebarComponent, 
   TextareaComponent
 } from './components';
+import { TooltipDirective } from './directives';
 
 @NgModule({
   declarations: [
@@ -25,11 +28,14 @@ import {
     HeaderComponent,
     SidebarComponent,
     DatepickerComponent,
+    TooltipDirective,
+    ConfirmationDialogComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MatIconModule,
+    MatTooltipModule,
     OverlayModule,
     DatesModule,
   ],
@@ -41,6 +47,8 @@ import {
     HeaderComponent,
     SidebarComponent,
     DatepickerComponent,
+    TooltipDirective,
+    ConfirmationDialogComponent,
   ],
 })
 export class UiModule {}

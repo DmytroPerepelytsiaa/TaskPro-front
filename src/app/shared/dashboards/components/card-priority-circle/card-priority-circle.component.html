@@ -1,0 +1,15 @@
+<div
+  class="flex h-4 w-4 items-center justify-center rounded-full"
+  [ngClass]="{
+    'bg-green-1': priority === CardPriority.Low,
+    'bg-blue-1': priority === CardPriority.Medium,
+    'bg-red-2': priority === CardPriority.High,
+    'bg-font-primary-color opacity-30': priority === CardPriority.Without
+  }"
+>
+<!-- TODO: fix inner circle overflow -->
+  <div
+    class="h-3.5 w-3.5 rounded-full border-[2px] border-secondary-color"
+    [class.opacity-0]="!isActive"
+  ></div>
+</div>

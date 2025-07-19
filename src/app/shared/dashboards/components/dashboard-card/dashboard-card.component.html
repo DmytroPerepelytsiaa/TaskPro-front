@@ -1,0 +1,61 @@
+<div class="w-[280px] xs:min-w-[335px] h-[154px] rounded-lg bg-button-secondary-color py-4 px-6">
+  <h2 class="text-font-primary-color mb-2 truncate" [matTooltip]="card.name" tpTooltip>{{ card.name }}</h2>
+  <p class="text-font-primary-color text-xs opacity-50 break-words h-12 overflow-auto mb-3">{{ card.description }}</p>
+  <hr class="mb-2 opacity-30 text-font-primary-color">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="flex flex-col justify-center gap-1">
+        <p class="text-font-primary-color opacity-50 text-[8px] leading-3">Priority</p>
+        <div class="flex items-center gap-1 text-font-primary-color text-xs capitalize text-[10px]">
+          <tp-card-priority-circle [priority]="card.priority"></tp-card-priority-circle>
+          {{ card.priority }}
+        </div>
+      </div>
+      <div class="flex flex-col justify-center gap-1">
+        <p class="text-font-primary-color opacity-50 text-[8px] leading-3">Deadline</p>
+        <span class="text-font-primary-color text-[10px]">{{ card.deadline }}</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 text-font-primary-color">
+      <button
+        cdkOverlayOrigin 
+        #trigger="cdkOverlayOrigin"
+        (click)="openedPopupCardId = card.id"
+      >
+        <tp-icon class="opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="arrow-circle-right" size="16"></tp-icon>
+      </button>
+      <ng-template
+        cdkConnectedOverlay
+        [cdkConnectedOverlayOrigin]="trigger"
+        [cdkConnectedOverlayOpen]="openedPopupCardId === card.id"
+        [cdkConnectedOverlayHasBackdrop]="true"
+        (detach)="openedPopupCardId = null"
+        (backdropClick)="openedPopupCardId = null"
+      >
+        <ul class="flex flex-col gap-2 bg-primary-color border border-accent-color p-5 rounded-lg text-font-primary-color">
+          @for (columnForChoose of currentDashboard.columns; track $index) {
+            <li>
+              <button 
+                class="hover:text-font-primary-hover-color transition-colors duration-300 flex justify-between gap-2 w-28"
+                [class.text-font-primary-hover-color]="columnForChoose.id === currentColumn.id"
+                [disabled]="columnForChoose.id === currentColumn.id"
+                (click)="changeCardColumn.emit({ card, columnForChoose, currentColumn })"
+              >
+                <p class="truncate" [matTooltip]="columnForChoose.name" tpTooltip>
+                  {{ columnForChoose.name }}
+                </p>
+                <tp-icon svgIcon="arrow-circle-right" size="16"></tp-icon>
+              </button>
+            </li>
+          }
+        </ul>
+      </ng-template>
+      <button (click)="openCardModal.emit({ currentColumn, card })">
+        <tp-icon class="opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="pencil" size="16"></tp-icon>
+      </button>
+      <button (click)="deleteCard.emit({ currentColumn, card })">
+        <tp-icon class="opacity-50 hover:opacity-100 transition-opacity duration-300" svgIcon="trash" size="16"></tp-icon>
+      </button>
+    </div>
+  </div>
+</div>

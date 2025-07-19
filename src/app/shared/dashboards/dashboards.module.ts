@@ -2,11 +2,14 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { UiModule } from '@shared/ui/ui.module';
 import { DatesModule } from '@shared/dates/dates.module';
 
 import { 
+  CardPriorityCircleComponent,
+  DashboardCardComponent,
   DashboardCardEditModalComponent, 
   DashboardColumnEditModalComponent, 
   DashboardEditModalComponent,
@@ -19,6 +22,8 @@ import { DashboardBackgroundDirective } from './directives';
     DashboardColumnEditModalComponent,
     DashboardCardEditModalComponent,
     DashboardBackgroundDirective,
+    CardPriorityCircleComponent,
+    DashboardCardComponent,
   ],
   imports: [
     CommonModule,
@@ -26,12 +31,15 @@ import { DashboardBackgroundDirective } from './directives';
     ReactiveFormsModule,
     OverlayModule,
     DatesModule,
+    MatTooltipModule,
   ],
   exports: [
     DashboardEditModalComponent,
     DashboardColumnEditModalComponent,
     DashboardCardEditModalComponent,
     DashboardBackgroundDirective,
+    CardPriorityCircleComponent,
+    DashboardCardComponent,
   ],
 })
 export class DashboardsModule {}

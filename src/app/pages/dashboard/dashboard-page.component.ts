@@ -2,16 +2,27 @@ import { Dialog } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { switchMap, tap, withLatestFrom } from 'rxjs';
+import { catchError, of, switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { DashboardCardEditModalComponent, DashboardColumnEditModalComponent } from '@shared/dashboards/components';
 import { DashboardsModule } from '@shared/dashboards/dashboards.module';
 import { DashboardApiService, DashboardStoreService } from '@shared/dashboards/services';
 import { ButtonAppearance } from '@shared/ui/models';
 import { UiModule } from '@shared/ui/ui.module';
-import { CardPriority, Dashboard, DashboardColumn, DashboardColumnCard } from '@shared/dashboards/models';
+import { 
+  CardDeleteActionPayload, 
+  CardPriority, 
+  CardUpdateActionPayload, 
+  ChangeCardColumnPayload, 
+  Dashboard, 
+  DashboardColumn,
+} from '@shared/dashboards/models';
 import { FilterArrayPipe } from '@shared/pipes';
+import { ConfirmationDialogComponent } from '@shared/ui/components';
 
 @UntilDestroy()
 @Component({
@@ -25,9 +36,11 @@ import { FilterArrayPipe } from '@shared/pipes';
     DashboardsModule,
     OverlayModule,
     FilterArrayPipe,
+    MatTooltipModule,
   ],
 })
 export class DashboardPageComponent {
+  private snackBar = inject(MatSnackBar);
   private dialogService = inject(Dialog);
   private dashboardApiService = inject(DashboardApiService);
   private dashboardStoreService = inject(DashboardStoreService);
@@ -41,7 +54,6 @@ export class DashboardPageComponent {
   isFiltersOpen = false;
 
   openColumnModal(column?: DashboardColumn): void {
-    // TODO: add error handling
     const modalRef = this.dialogService.open(DashboardColumnEditModalComponent, { data: { column } });
 
     modalRef.componentInstance?.createColumn
@@ -56,6 +68,15 @@ export class DashboardPageComponent {
           column.cards = [];
           this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
         }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
         untilDestroyed(this),
       )
       .subscribe();
@@ -68,6 +89,15 @@ export class DashboardPageComponent {
             return this.dashboardApiService.editColumn$(newColumn.id, newColumn.name);
           }),
           tap((column) => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false })),
+          catchError((error: HttpErrorResponse) => {
+            const errorMessage = error.error?.message || error.message;
+
+            if (errorMessage) {
+              this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+            }
+            
+            return of(null);
+          }),
           untilDestroyed(this),
         )
         .subscribe();
@@ -81,16 +111,39 @@ export class DashboardPageComponent {
   }
 
   deleteColumn(column: DashboardColumn): void {
-    // TODO: add error handling and confirmation dialog
-    this.dashboardApiService.deleteColumn$(column.id)
+    const modalRef = this.dialogService.open(ConfirmationDialogComponent, { data: { 
+      confirmationText: `Are you sure you want to delete <span class="text-red-1 truncate inline-block max-w-[120px] leading-4">${column.name}</span> column?`,
+    }});
+
+    modalRef.componentInstance?.confirm
       .pipe(
-        tap(() => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: true })),
+        switchMap(() => this.dashboardApiService.deleteColumn$(column.id)),
+        tap(() => {
+          this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: true });
+          modalRef.close();
+        }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
+        untilDestroyed(this),
       )
       .subscribe();
+
+      modalRef.componentInstance?.closeModal
+        .pipe(
+          tap(() => modalRef.close()),
+          untilDestroyed(this),
+        )
+        .subscribe();
   }
 
-  openCardModal(column: DashboardColumn, card?: DashboardColumnCard): void {
-    // TODO: add error handling
+  openCardModal({ currentColumn: column, card }: CardUpdateActionPayload): void {
     const modalRef = this.dialogService.open(DashboardCardEditModalComponent, { data: { card } });
 
     modalRef.componentInstance?.createCard
@@ -103,6 +156,15 @@ export class DashboardPageComponent {
         tap((newCard) => {
           column.cards.push(newCard);
           this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
+        }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
         }),
         untilDestroyed(this),
       )
@@ -123,6 +185,15 @@ export class DashboardPageComponent {
             this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
           }
         }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
       )
       .subscribe();
 
@@ -134,29 +205,61 @@ export class DashboardPageComponent {
       .subscribe();
   }
 
-  deleteCard(column: DashboardColumn, card: DashboardColumnCard): void {
-    // TODO: add error handling and confirmation dialog
-    this.dashboardApiService.deleteCard$(card)
+  deleteCard({ currentColumn: column, card }: CardDeleteActionPayload): void {
+    const modalRef = this.dialogService.open(ConfirmationDialogComponent, { data: { 
+      confirmationText: `
+        Are you sure you want to delete <span class="text-red-1 truncate inline-block max-w-[120px] leading-4">${card.name}</span> card from <span class="text-red-1 truncate inline-block max-w-[120px] leading-4">${column.name}</span> column?
+      `,
+    }});
+
+    modalRef.componentInstance?.confirm
       .pipe(
+        switchMap(() => this.dashboardApiService.deleteCard$(card)),
         tap(() => {
           column.cards = column.cards.filter(c => c.id !== card.id);
           this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
+          modalRef.close();
         }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
+        untilDestroyed(this),
       )
       .subscribe();
+
+      modalRef.componentInstance?.closeModal
+        .pipe(
+          tap(() => modalRef.close()),
+          untilDestroyed(this),
+        )
+        .subscribe();
   }
 
-  changeCardColumn(card: DashboardColumnCard, newColumn: DashboardColumn, oldColumn: DashboardColumn): void {
-    // TODO: add error handling
-    this.dashboardApiService.editCard$(card, newColumn)
+  changeCardColumn({ card, columnForChoose, currentColumn }: ChangeCardColumnPayload): void {
+    this.dashboardApiService.editCard$(card, columnForChoose)
       .pipe(
         tap((updatedCard) => {
-          const updatedNewColumn = { ...newColumn, cards: [...newColumn.cards, updatedCard] };
-          const updatedOldColumn = { ...oldColumn, cards: oldColumn.cards.filter(c => c.id !== updatedCard.id) };
+          const updatedNewColumn = { ...columnForChoose, cards: [...columnForChoose.cards, updatedCard] };
+          const updatedOldColumn = { ...currentColumn, cards: currentColumn.cards.filter(c => c.id !== updatedCard.id) };
 
           this.dashboardStoreService.updateDashboardColumns({ column: updatedNewColumn, isDeleted: false });
           this.dashboardStoreService.updateDashboardColumns({ column: updatedOldColumn, isDeleted: false });
           this.openedPopupCardId = null;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
         }),
       )
       .subscribe();

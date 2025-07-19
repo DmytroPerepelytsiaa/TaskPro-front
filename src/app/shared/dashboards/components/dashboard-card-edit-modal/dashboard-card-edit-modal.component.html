@@ -29,21 +29,7 @@
             [id]="priority"
           />
           <label class="cursor-pointer" [for]="priority">
-            <div
-              class="flex h-4 w-4 items-center justify-center rounded-full"
-              [ngClass]="{
-                'bg-blue-1': priority === CardPriority.Low,
-                'bg-red-2': priority === CardPriority.Medium,
-                'bg-green-1': priority === CardPriority.High,
-                'bg-font-primary-color opacity-30': priority === CardPriority.Without
-              }"
-            >
-            <!-- TODO: fix inner circle overflow -->
-              <div
-                class="h-3.5 w-3.5 rounded-full border-[2px] border-secondary-color"
-                [class.opacity-0]="dashboardCardForm.value.priority !== priority"
-              ></div>
-            </div>
+            <tp-card-priority-circle [priority]="priority" [isActive]="dashboardCardForm.value.priority === priority"></tp-card-priority-circle>
           </label>
         </li>
       }
@@ -59,7 +45,6 @@
       (click)="isDatePickerOpen = !isDatePickerOpen"
     >
       {{ deadline | getFormattedDate }}
-      <!-- TODO: add chevron-up -->
       <tp-icon size="18" svgIcon="chevron-down"></tp-icon>
     </button>
     <ng-template

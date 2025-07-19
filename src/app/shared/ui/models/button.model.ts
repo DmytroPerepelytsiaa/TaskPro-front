@@ -3,4 +3,5 @@ export enum ButtonAppearance {
   Secondary = 'secondary',
   Accent = 'accent',
   Transparent = 'transparent',
+  Danger = 'danger',
 }

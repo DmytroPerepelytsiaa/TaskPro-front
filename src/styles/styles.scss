@@ -87,3 +87,9 @@ p {
     }
   }
 }
+
+// Tooltip override styles
+.cdk-overlay-container .mat-mdc-tooltip {
+  --mdc-plain-tooltip-container-color: var(--secondary-color);
+  --mdc-plain-tooltip-supporting-text-color: var(--font-primary-color);
+}

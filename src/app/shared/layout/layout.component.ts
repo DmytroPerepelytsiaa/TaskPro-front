@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { combineLatest, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, combineLatest, Observable, of, switchMap, tap } from 'rxjs';
 
 import { ProfileEditModalComponent } from '@shared/auth/components';
 import { EditProfileFormState } from '@shared/auth/models';
@@ -14,6 +15,7 @@ import { CloudinaryService } from '@shared/cloudinary/services';
 import { ThemeService } from '@shared/themes/services';
 import { UiModule } from '@shared/ui/ui.module';
 import { CloudinaryUploadResponse } from '@shared/cloudinary/models';
+import { ConfirmationDialogComponent } from '@shared/ui/components';
 
 @UntilDestroy()
 @Component({
@@ -39,12 +41,18 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
   dashboards$ = this.dashboardStore.dashboards$;
   currentDashboard$ = this.dashboardStore.currentDashboard$;
   isSidebarOpen = false;
+  isDesktopWidth = window.innerWidth >= 1440;
 
   ngOnInit(): void {
     this.themeService.resetTheme();
 
     const id = this.route.snapshot.paramMap.get('id');
     this.dashboardStore.getDashboards(Number(id));
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(): void {
+    this.isDesktopWidth = window.innerWidth >= 1440;
   }
 
   logOut(): void {
@@ -57,7 +65,26 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
   }
 
   deleteDashboard(dashboard: Dashboard): void {
-    this.dashboardStore.deleteDashboard(dashboard);
+    const modalRef = this.dialogService.open(ConfirmationDialogComponent, {
+      data: { confirmationText: `Are you sure you want to delete <span class="text-red-1 truncate inline-block max-w-[120px] leading-4">${dashboard.name}</span> dashboard?` },
+    });
+
+    modalRef.componentInstance?.confirm
+      .pipe(
+        tap(() => {
+          this.dashboardStore.deleteDashboard(dashboard);
+          modalRef.close();
+        }),
+        untilDestroyed(this),
+      )
+      .subscribe();
+
+    modalRef.componentInstance?.closeModal
+      .pipe(
+        tap(() => modalRef.close()),
+        untilDestroyed(this),
+      )
+      .subscribe();
   }
 
   openProfileEditModal(): void {
@@ -76,8 +103,16 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
         switchMap(([name, uploadResonse]) => {
           return this.userService.updateUserGeneralInfo$(name, uploadResonse?.secure_url ?? null);
         }),
-        // TODO: handle error
         tap(() => modalRef.close()),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
         untilDestroyed(this),
       )
       .subscribe();

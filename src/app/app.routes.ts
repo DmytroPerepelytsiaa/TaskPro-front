@@ -8,7 +8,6 @@ export const routes: Routes = [
   { path: 'auth/registration', loadComponent: () => import('@pages/auth/auth-page.component').then(m => m.AuthPageComponent), canActivate: [publicGuard] },
   {
     path: '',
-    // TODO: fix this import path
     loadComponent: () => import('@shared/layout/layout.component').then(m => m.LayoutComponent),
     canActivate: [privateGuard],
     children: [

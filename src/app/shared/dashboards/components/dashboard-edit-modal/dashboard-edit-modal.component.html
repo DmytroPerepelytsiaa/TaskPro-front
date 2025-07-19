@@ -17,11 +17,11 @@
     @for (icon of dashboardIcons; track $index) {
       <li>
         <button type="button" (click)="setIcon(icon)">
-          <!-- TODO: remove !important rule -->
           <tp-icon 
             size="18"
-            class="text-font-primary-color transition-opacity duration-300 opacity-50" 
-            [class.!opacity-20]="dashboardForm.controls.icon.value !== icon" 
+            class="text-font-primary-color transition-opacity duration-300"
+            [class.opacity-50]="dashboardForm.controls.icon.value === icon" 
+            [class.opacity-20]="dashboardForm.controls.icon.value !== icon" 
             [svgIcon]="icon" 
           ></tp-icon>
         </button>

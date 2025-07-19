@@ -1,28 +1,29 @@
-<!-- TODO: try to handle it better -->
 <tp-header 
-  [username]="(user$ | async)?.name ?? ''"
-  [avatarUrl]="(user$ | async)?.avatarUrl ?? null"
+  [username]="user$.value?.name ?? ''"
+  [avatarUrl]="user$.value?.avatarUrl ?? null"
   (openSidebar)="isSidebarOpen = true"
   (editProfile)="openProfileEditModal()"
 ></tp-header>
 
-<!-- TODO: try to handle it better -->
-<main
-  class="bg-primary-color min-h-screen"
-  [ngClass]="{ 'h-screen overflow-hidden': isSidebarOpen }"
->
-  <router-outlet></router-outlet>
-</main>
-
-@if (isSidebarOpen) {
-  <tp-sidebar
-    [currentDashboard]="(currentDashboard$ | async) ?? null"
-    [dashboards]="(dashboards$ | async) ?? []"
-    (changeDashboard)="changeDashboard($event)"
-    (createDashboard)="openDashboardModal()"
-    (editDashboard)="openDashboardModal($event)"
-    (deleteDashboard)="deleteDashboard($event)"
-    (closeSidebar)="isSidebarOpen = false" 
-    (logOut)="logOut()"
-  ></tp-sidebar>
-}
+<div [class.overflow-auto]="isDesktopWidth">
+  <main
+    class="bg-primary-color min-h-screen"
+    [ngClass]="{ 'h-screen overflow-hidden': isSidebarOpen, 'w-[calc(100vw - 225px)] ml-[225px]': isDesktopWidth }"
+  >
+    <router-outlet></router-outlet>
+  </main>
+  
+  @if (isSidebarOpen || isDesktopWidth) {
+    <tp-sidebar
+      [isDesktopWidth]="isDesktopWidth"
+      [currentDashboard]="(currentDashboard$ | async) ?? null"
+      [dashboards]="(dashboards$ | async) ?? []"
+      (changeDashboard)="changeDashboard($event)"
+      (createDashboard)="openDashboardModal()"
+      (editDashboard)="openDashboardModal($event)"
+      (deleteDashboard)="deleteDashboard($event)"
+      (closeSidebar)="isSidebarOpen = false" 
+      (logOut)="logOut()"
+    ></tp-sidebar>
+  }
+</div>

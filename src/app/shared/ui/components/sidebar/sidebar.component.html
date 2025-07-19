@@ -1,13 +1,16 @@
-<div class="fixed inset-0 z-[999]">
-  <button 
-    class="absolute top-0 left-0 w-screen h-screen bg-black opacity-20 cursor-default"
-    (click)="closeSidebar.emit()"  
-  >
-  </button>
+<div [ngClass]="{ 'fixed inset-0 z-[999]': !isDesktopWidth }">
+  @if (!isDesktopWidth) {
+    <button
+      class="absolute top-0 left-0 w-screen h-screen bg-black opacity-20 cursor-default"
+      (click)="closeSidebar.emit()"  
+    >
+    </button>
+  }
   
   <aside
     #asideRef
-    class="absolute top-0 left-0 w-[225px] bg-sidebar-background h-full p-4 flex flex-col overflow-auto overflow-x-hidden [&::-webkit-scrollbar-thumb]:bg-sidebar-scrollbar-thumb-color"
+    class="top-0 left-0 w-[225px] bg-sidebar-background h-full p-4 flex flex-col overflow-auto overflow-x-hidden [&::-webkit-scrollbar-thumb]:bg-sidebar-scrollbar-thumb-color"
+    [ngClass]="{ 'z-10 fixed': isDesktopWidth, 'absolute': !isDesktopWidth }"
   >
     <div class="flex gap-2 items-center">
       <tp-icon [svgIcon]="(currentTheme$ | async) === ThemeColors.Violet ? 'logo-light' : 'logo'" size="32"></tp-icon>
@@ -44,8 +47,7 @@
           >
             <div class="flex items-center gap-1 text-font-secondary-color">
               <tp-icon size="18" [svgIcon]="dashboard.icon"></tp-icon>
-              <!-- TODO: add tooltip -->
-              <span class="truncate max-w-28">
+              <span class="truncate max-w-28" [matTooltip]="dashboard.name" tpTooltip>
                 {{ dashboard.name }}
               </span>
             </div>
