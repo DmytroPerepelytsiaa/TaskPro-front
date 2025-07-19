@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -41,12 +41,18 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
   dashboards$ = this.dashboardStore.dashboards$;
   currentDashboard$ = this.dashboardStore.currentDashboard$;
   isSidebarOpen = false;
+  isDesktopWidth = window.innerWidth >= 1440;
 
   ngOnInit(): void {
     this.themeService.resetTheme();
 
     const id = this.route.snapshot.paramMap.get('id');
     this.dashboardStore.getDashboards(Number(id));
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onWindowResize(): void {
+    this.isDesktopWidth = window.innerWidth >= 1440;
   }
 
   logOut(): void {

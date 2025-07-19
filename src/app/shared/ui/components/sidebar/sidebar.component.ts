@@ -18,6 +18,7 @@ import { ThemeService } from '@shared/themes/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
+  @Input() isDesktopWidth = false;
   @Input() currentDashboard: Dashboard | null = null;
   @Input() dashboards: Dashboard[] = [];
   @Output() closeSidebar = new EventEmitter<void>();
