@@ -1,59 +1,8 @@
-# TaskProFront
+# TaskPro
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
+TaskPro is a full-stack application developed with NestJS on the backend and Angular on the frontend. It serves as a responsive to-do list application, fully optimized for all device types. The application includes a secure authentication and login system, along with support for multiple visual themes, allowing users to personalize their experience. Users can create dashboards that contain columns and task cards, each with customizable titles, priorities, and due dates. One of the features of TaskPro is its customization - users can choose from predefined dashboard backgrounds or upload their avatar, which will then be uploaded to Cloudinary. The interface combines components from Angular Material and is styled using Tailwind CSS.
 
-## Development server
+The FE side is deployed on the Netlify service, and the BE side with the database was deployed using Railway.
 
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Frontend stack: Angular, Angular Material, NgRx, RxJs, TailwindCSS
+Backend stack: Nest.js, TypeORM, Postgres
