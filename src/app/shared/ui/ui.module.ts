@@ -9,6 +9,7 @@ import { DatesModule } from '@shared/dates/dates.module';
 
 import { 
   ButtonComponent, 
+  ConfirmationDialogComponent, 
   DatepickerComponent, 
   HeaderComponent, 
   IconComponent, 
@@ -28,6 +29,7 @@ import { TooltipDirective } from './directives';
     SidebarComponent,
     DatepickerComponent,
     TooltipDirective,
+    ConfirmationDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -46,6 +48,7 @@ import { TooltipDirective } from './directives';
     SidebarComponent,
     DatepickerComponent,
     TooltipDirective,
+    ConfirmationDialogComponent,
   ],
 })
 export class UiModule {}

@@ -22,6 +22,7 @@ import {
   DashboardColumn,
 } from '@shared/dashboards/models';
 import { FilterArrayPipe } from '@shared/pipes';
+import { ConfirmationDialogComponent } from '@shared/ui/components';
 
 @UntilDestroy()
 @Component({
@@ -110,12 +111,36 @@ export class DashboardPageComponent {
   }
 
   deleteColumn(column: DashboardColumn): void {
-    // TODO: add error handling and confirmation dialog
-    this.dashboardApiService.deleteColumn$(column.id)
+    const modalRef = this.dialogService.open(ConfirmationDialogComponent, { data: { 
+      confirmationText: `Are you sure you want to delete <span class="text-red-1 truncate inline-block max-w-[120px] leading-4">${column.name}</span> column?`,
+    }});
+
+    modalRef.componentInstance?.confirm
       .pipe(
-        tap(() => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: true })),
+        switchMap(() => this.dashboardApiService.deleteColumn$(column.id)),
+        tap(() => {
+          this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: true });
+          modalRef.close();
+        }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
+        untilDestroyed(this),
       )
       .subscribe();
+
+      modalRef.componentInstance?.closeModal
+        .pipe(
+          tap(() => modalRef.close()),
+          untilDestroyed(this),
+        )
+        .subscribe();
   }
 
   openCardModal({ currentColumn: column, card }: CardUpdateActionPayload): void {
@@ -181,12 +206,19 @@ export class DashboardPageComponent {
   }
 
   deleteCard({ currentColumn: column, card }: CardDeleteActionPayload): void {
-    // TODO: add error handling and confirmation dialog
-    this.dashboardApiService.deleteCard$(card)
+    const modalRef = this.dialogService.open(ConfirmationDialogComponent, { data: { 
+      confirmationText: `
+        Are you sure you want to delete <span class="text-red-1 truncate inline-block max-w-[120px] leading-4">${card.name}</span> card from <span class="text-red-1 truncate inline-block max-w-[120px] leading-4">${column.name}</span> column?
+      `,
+    }});
+
+    modalRef.componentInstance?.confirm
       .pipe(
+        switchMap(() => this.dashboardApiService.deleteCard$(card)),
         tap(() => {
           column.cards = column.cards.filter(c => c.id !== card.id);
           this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
+          modalRef.close();
         }),
         catchError((error: HttpErrorResponse) => {
           const errorMessage = error.error?.message || error.message;
@@ -197,8 +229,16 @@ export class DashboardPageComponent {
           
           return of(null);
         }),
+        untilDestroyed(this),
       )
       .subscribe();
+
+      modalRef.componentInstance?.closeModal
+        .pipe(
+          tap(() => modalRef.close()),
+          untilDestroyed(this),
+        )
+        .subscribe();
   }
 
   changeCardColumn({ card, columnForChoose, currentColumn }: ChangeCardColumnPayload): void {

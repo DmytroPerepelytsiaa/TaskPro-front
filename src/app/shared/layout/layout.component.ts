@@ -15,6 +15,7 @@ import { CloudinaryService } from '@shared/cloudinary/services';
 import { ThemeService } from '@shared/themes/services';
 import { UiModule } from '@shared/ui/ui.module';
 import { CloudinaryUploadResponse } from '@shared/cloudinary/models';
+import { ConfirmationDialogComponent } from '@shared/ui/components';
 
 @UntilDestroy()
 @Component({
@@ -58,7 +59,26 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
   }
 
   deleteDashboard(dashboard: Dashboard): void {
-    this.dashboardStore.deleteDashboard(dashboard);
+    const modalRef = this.dialogService.open(ConfirmationDialogComponent, {
+      data: { confirmationText: `Are you sure you want to delete <span class="text-red-1 truncate inline-block max-w-[120px] leading-4">${dashboard.name}</span> dashboard?` },
+    });
+
+    modalRef.componentInstance?.confirm
+      .pipe(
+        tap(() => {
+          this.dashboardStore.deleteDashboard(dashboard);
+          modalRef.close();
+        }),
+        untilDestroyed(this),
+      )
+      .subscribe();
+
+    modalRef.componentInstance?.closeModal
+      .pipe(
+        tap(() => modalRef.close()),
+        untilDestroyed(this),
+      )
+      .subscribe();
   }
 
   openProfileEditModal(): void {

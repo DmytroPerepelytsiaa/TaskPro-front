@@ -46,6 +46,7 @@ module.exports = {
         'transparent-3': 'var(--transparent-3)',
         'green-1': 'var(--green-1)',
         'blue-1': 'var(--blue-1)',
+        'red-1': 'var(--red-1)',
         'red-2': 'var(--red-2)',
       },
       screens: {

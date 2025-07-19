@@ -44,3 +44,12 @@
     background-color: var(--transparent-1);
   }
 }
+
+.btn-danger {
+  background-color: var(--red-1);
+  color: var(--black-2);
+
+  &:hover {
+    background-color: var(--red-3);
+  }
+}

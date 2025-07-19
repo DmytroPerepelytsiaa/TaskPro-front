@@ -1,0 +1,20 @@
+<div class="w-[280px] xs:w-[335px] p-6 bg-modal-background rounded-lg relative">
+  <button type="button" class="absolute right-2 top-2" (click)="closeModal.emit()">
+    <tp-icon 
+      class="text-font-primary-color opacity-80 duration-300 transition-opacity hover:opacity-100" 
+      svgIcon="close" 
+      size="16"
+    ></tp-icon>
+  </button>
+
+  <!-- TODO: resolve innerHTML SQL injection posibility -->
+  <p class="text-font-primary-color text-center font-medium text-lg mb-4" [innerHTML]="dialogData.confirmationText"></p>
+  <div class="flex items-center gap-2">
+    <button tp-button [appearance]="ButtonAppearance.Danger" type="button" (click)="confirm.emit()">
+      Yes
+    </button>
+    <button tp-button type="button" (click)="closeModal.emit()">
+      No
+    </button>
+  </div>
+</div>
