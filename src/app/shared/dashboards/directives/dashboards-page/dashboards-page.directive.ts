@@ -1,5 +1,6 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Directive, inject } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { tap } from 'rxjs';
 
@@ -10,6 +11,7 @@ import { Dashboard } from '@shared/dashboards/models';
 @UntilDestroy()
 @Directive()
 export abstract class DashboardsPageDirective {
+  snackBar = inject(MatSnackBar);
   dialogService = inject(Dialog);
   dashboardStore = inject(DashboardStoreService);
 

@@ -2,9 +2,11 @@ import { Dialog } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { switchMap, tap, withLatestFrom } from 'rxjs';
+import { catchError, of, switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { DashboardCardEditModalComponent, DashboardColumnEditModalComponent } from '@shared/dashboards/components';
 import { DashboardsModule } from '@shared/dashboards/dashboards.module';
@@ -37,6 +39,7 @@ import { FilterArrayPipe } from '@shared/pipes';
   ],
 })
 export class DashboardPageComponent {
+  private snackBar = inject(MatSnackBar);
   private dialogService = inject(Dialog);
   private dashboardApiService = inject(DashboardApiService);
   private dashboardStoreService = inject(DashboardStoreService);
@@ -50,7 +53,6 @@ export class DashboardPageComponent {
   isFiltersOpen = false;
 
   openColumnModal(column?: DashboardColumn): void {
-    // TODO: add error handling
     const modalRef = this.dialogService.open(DashboardColumnEditModalComponent, { data: { column } });
 
     modalRef.componentInstance?.createColumn
@@ -65,6 +67,15 @@ export class DashboardPageComponent {
           column.cards = [];
           this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
         }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
         untilDestroyed(this),
       )
       .subscribe();
@@ -77,6 +88,15 @@ export class DashboardPageComponent {
             return this.dashboardApiService.editColumn$(newColumn.id, newColumn.name);
           }),
           tap((column) => this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false })),
+          catchError((error: HttpErrorResponse) => {
+            const errorMessage = error.error?.message || error.message;
+
+            if (errorMessage) {
+              this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+            }
+            
+            return of(null);
+          }),
           untilDestroyed(this),
         )
         .subscribe();
@@ -99,7 +119,6 @@ export class DashboardPageComponent {
   }
 
   openCardModal({ currentColumn: column, card }: CardUpdateActionPayload): void {
-    // TODO: add error handling
     const modalRef = this.dialogService.open(DashboardCardEditModalComponent, { data: { card } });
 
     modalRef.componentInstance?.createCard
@@ -112,6 +131,15 @@ export class DashboardPageComponent {
         tap((newCard) => {
           column.cards.push(newCard);
           this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
+        }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
         }),
         untilDestroyed(this),
       )
@@ -132,6 +160,15 @@ export class DashboardPageComponent {
             this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
           }
         }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
       )
       .subscribe();
 
@@ -151,12 +188,20 @@ export class DashboardPageComponent {
           column.cards = column.cards.filter(c => c.id !== card.id);
           this.dashboardStoreService.updateDashboardColumns({ column, isDeleted: false });
         }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
       )
       .subscribe();
   }
 
   changeCardColumn({ card, columnForChoose, currentColumn }: ChangeCardColumnPayload): void {
-    // TODO: add error handling
     this.dashboardApiService.editCard$(card, columnForChoose)
       .pipe(
         tap((updatedCard) => {
@@ -166,6 +211,15 @@ export class DashboardPageComponent {
           this.dashboardStoreService.updateDashboardColumns({ column: updatedNewColumn, isDeleted: false });
           this.dashboardStoreService.updateDashboardColumns({ column: updatedOldColumn, isDeleted: false });
           this.openedPopupCardId = null;
+        }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
         }),
       )
       .subscribe();

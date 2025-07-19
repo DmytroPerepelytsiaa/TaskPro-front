@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ComponentStore } from '@ngrx/component-store';
-import { combineLatest, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { catchError, combineLatest, Observable, of, switchMap, tap, withLatestFrom } from 'rxjs';
 
 import { Dashboard, DashboardColumn, DashboardFormState } from '@shared/dashboards/models';
 
@@ -22,6 +24,7 @@ export class DashboardStoreService extends ComponentStore<DashboardStoreState> {
   constructor(
     private dashboardApiService: DashboardApiService,
     private router: Router,
+    private snackBar: MatSnackBar,
   ) {
     super(initialState);
 
@@ -48,7 +51,6 @@ export class DashboardStoreService extends ComponentStore<DashboardStoreState> {
   readonly getDashboards = this.effect((id$: Observable<number>) => 
     id$
       .pipe(
-        // TODO: handle error
         withLatestFrom(this.dashboards$),
         switchMap(([id]) => combineLatest([of(id), this.dashboardApiService.getDashboards$()])),
         tap(([id, dashboards]) => {
@@ -71,13 +73,21 @@ export class DashboardStoreService extends ComponentStore<DashboardStoreState> {
             this.router.navigate(['/']);
           }
         }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
       )
   );
 
   readonly createDashboard = this.effect((dashboard$: Observable<DashboardFormState>) => 
     dashboard$
       .pipe(
-        // TODO: handle error
         switchMap((dashboard) => this.dashboardApiService.addDashboard$(dashboard)),
         withLatestFrom(this.dashboards$),
         tap(([newDashboard, dashboards]) => {
@@ -86,21 +96,37 @@ export class DashboardStoreService extends ComponentStore<DashboardStoreState> {
           this.setCurrentDashboard(newDashboard);
           this.router.navigate(['/dashboard', newDashboard.id]);
         }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
       )
   );
 
   readonly editDashboard = this.effect((dashboard$: Observable<Dashboard>) => 
     dashboard$
       .pipe(
-        // TODO: handle error
+        switchMap((dashboard) => this.dashboardApiService.updateDashboard$(dashboard)),
         withLatestFrom(this.dashboards$),
-        switchMap(([dashboard, dashboards]) => {
-          const updatedDashboardIndex = dashboards.findIndex((d) => d.id === dashboard.id);
-          dashboards[updatedDashboardIndex] = dashboard;
+        tap(([updatedDashboard, dashboards]) => {
+          const updatedDashboardIndex = dashboards.findIndex((d) => d.id === updatedDashboard.id);
+          dashboards[updatedDashboardIndex] = updatedDashboard;
           this.setDashboards(dashboards);
-          this.setCurrentDashboard(dashboard);
+          this.setCurrentDashboard(updatedDashboard);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
 
-          return this.dashboardApiService.updateDashboard$(dashboard);
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
         }),
       )
     );
@@ -119,8 +145,16 @@ export class DashboardStoreService extends ComponentStore<DashboardStoreState> {
             this.setCurrentDashboard(null);
           }
 
-          // TODO: handle error
           return this.dashboardApiService.deleteDashboard$(dashboard);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
         }),
       )
   );

@@ -1,6 +1,7 @@
 import { DIALOG_DATA } from '@angular/cdk/dialog';
 import { ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { EditProfileForm, EditProfileFormState, User } from '@shared/auth/models';
 import { SharedModalDirective } from '@shared/ui/directives';
@@ -18,6 +19,7 @@ import { trimValidator } from '@shared/validators';
 export class ProfileEditModalComponent extends SharedModalDirective implements OnInit {
   @Output() saveData = new EventEmitter<EditProfileFormState>();
   
+  private snackBar = inject(MatSnackBar);
   private dialogData = inject<{ user: User }>(DIALOG_DATA);
   private formBuilder = inject(FormBuilder);
 
@@ -38,7 +40,7 @@ export class ProfileEditModalComponent extends SharedModalDirective implements O
     const file = (event.target as HTMLInputElement).files?.[0];
 
     if (!file) {
-      // TODO: handle error
+      this.snackBar.open('There is no file or error while uploading occured', 'Close', { panelClass: 'error-snackbar' });
       return;
     }
 

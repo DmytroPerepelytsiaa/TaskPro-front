@@ -10,7 +10,6 @@ import {
 
 import { Dashboard, DashboardBackgrounds } from '@shared/dashboards/models';
 
-// TODO: maybe change to snake case?
 @Directive({
   selector: '[tpDashboardBackground]',
   standalone: false,

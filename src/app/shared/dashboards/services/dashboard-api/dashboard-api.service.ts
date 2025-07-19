@@ -18,13 +18,14 @@ export class DashboardApiService {
     return this.http.get<Dashboard[]>(environment.baseURL + '/dashboards');
   }
 
-  // TODO: change type from state to DashboardPayload
   addDashboard$(dashboard: DashboardFormState): Observable<Dashboard> {
     return this.http.post<Dashboard>(environment.baseURL + '/dashboards', dashboard);
   }
 
   updateDashboard$(dashboard: Dashboard): Observable<Dashboard> {
-    return this.http.patch<Dashboard>(environment.baseURL + '/dashboards/' + dashboard.id, dashboard);
+    const { columns: _, ...dashboardPayload } = dashboard;
+    
+    return this.http.patch<Dashboard>(environment.baseURL + '/dashboards/' + dashboard.id, dashboardPayload);
   }
 
   deleteDashboard$(dashboard: Dashboard): Observable<null> {

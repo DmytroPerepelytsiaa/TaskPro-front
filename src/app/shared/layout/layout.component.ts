@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { combineLatest, Observable, of, switchMap, tap } from 'rxjs';
+import { catchError, combineLatest, Observable, of, switchMap, tap } from 'rxjs';
 
 import { ProfileEditModalComponent } from '@shared/auth/components';
 import { EditProfileFormState } from '@shared/auth/models';
@@ -76,8 +77,16 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
         switchMap(([name, uploadResonse]) => {
           return this.userService.updateUserGeneralInfo$(name, uploadResonse?.secure_url ?? null);
         }),
-        // TODO: handle error
         tap(() => modalRef.close()),
+        catchError((error: HttpErrorResponse) => {
+          const errorMessage = error.error?.message || error.message;
+
+          if (errorMessage) {
+            this.snackBar.open(errorMessage, 'Close', { panelClass: 'error-snackbar' });
+          }
+          
+          return of(null);
+        }),
         untilDestroyed(this),
       )
       .subscribe();
