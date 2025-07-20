@@ -21,9 +21,10 @@
       <tp-icon class="text-font-primary-color" svgIcon="eye" size="18"></tp-icon>
     </button>
   }
-  @if (control.dirty) {
-    @for (error of control.errors | keyvalue; track error.key) {
-      <span class="text-xs text-danger-color">{{ error.value }}</span>
-    }
-  }
 </div>
+
+@if (control.dirty) {
+  @for (error of control.errors | keyvalue; track error.key) {
+    <span class="text-xs text-danger-color">{{ error.value }}</span>
+  }
+}
