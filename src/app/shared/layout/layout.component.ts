@@ -57,7 +57,26 @@ export class LayoutComponent extends DashboardsPageDirective implements OnInit {
   }
 
   logOut(): void {
-    this.userService.logOut();
+    const modalRef = this.dialogService.open(ConfirmationDialogComponent, {
+      data: { confirmationText: 'Are you sure you want to log out?' },
+    });
+
+    modalRef.componentInstance?.confirm
+      .pipe(
+        tap(() => {
+          this.userService.logOut();
+          modalRef.close();
+        }),
+        untilDestroyed(this),
+      )
+      .subscribe();
+
+    modalRef.componentInstance?.closeModal
+      .pipe(
+        tap(() => modalRef.close()),
+        untilDestroyed(this),
+      )
+      .subscribe();
   }
 
   changeDashboard(dashboard: Dashboard): void {

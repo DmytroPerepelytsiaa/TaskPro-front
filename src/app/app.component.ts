@@ -10,7 +10,6 @@ import { UserService } from '@shared/auth/services';
   selector: 'tp-root',
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   private userService = inject(UserService);

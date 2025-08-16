@@ -80,7 +80,6 @@ export class AuthPageComponent implements OnInit {
   onSubmit(): void {
     const payload = this.authForm.getRawValue();
     const authObservable$ = this.isRegistrationPage$.value ? this.userService.register$(payload) : this.userService.login$(payload);
-    this.authForm.reset();
 
     authObservable$ 
       .pipe(
